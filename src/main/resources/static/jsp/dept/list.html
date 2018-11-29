@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/af/js/jquery-1.8.3.js"></script>
+    <script>
+        $(function(){
+            $.ajax({
+                url:"/af/dept/list",//请求地址
+                dataType:"json",//返回值格式
+                success:function(data){
+                    if(data!=''){
+                        var tempTrs="";
+                        for (var i = 0; i < data.length; i++) {
+                            var obj = data[i];
+                            tempTrs+="<tr><td>"+obj.DNAME+"</td><td>"+obj.LOC+"</td><td><button onclick=\'upd("+obj.DEPTNO+")\' >更新</button> &nbsp; <button onclick=\'del("+obj.DEPTNO+")\'>删除</button> </td></tr>";
+                        }
+                        $("#tbodyA").append(tempTrs);
+                    }
+                }
+            });
+        });
+
+        function del(deptno) {
+            if(confirm("确定删除吗？")){
+                var deptNo="deptNo="+deptno;
+                $.ajax({
+                    type: 'post',
+                    url: "/af/dept/delete",
+                    data: deptNo,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.msg == "true") {
+                            location.href = "/af/jsp/dept/list.html";
+                            alert("删除成功");
+                        } else {
+                            alert("删除失败");
+                        }
+                    }
+                });
+            }
+        }
+        function upd(deptno) {
+            //location.href="/dept/toEdit.do?deptNo="+deptno;
+
+            location.href = "/af/jsp/dept/update.html?deptNo="+deptno;
+
+        }
+    </script>
+</head>
+<body>
+<center>
+    <h1>部门列表</h1>
+    <a href="/af/jsp/dept/add.html">添加</a>
+    <table border="1" width="600px;">
+        <thead><td>名称</td><td>位置</td><td>操作</td></thead>
+        <tbody id="tbodyA"></tbody>
+    </table>
+</center>
+</body>
+</html>

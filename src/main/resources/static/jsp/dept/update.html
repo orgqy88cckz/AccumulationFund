@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新页面</title>
+</head>
+<script src="/af/js/jquery-1.8.3.js"></script>
+<script>
+    $(function(){
+        //var deptNo=document.getElementById("deptNo");
+        /*var deptNo =getParameter("deptNo");
+        alert(deptNo);*/
+        var searchStr = location.search;
+        searchStr = searchStr.substr(1);//将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+        var searchs = searchStr.split("&");//获得第一个参数和值
+        var deptNo = searchs[0].split("=");
+        var deptNo1=deptNo[1];
+        alert(deptNo1);
+        $.ajax({
+            url:"/af/dept/toEdit?deptNo="+deptNo1,//请求地址
+            dataType:"json",//返回值格式
+            success:function(data){
+                if(data!=''){
+                    var tempTrs="";
+                    tempTrs+="<tr><td>名称：<input id='deptno' type='hidden' value='"+data.DEPTNO+"'/><input value='"+data.DNAME+"' id='dname'/></td></tr><tr><td>位置：<input value='"+data.LOC+"' id='loc'/></td></tr><tr><td><button onclick='btn()'>更新</button></td></tr>";
+                    $("#tbodyA").append(tempTrs);
+                }
+            }
+        });
+    });
+
+
+
+    function btn() {
+        var dname = $("#dname").val();
+        var loc = $("#loc").val();
+        var deptNo=$("#deptno").val();
+        var data="dname="+dname+"&loc="+loc+"&deptNo="+deptNo;
+        //alert(deptNo);
+        //alert(dname);
+       // alert(loc);
+        //alert(data);
+        $.ajax({
+            type: 'get',
+            url: "/af/dept/update",
+            data:data,
+            dataType: 'json',
+            success:function(data){
+                console.log(data);
+                if(data.msg=="true"){
+                    location.href="/af/jsp/dept/list.html";
+                    alert("更新成功");
+                }else{
+                    alert("更新失败");
+                }
+            }
+
+        });
+    }
+</script>
+<body>
+<center>
+    <h1>员工更新</h1>
+    <table>
+        <tbody id="tbodyA"></tbody>
+    </table>
+</center>
+
+</body>
+</html>
