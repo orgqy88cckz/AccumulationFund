@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * className:Emp
- * discription:
+ * discription:Emp实体类
  * author:Cheng Fangying
  * createTime:2018-11-23 11:10
  */
