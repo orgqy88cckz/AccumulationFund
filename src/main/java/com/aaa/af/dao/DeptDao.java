@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * className:DeptDao
- * discription:
+ * discription:部门dao
  * author:zz
  * createTime:2018-11-21 11:22
  */
