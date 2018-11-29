@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.af.dao.DeptDao">
+    <cache type="org.mybatis.caches.redis.RedisCache" blocking="false"
+           flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+    <!--部门列表查询-->
+    <select id="getList" resultType="map">
+          select deptno,dname,loc from dept
+    </select>
+    <!--部门添加-->
+    <insert id="addDept" parameterType="map">
+        insert into dept values(seq_dept_id.nextval,#{dname},#{loc})
+    </insert>
+    <!--通过deptNo查询数据-->
+    <select id="getListById" parameterType="int" resultType="map">
+        select * from dept where deptno=#{deptNo}
+    </select>
+    <!--更新部门列表-->
+    <update id="update" parameterType="map">
+        update dept set dname=#{dname},loc=#{loc} where deptno=#{deptNo}
+    </update>
+    <!--删除部门-->
+    <delete id="delete" parameterType="int">
+        delete from dept where deptno=#{deptNo}
+    </delete>
+</mapper>
