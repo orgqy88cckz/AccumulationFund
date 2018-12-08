@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../af/js/vue.js"></script>
+    <script type="text/javascript" src="../af/js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body style="background-image: url('../af/images/timg.jpg');">
+<center>
+    <div >
+        <div id="app" >
+            <h1>{{message}}</h1>
+        </div>
+        <div id="tableView" style="padding-top: 150px;">
+            <!--<form method="post" action="/af/login">-->
+            <el-form :model="editForm" label-width="80px" ref="editForm">
+                <el-form-item>
+                    <el-input style="width: 280px;" v-model="editForm.name" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+                <el-form-item>
+                     <el-input style="width: 280px;" type="password" v-model="editForm.password" placeholder="请输入密码"></el-input>
+                </el-form-item>
+            <!--<input type="submit" value="登录"/>-->
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">登录</el-button>
+                    <el-button>取消</el-button>
+                </el-form-item>
+            </el-form>
+        <!--</form>-->
+        </div>
+    </div>
+</center>
+<script type="text/javascript">
+    var app=new Vue({
+        el: '#app',
+        data: {
+            message: '登录界面'
+        }
+    });
+    var tableView=new Vue({
+        el:'#tableView',
+        data:{
+            editForm:{
+                name:'',
+                password:''
+            }
+        },
+        methods:{
+            //保存点击事件
+            onSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.editForm;
+                //alert(JSON.stringify(formData).name);
+                //alert(222);
+                //alert(formData);
+                var goUrl='/af/login';
+                //alert(goUrl);
+
+                axios.post(goUrl,formData).then(function(response){
+                    //alert(response.data);
+                    // alert(222);
+                    // self.total=response.data.total;
+                    if(response.data>0){
+                        _self.editFormVisible = false;
+                        location.href="/af/toIndex";
+                    }else{
+                        _self.$message({
+                            message:  '用户名或密码错误',
+                            type: 'error'
+                        });
+                    }
+                })
+                this.editForm={
+                    name:'',
+                    password:''
+                }
+                console.info(this.editForm);
+            }
+        }
+    });
+</script>
+</body>
+</html>
