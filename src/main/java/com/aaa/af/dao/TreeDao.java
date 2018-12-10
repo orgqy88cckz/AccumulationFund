@@ -17,5 +17,6 @@ public interface TreeDao {
      * @return
      */
     @Select("select * from TB_TREEMEMU")
-    public List<Map> getListTree();
+    List<Map> getListTree();
+
 }

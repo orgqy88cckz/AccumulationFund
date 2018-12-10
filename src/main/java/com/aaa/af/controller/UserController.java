@@ -1,11 +1,13 @@
 package com.aaa.af.controller;
 
+import com.aaa.af.service.UserService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +60,6 @@ public class UserController {
     public String noAuth(){
         return "noAuth";
     }
-
     /**
      * 登陆成功返回数据到登陆页面并跳转到主页面
      */

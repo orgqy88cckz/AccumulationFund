@@ -52,6 +52,8 @@ public class TreeServiceImpl implements TreeService {
         }
         return powerTempList;
     }
+
+
     /**
      * 递归绑定所有子节点
      * @param parentTreeNode
