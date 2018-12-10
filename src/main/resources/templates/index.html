@@ -14,81 +14,43 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <body>
-<!--<el-container>-->
-    <!--<el-header>Header</el-header>-->
-    <!--<el-container>-->
-        <!--<el-aside width="200px">Aside</el-aside>-->
-        <!--<el-main>Main</el-main>-->
-    <!--</el-container>-->
-<!--</el-container>-->
 <div id="app">
     <el-header>Header<span>王小虎</span></el-header>
     <el-container style="height: 835px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+            <el-tree :data="dataTree" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
         </el-aside>
-
-        <!--<el-container>-->
-            <!--<el-header style="text-align: right; font-size: 12px">-->
-                <!--<el-dropdown>-->
-                    <!--<i class="el-icon-setting" style="margin-right: 15px"></i>-->
-                    <!--<el-dropdown-menu slot="dropdown">-->
-                        <!--<el-dropdown-item>查看</el-dropdown-item>-->
-                        <!--<el-dropdown-item>新增</el-dropdown-item>-->
-                        <!--<el-dropdown-item>删除</el-dropdown-item>-->
-                    <!--</el-dropdown-menu>-->
-                <!--</el-dropdown>-->
-                <!--<span>王小虎</span>-->
-            <!--</el-header>-->
-
-            <el-main>
-                <div  style="border-radius:20px;">
-                    <iframe  id="ifr" scrolling="auto" frameborder="0"  src="/af/add" style="width:100%;height:600px;margin-top: 20px;"></iframe>
-                </div>
-            </el-main>
-        </el-container>
+        <el-main>
+            <div  style="border-radius:20px;">
+                <iframe  id="ifr" scrolling="auto" frameborder="0"  src="/af/add" style="width:100%;height:600px;margin-top: 20px;"></iframe>
+            </div>
+        </el-main>
     </el-container>
 </div>
 <script>
-    var Main = {
-        data() {
-            return {
-                data: [{
-                    label: '一级 1',
-                    children: [{
-                        label: '二级 1-1',
-                    }]
-                }, {
-                    label: '一级 2',
-                    children: [{
-                        label: '二级 2-1',
-                    }, {
-                        label: '二级 2-2',
-                    }]
-                }, {
-                    label: '一级 3',
-                    children: [{
-                        label: '二级 3-1',
-                    }, {
-                        label: '二级 3-2',
-                    }]
-                }],
-                defaultProps: {
-                    children: 'children',
-                    label: 'label'
-                }
-            };
-        },
-        methods: {
-            handleNodeClick(data) {
-                console.log(data);
-            }
+var vm=new Vue({
+    el: '#app',
+    data: {
+        dataTree: [],
+        defaultProps: {
+            children: 'children',
+            label: 'lable'
         }
-    };
-
-    var Ctor = Vue.extend(Main)
-    new Ctor().$mount('#app')
-
+    },
+    created: function () {
+        var self = this;
+        //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+        axios.post('/af/tree/list').then(function (response) {
+            self.dataTree = response.data;
+            alert(JSON.stringify(self.dataTree));
+        })
+    },
+    methods: {
+        handleNodeClick(data) {
+            console.log(data);
+        }
+    }
+})
 </script>
 </body>
 <style>
