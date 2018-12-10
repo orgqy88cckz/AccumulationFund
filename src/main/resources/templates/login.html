@@ -15,7 +15,7 @@
 <body style="background-image: url('../af/images/timg.jpg');">
 <center>
     <div >
-        <div id="app" >
+        <div id="app" style="color: #eeeeee;font-size: large;">
             <h1>{{message}}</h1>
         </div>
         <div id="tableView" style="padding-top: 150px;">
@@ -27,8 +27,8 @@
                 <el-form-item>
                      <el-input style="width: 280px;" type="password" v-model="editForm.password" placeholder="请输入密码"></el-input>
                 </el-form-item>
-            <!--<input type="submit" value="登录"/>-->
-                <el-form-item>
+                        <!--<input type="submit" value="登录"/>-->
+                        <el-form-item>
                     <el-button type="primary" @click="onSubmit">登录</el-button>
                     <el-button>取消</el-button>
                 </el-form-item>
@@ -41,7 +41,7 @@
     var app=new Vue({
         el: '#app',
         data: {
-            message: '登录界面'
+            message: '住房公积金后台登录界面'
         }
     });
     var tableView=new Vue({
