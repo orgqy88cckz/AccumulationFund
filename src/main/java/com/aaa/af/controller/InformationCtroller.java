@@ -4,11 +4,13 @@ import com.aaa.af.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,5 +73,69 @@ public class InformationCtroller {
         List<Map> ListMaps5 = informationService.xinxiListMaps(5);
         System.out.println(ListMaps5);
         return ListMaps5;
+    }
+
+    /**
+     * 跳转后台信息管理
+     * @return
+     */
+    @RequestMapping("/informations")
+    public String informations(){
+        return "information/information";
+    }
+
+    /**
+     * 获取信息列表
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getInfor")
+    public Object getInformations(@RequestBody Map map){
+        Map resulMap=new HashMap();
+        resulMap.put("pageData",informationService.getInformations(map));
+        resulMap.put("total",informationService.getPageCount(map));
+        return resulMap;
+    }
+
+    /**
+     * 添加前台信息
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/add")
+    public Object addInformation(@RequestBody Map map){
+        return informationService.add(map);
+    }
+    /**
+     * 删除
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/delete")
+    public Object delete(@RequestBody Map map){
+        return informationService.delete(Integer.valueOf(map.get("id")+""));
+    }
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/batchDel/{ids}")
+    public Object batchDel(@PathVariable String ids){
+        return informationService.batchDelete(ids);
+    }
+    /**
+     * 修改前台信息
+     * @param map
+     * @return
+     *
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    public Object update(@RequestBody Map map){
+        return informationService.update(map);
     }
 }
