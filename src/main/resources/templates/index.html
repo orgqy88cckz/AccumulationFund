@@ -13,12 +13,24 @@
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
+<style>
+    .el-header {
+        background-color: #203535;
+        color: white;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        color: #333;
+    }
+
+</style>
 <body>
 <div id="app">
-    <el-header>Header<span>王小虎</span></el-header>
-    <el-container style="height: 890px; border: 1px solid #eee">
-        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-tree :data="dataTree" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    <el-header style="height: 100px;">Header<span>王小虎</span></el-header>
+    <el-container style="height: 850px; border: 1px solid #eee;">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
+            <el-tree :data="dataTree" :props="defaultProps" accordion @node-click="handleNodeClick "></el-tree>
         </el-aside>
 
         <el-main>
@@ -49,28 +61,54 @@ var vm=new Vue({
             children: 'children',
             label: 'lable'
         },
+        icon:'el-icon-menu',
         editableTabsValue2: '2',
-        editableTabs2:[],
+        editableTabs2:[{title: '首页',
+            name: '2',
+            content: "<iframe src='https://www.baidu.com' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:710px;\"> </iframe>"
+        }],
         tabIndex: 2
     },
     created: function () {
+//        var arr = [{title: '首页',
+//            name: '首页',
+//            content: ""
+//        }];
+//
+//        this.addTab(arr.content,arr.title);
         var self = this;
         //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
         axios.post('/af/tree/list').then(function (response) {
             self.dataTree = response.data;
             //self.tags=response.data.label;
-            alert(JSON.stringify(self.dataTree));
+
         })
     },
     methods: {
-        addTab:function(content,title,targetName) {
-            let newTabName = ++this.tabIndex + '';
-            alert(content);
-            this.editableTabs2.push({
-                title: title,
-                name: newTabName,
-                content: content
-            });
+        handleNodeClick: function(data) {
+            //alert(data.lable);
+            var url = data.treeUrl;
+            var title = data.lable;
+            //alert(url);
+            //var content = "<iframe src='"+url+"' width='100%' height='500' scrollin
+            var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:710px;\"> </iframe>";
+            //var targetName = this.editableTabsValue2;
+            //var targetName = this.editableTabsValue2;
+            if(url!=null&&url!='null'&&url!='') {
+                this.addTab(content, title);
+            }
+    },
+        addTab: function (content, title) {
+            let newTabName = title;
+            //alert(content);
+            if (JSON.stringify(this.editableTabs2).indexOf(newTabName) == -1) {
+                this.editableTabs2.push({
+                    title: newTabName,
+                    name: newTabName,
+                    content: content
+                });
+            }
+
 //            this.editableTabs2=[{
 //                title: title,
 //                name: newTabName,
@@ -79,7 +117,7 @@ var vm=new Vue({
             this.editableTabsValue2 = newTabName;
         },
 
-        removeTab:function(targetName) {
+    removeTab: function (targetName) {
             let tabs = this.editableTabs2;
             let activeName = this.editableTabsValue2;
             if (activeName === targetName) {
@@ -95,32 +133,10 @@ var vm=new Vue({
 
             this.editableTabsValue2 = activeName;
             this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
-        },
-        handleNodeClick:function(data) {
-            alert(data.lable);
-            var url = "http://localhost:8888"+data.treeUrl;
-            var title = data.lable;
-            alert(url);
-            //var content = "<iframe src='"+url+"' width='100%' height='500' scrollin
-            var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:750px;\"> </iframe>";
-            //var targetName = this.editableTabsValue2;
-            var targetName = this.editableTabsValue2;
-            this.addTab(content,title,targetName);
         }
     }
 })
 </script>
 </body>
-<style>
-    .el-header {
-        background-color: #203535;
-        color: white;
-        line-height: 60px;
-    }
 
-    .el-aside {
-        color: #333;
-    }
-
-</style>
 </html>
