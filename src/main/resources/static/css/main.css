@@ -1,0 +1,241 @@
+/* CSS common */
+.clearFloat:after {
+	height: 0px;content: ".";
+	clear: both;visibility: hidden;
+	display: block;
+}
+.clearFloat { zoom: 1; }
+*{margin: 0px;padding: 0px;}
+img{margin: 0;border: none;vertical-align: middle;}
+.fl{float:left;}
+.fr{float: right;}
+a{text-decoration: none;font-family: "微软雅黑";}
+a:hover{text-decoration: none !important;}
+dl, ul{list-style:none;}
+input{outline: none;}
+i,em{font-style: normal;}
+body{font-family:"微软雅黑";}
+input[type=button], input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none; } 
+input {
+    outline: none;
+    -webkit-appearance: none; /*去除系统默认的样式*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* 点击高亮的颜色*/
+}
+a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+}
+
+.w1200{width: 1200px;margin: auto;min-width: 1200px;}
+
+/* 头部 */
+.index_head{height: 110px;background: rgba(0,0,0,0.5);width: 100%;min-width: 1200px;position: fixed;width: 100%;top: 0px;z-index: 888;}
+.index_head .head_left{margin-top: 24px;margin-right: 80px;}
+.index_head .head_left img{margin-right: 20px;width: 60px;}
+.index_head .head_left span{color: #fff;font-size: 24px;line-height: 34px;}
+.index_head .head_right ul{border-bottom: 1px solid #969ea4;height: 46px;line-height: 45px;margin-top: 30px;}
+.index_head .head_right ul li{float: left;}
+.index_head .head_right ul li a{padding: 0px 25px;color: #fff;font-size: 18px;}
+.index_head .head_right ul li a span{display: inline-block;transition: all 0.4s;padding: 0px 3px;border-bottom: 3px solid transparent;}
+.index_head .head_right ul li:hover a span{border-color: #fff;}
+.index_head .head_right ul li.add_bg a span{border-color: #fff;}
+
+.index_banner{background: url("/af/img/index35.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index35.jpg*/ no-repeat center;height: 600px;text-align: center;min-width: 1200px;}
+.index_banner a{display: block;}
+.index_banner p{color: #fff;font-size: 48px;}
+.index_banner p.p1{padding-top: 290px;margin-bottom: 10px;}
+.index_banner p.p2{font-size: 24px;}
+.about_top .atop1{background: url("/af/img/index41.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index41.png*/ no-repeat center bottom;text-align: center;padding: 60px 0px 40px;margin-bottom: 20px;}
+.about_top .atop1 h3{color: #4A4A4A;font-size: 48px;font-weight: normal;}
+.about_top .atop1 p{color: #9B9B9B;font-size: 24px;margin-top: 20px;}
+.about_top .atop2{margin-bottom: 40px;margin-top: 20px;}
+.about_top .atop2 .atop2_left{width: 330px;margin-right: 60px;}
+.about_top .atop2 .atop2_left img{margin: 0px;}
+.about_top .atop2 .atop2_left img{width: 330px;height: 290px;}
+.about_top .atop2 .atop2_right{width: 790px;}
+.about_top p{font-size: 26px;color: #000000;line-height: 41px;}
+.about_top img{margin: 25px auto;max-width: 1200px;}
+.about_top .atop3{padding-bottom: 100px;}
+.about_top .atop4{margin-top: -80px;}
+
+/* 底部 */
+.index_footer{background: #3b4147;min-width: 1200px;padding: 35px 0px 45px;}
+.index_footer .footer_left{margin-top: 24px;margin-right: 70px;border-right: 1px solid #797b7d;padding-right: 70px;}
+.index_footer .footer_left img{margin-right: 20px;width: 60px;}
+.index_footer .footer_left span{color: #fff;font-size: 24px;line-height: 34px;}
+.index_footer .footer_left span i{font-size: 14px;}
+.index_footer .footer_right{width: 820px;}
+.index_footer .footer_right dl dt{font-size: 20px;color: #D6D6D6;}
+.index_footer .footer_right dl dd{float: left;margin-right: 80px;margin-top: 15px;}
+.index_footer .footer_right dl dd a{font-size: 16px;color: #d4d4d4;}
+.index_footer .footer_right dl dd a span{font-size: 16px;color: #b5b5b3;}
+.index_footer1{background: #2e353b;padding: 20px 0px;text-align: center;}
+.index_footer1 p{font-size: 14px;color: #ADADAD;}
+
+/* 关于和慧 */
+.index_banner1{background: url("/af/img/index6.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index6.jpg*/ no-repeat center;height: 600px;text-align: center;min-width: 1200px;}
+.investment{background: #f4f4f4;}
+.investment ul li{float: left;width: 25%;text-align: center;}
+.investment ul li a{display: block;padding: 80px 0px 40px;}
+.investment ul li a p{font-size: 24px;color: #4A4A4A;line-height: 80px;}
+.investment ul li a img{transition: all 0.4s;}
+.investment ul li:hover img{transform: scale(1.1);}
+
+.int_team{margin-top: 60px;padding-bottom: 70px;border-bottom: 1px solid #e9e9e9;}
+.int_team .title{background: url("/af/img/index1.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index1.png*/ no-repeat left top;height: 74px;padding-left: 60px;margin-bottom: 40px;}
+.int_team .title h3{font-weight: normal;font-size: 32px;color: #010101;line-height: 38px;padding-top: 5px;}
+.int_team .title p{font-size: 18px;color: #7a7a7a;line-height: 30px;}
+.int_team ul li{border: 1px solid #a1a1a1;height: 301px;margin-bottom: 30px;}
+.int_team ul li .t_left{margin-top: -1px;margin-left: -1px;float: left;overflow: hidden;width: 279px;height: 303px;}
+.int_team ul li .t_left img{width: 279px;height: 303px;transition: all 0.4s;}
+.int_team ul li .t_right{float: left;width: 920px;}
+.int_team ul li .t_right .t1{margin-top: -1px;margin-right: -1px;background: #f3f3f3;height: 75px;line-height: 32px;}
+.int_team ul li .t_right .t1 span{display: inline-block;padding-left: 50px;padding-right: 35px;border-right: 1px solid #0058ee;margin-top: 22px;font-size: 26px;color: #584C43;}
+.int_team ul li .t_right .t1 i{font-size: 26px;color: #92908F;margin-left: 35px;}
+.int_team ul li .t_right .t2 p{font-size: 20px;color: #000000;line-height: 41px;padding: 35px 55px 0px;}
+
+.int_team ul li:hover .t_left img{transform: scale(1.05);}
+
+.int_partner{padding-bottom: 15px;border-bottom: 1px solid #e9e9e9;margin-bottom: 15px;}
+.int_partner .title1{margin-bottom: 40px;text-align: center;margin-top: 35px;}
+.int_partner .title1 h3{font-weight: normal;font-size: 32px;color: #010101;line-height: 38px;padding-top: 5px;}
+.int_partner .title1 p{font-size: 18px;color: #7a7a7a;line-height: 30px;}
+.int_partner ul li{float: left;margin: 0px 21px;margin-bottom: 30px;}
+
+/* 新闻资讯 */
+.index_banner2{background: url("/af/img/index7.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index7.jpg*/ no-repeat center;height: 600px;text-align: center;min-width: 1200px;}
+.news_list{margin-top: 30px;padding-bottom: 100px;}
+.news_list ul li{border-bottom: 1px solid #a1a1a1;padding: 30px 0px 40px;}
+.news_list ul li a{display: block;}
+.news_list ul li .n_left{width: 403px;height: 195px;overflow: hidden;}
+.news_list ul li .n_left img{width: 403px;height: 195px;transition: all 0.4s;}
+.news_list ul li .n_center{width: 550px;margin-left: 25px;} 
+.news_list ul li .n_center .t1 h3{font-size: 28px;color: #000000;font-weight: normal;}
+.news_list ul li .n_center .t2{font-size: 16px;color: #9B9B9B;letter-spacing: 0.22px;padding: 30px 0px;}
+.news_list ul li .n_center .t2 i{margin-left: 15px;}
+.news_list ul li .n_center .t3 p{font-size: 16px;color: #666666;line-height: 24px;overflow: hidden;text-overflow: ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:3;display: -webkit-box;}
+.news_list ul li .n_right{margin-top: 30px;}
+.news_list ul li .n_right span{font-size: 20px;color: #9B9B9B;letter-spacing: 0.27px;text-align: center;}
+.news_list ul li .n_right span i{display: block;font-size: 48px;}
+.news_list ul li:hover .n_left img{transform: scale(1.1);}
+
+/* 资讯详情 */
+.detail_cont{background: #f5f5f5;padding-top: 130px;border-bottom: 1px solid #a0a0a0;padding-bottom: 100px;}
+.detail_cont .detail_left{background: #fff;width: 885px;}
+.detail_cont .detail_left h3{font-size: 24px;color: #000000;letter-spacing: 0.17px;line-height: 39px;font-weight: normal;padding: 25px;}
+.detail_cont .detail_left .d_top1{padding: 15px 25px 5px;font-size: 20px;color: #9B9B9B;letter-spacing: 0.27px;}
+.detail_cont .detail_left .d_top2{padding: 0px 25px 80px;}
+.detail_cont .detail_left .d_top2 p{font-size: 18px;color: #000000;letter-spacing: 0.12px;line-height: 39px;}
+.detail_cont .detail_left .d_top2 img{margin: 10px auto;}
+.detail_cont .detail_right{width: 300px;background: #fff;}
+.detail_cont .detail_right dl{padding: 20px 15px;}
+.detail_cont .detail_right dl dt{font-size: 18px;color: #005AEE;font-weight: bold;margin-bottom: 20px;}
+.detail_cont .detail_right dl dd a{display: block;background: url("/af/img/index42.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index42.png*/ no-repeat left 10px;font-size: 16px;color: #756E77;line-height: 28px;padding-left: 15px;margin-bottom: 15px;transition: all 0.4s;}
+.detail_cont .detail_right dl dd a:hover{color: #000;}
+.detail_cont1{padding: 30px 0px 100px;background: #f5f5f5;}
+.detail_cont1 span{font-size: 18px;color: #4A4A4A;letter-spacing: 0.4px;}
+.detail_cont1 span a{color: #0040ed;}
+
+
+/* 投资案例 */
+.zcase_banner{background: url("/af/img/index30.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index30.jpg*/ no-repeat center;height: 600px;text-align: center;min-width: 1200px;}
+.zcase{margin-top: 60px;padding-bottom: 50px;}
+.zcommon_left{width: 247px;background: #f9f9f9;}
+.zcommon_left .top{height: 80px;background: #005aee;padding-left: 30px;}
+.zcommon_left .top span{display: block;color: #fff;font-size: 22px;padding-top: 25px;line-height: 100%;}
+.zcommon_left .top em{display: block;color: #fff;font-size:13px;margin-top: 8px;line-height: 100%;}
+.zcommon_left .det{padding: 30px 0;}
+.zcommon_left .det li{padding-left: 25px;}
+.zcommon_left .det li a{display: block;color: #979797;font-size: 18px;padding: 20px 20px 20px 24px;line-height: 24px;}
+.zcommon_left .det li:hover a{color: #005AEE;background: url("/af/img/index32.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index32.png*/ no-repeat left center;}
+.zcommon_left .det li.active a{color: #005AEE;background: url("/af/img/index32.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index32.png*/ no-repeat left center;}
+
+.zcase_right{width: 910px;}
+.zcase_right .list li{width: 285px;height: 330px;box-shadow: 0 3px 8px #e9e9e9;margin-right: 25px;float: left;margin-bottom: 20px;}
+.zcase_right .list li:nth-child(3n){float: right;margin-right: 0;}
+.zcase_right .list li .ig{width: 285px;height: 140px;overflow: hidden;}
+.zcase_right .list li .ig img{width: 285px;height: 140px;transition: all 0.4s;}
+.zcase_right .list li:hover .ig img{transform: scale(1.1);}
+.zcase_right .list li h3{line-height: 60px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;padding: 0 15px;color: #000;font-size: 18px;}
+.zcase_right .list li p{padding: 0 15px;color: #666;font-size: 13px;line-height: 22px;overflow: hidden;text-overflow: ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:5;display: -webkit-box;}
+
+.zpage{margin-top: 30px;text-align: center;height: 28px;line-height: 28px;}
+.zpage a{display: inline-block;width: 26px;height: 26px;line-height: 26px;text-align: center;border-radius: 3px;color: #333;font-size: 14px;border: solid 1px #dddddd;transition: all 0.4s;margin: 0 2px;}
+.zpage a.active{color: #fff;background: #005aee;border: solid 1px #005aee;}
+.zpage a:hover{color: #fff;background: #005aee;border: solid 1px #005aee;}
+.zpage select{height: 28px;line-height: 28px;text-align: center;width: 80px;border: solid 1px #dddddd;border-radius: 3px;vertical-align: top;margin:0 5px 0 8px;outline: none;}
+.zpage span{color: #333;font-size: 14px;}
+.zpage input{outline: none;height: 26px;line-height: 26px;text-align: center;width: 45px;border: solid 1px #dddddd;border-radius: 3px;vertical-align: top;margin: 0 5px;}
+
+/* 联系我们 */
+.ztouch_banner{background: url("/af/img/index39.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index39.jpg*/ no-repeat center;height: 600px;text-align: center;min-width: 1200px;}
+.ztouch{margin-top: 60px;padding-bottom: 20px;}
+.ztouch .tit{padding-left: 24px;color: #000;font-size: 16px;line-height: 30px;background: url("/af/img/index43.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index43.png*/ no-repeat left center;}
+.ztouch .det{margin-top: 28px;}
+.ztouch .det li{float: left;width: 560px;margin-bottom: 50px;}
+.ztouch .det li:nth-child(2n){float: right;margin-right: 0;}
+.ztouch .det li .zmap{width: 560px;height: 330px;position: relative;}
+.ztouch .det li .ig1{float: right;}
+.ztouch .det li .ig2{position: absolute;top: 0;left: 0;}
+.ztouch .det li .p1{color: #4A4A4A;font-size: 20px;margin-top: 30px;}
+.ztouch .det li p{color: #6F6966;font-size: 14px;margin-top: 15px;}
+
+
+/* 基金产品 */
+.zproduct_banner{background: url("/af/img/index8.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index8.jpg*/ no-repeat center;height: 600px;text-align: center;min-width: 1200px;}
+.zproduct_right{width: 910px;}
+.zproduct_right .top{height: 75px;line-height: 75px;background: #f8f8f8;padding-left: 25px;color: #005AEE;font-size: 20px;}
+.zproduct_right .list{margin-top: 15px;}
+.zproduct_right .list li{height: 190px;background: #f8f8f8;transition: all 0.4s;margin-bottom: 20px;}
+.zproduct_right .list li:hover{box-shadow: 0 0 8px #ccc;}
+.zproduct_right .list li .ig img{width: 192px;height: 190px;vertical-align: middle;}
+.zproduct_right .list li .fon{width: 672px;margin-left: 25px;}
+.zproduct_right .list li .fon h3{color: #4A4A4A;font-size: 20px;padding-top: 20px;}
+.zproduct_right .list li .fon .p1{margin-top: 20px;}
+.zproduct_right .list li .fon .p1 span{color: #979797;font-size: 16px;}
+.zproduct_right .list li .fon .p1 span.sp2{margin: 0 40px;}
+.zproduct_right .list li .fon p{margin-top: 15px;color: #9B9B9B;font-size: 14px;line-height: 20px;overflow: hidden;text-overflow: ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:3;display: -webkit-box;}
+
+/* 首页 */
+.index2_banner{background: url("/af/img/index3.jpg")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index3.jpg*/ no-repeat center;height: 917px;text-align: left;min-width: 1200px;}
+.index2_banner .p1{font-weight: normal;font-size: 42px;line-height: 78px;}
+.zindex_cont1{padding: 65px 0;position: relative;border: solid 1px #ebebeb;margin-top: 30px;background: url("/af/img/index2.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index2.png*/ no-repeat 30px bottom;}
+.zindex_cont1 .tit{position: absolute;top: 0;left: 45px;padding-left: 55px;background: url("/af/img/index1.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index1.png*/ no-repeat left center;height: 74px;}
+.zindex_cont1 .tit span{display: block;color: #010101;font-size: 28px;padding-top: 20px;line-height: 100%;}
+.zindex_cont1 .tit em{display: block;color: #999;font-size: 14px;padding-top: 10px;line-height: 100%;}
+.zindex_cont1 .det .fon{width: 565px;margin-left: 50px;padding-top: 60px;}
+.zindex_cont1 .det .fon p{color: #353535;font-size: 16px;line-height: 25px;text-indent: 2em;}
+.zindex_cont1 .det .fon .more{text-align: right;margin-top: 40px;}
+.zindex_cont1 .det .fon .more a{display: inline-block;width: 135px;height: 40px;line-height: 40px;text-align: center;border-radius: 5px;background: #005aee;color: #fff;font-size: 16px;transition: all 0.4s;}
+.zindex_cont1 .det .fon .more a:hover{background: #1357c6;}
+
+.zindex_cont2{margin-top: 30px;}
+.zindex_tit{text-align: center;}
+.zindex_tit span{display: block;line-height: 100%;color: #4A4A4A;font-size: 30px;}
+.zindex_tit em{display: block;line-height: 100%;color: #9B9B9B;font-size: 14px;margin-top: 20px;}
+.zindex_cont2 .det{margin-top: 45px;padding-bottom: 30px;border-bottom: solid 1px #ececec;}
+.zindex_cont2 .det ul li{float: left;width: 375px;height: 375px;border: solid 1px #ebebeb;margin-right: 34px;}
+.zindex_cont2 .det ul li:nth-child(3n){float: right;margin-right: 0;}
+.zindex_cont2 .det ul li .ig{width: 375px;height: 180px;overflow: hidden;}
+.zindex_cont2 .det ul li .ig img{width: 375px;height: 180px;transition: all 0.4s;}
+.zindex_cont2 .det ul li:hover .ig img{transform: scale(1.1);}
+.zindex_cont2 .det ul li h3{line-height: 75px;padding: 0 20px;color: #000;font-size: 18px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-weight: normal;height: 70px;}
+.zindex_cont2 .det ul li p{padding: 0 20px;color: #666;font-size: 14px;line-height: 22px;overflow: hidden;text-overflow: ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:4;display: -webkit-box;}
+
+.zindex_cont3{margin-top: 30px;margin-bottom: 50px;}
+.zindex_cont3 .det{margin-top: 35px;padding-bottom: 15px;border-bottom: solid 1px #ececec;}
+.zindex_cont3 .det ul li{float: left;margin: 0 21px;margin-bottom: 30px;}
+
+.zcase2_right{width: 910px;}
+.zcase2_right .list li{width: 208px;height:104px;margin-right: 26px;float: left;margin-bottom: 15px;position: relative;cursor: pointer;}
+.zcase2_right .list li:nth-child(4n){float: right;margin-right: 0;}
+.zcase2_right .list li .ig img{width: 208px;height:104px;vertical-align: middle;}
+.zcase2_right .list li .det{width: 320px;height: 388px;border: solid 1px #1769f0;border-radius: 5px;background: #fff;position: absolute;top: 0;left: -280px;z-index: 888;display: none;}
+.zcase2_right .list li:hover .det{display: block;}
+.zcase2_right .list li .det .det1{height: 175px;line-height: 175px;text-align: center;background: url("/af/img/index46.png")/*tpa=http://www.17sucai.com/preview/855854/2018-09-21/hehuiziben/images/index46.png*/ no-repeat center bottom;}
+.zcase2_right .list li .det .det1 img{vertical-align: middle;}
+.zcase2_right .list li .det .det2{text-align: center;margin-top:18px;color: #4A4A4A;font-size: 14px;}
+.zcase2_right .list li .det p{margin-top: 35px;color: #4A4A4A;font-size: 13px;line-height: 20px;overflow: hidden;text-overflow: ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:3;display: -webkit-box;padding: 0 20px;}
+.zcase2_right .list li .det .link{text-align: center;margin-top: 35px;}
+.zcase2_right .list li .det .link a{color: #005AEE;font-size: 14px;}
