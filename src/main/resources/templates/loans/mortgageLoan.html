@@ -29,29 +29,29 @@
                         <el-row :gutter="20">
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
-                                    <el-form-item label="*个人账号">
-                                        <el-input v-model="form1.account" style="width: 200px;"></el-input>
+                                    <el-form-item label="*个人账号" >
+                                        <el-input blur="onBlur" v-model="form1.account" style="width: 200px;"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*姓名">
-                                        <el-input v-model="form1.name" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.name" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="60">
+                            <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*性别">
-                                        <el-input v-model="form1.gender" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.gender" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*手机号">
-                                        <el-input v-model="form1.phone" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.phone" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
@@ -60,28 +60,28 @@
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*证件姓名">
-                                        <el-input v-model="form1.IDName" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.IDName" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*证件号码">
-                                        <el-input v-model="form1.IDNum" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.IDNum" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*婚姻状态">
-                                        <el-input v-model="form1.marStatus" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.marStatus" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*职业">
-                                        <el-input v-model="form1.job" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.job" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
@@ -89,25 +89,25 @@
                         <el-row :gutter="20">
                             <el-col :span="6"><div class="grid-content bg-purple">
                                 <el-form-item label="*学历">
-                                    <el-input v-model="form1.education" style="width: 200px;"></el-input>
+                                    <el-input v-model="form1.education" style="width: 200px;" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
                             <el-col :span="6"><div class="grid-content bg-purple">
                                 <el-form-item label="*邮箱">
-                                    <el-input v-model="form1.email" style="width: 200px;"></el-input>
+                                    <el-input v-model="form1.email" style="width: 200px;" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*家庭地址">
-                                        <el-input v-model="form1.address" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.address" style="width: 200px;" :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="6">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*单位账号">
-                                        <el-input v-model="form1.unitAccount" style="width: 200px;"></el-input>
+                                        <el-input v-model="form1.unitAccount" style="width: 200px;" :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
@@ -505,12 +505,19 @@
             }
         },
         methods: {
+
             next() {
                 if (this.active++> 3) this.active = 0;
             },
             prev() {
                 --this.active;
                 if (this.active< 0) this.active = 0;
+            },
+            onBlur:function () {
+                var url="/af/loan/searchInfo/"+this.form1.account;
+                axios.get(url).then(function (response) {
+
+                })
             }
         }
     })
