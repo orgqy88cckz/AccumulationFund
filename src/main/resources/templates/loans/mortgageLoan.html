@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人抵押贷</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <span style="color: black;font-size: x-large;">个人抵押贷款</span><p></p>
+    <i class="el-icon-arrow-right"><span style="font-size: large;color: limegreen;">导航- 4步完成</span></i>
+    <el-steps :active="active" finish-status="success">
+        <el-step title="贷款基本资料"></el-step>
+        <el-step title="共同借款人"></el-step>
+        <el-step title="购房信息"></el-step>
+        <el-step title="抵押信息"></el-step>
+    </el-steps>
+    <p></p>
+    <!--11111111111111111111111111111111111111111111111111111-->
+    <div id="form1" v-if="active==1">
+        <el-form ref="form1" :model="form1" label-width="150px" size="mini">
+                    <h4 style="padding-left: 85px;">个人信息</h4>
+                        <el-row :gutter="20">
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*个人账号">
+                                        <el-input v-model="form1.account" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*姓名">
+                                        <el-input v-model="form1.name" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="60">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*性别">
+                                        <el-input v-model="form1.gender" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*手机号">
+                                        <el-input v-model="form1.phone" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="20">
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*证件姓名">
+                                        <el-input v-model="form1.IDName" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*证件号码">
+                                        <el-input v-model="form1.IDNum" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*婚姻状态">
+                                        <el-input v-model="form1.marStatus" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*职业">
+                                        <el-input v-model="form1.job" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="20">
+                            <el-col :span="6"><div class="grid-content bg-purple">
+                                <el-form-item label="*学历">
+                                    <el-input v-model="form1.education" style="width: 200px;"></el-input>
+                                </el-form-item>
+                            </div></el-col>
+                            <el-col :span="6"><div class="grid-content bg-purple">
+                                <el-form-item label="*邮箱">
+                                    <el-input v-model="form1.email" style="width: 200px;"></el-input>
+                                </el-form-item>
+                            </div></el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*家庭地址">
+                                        <el-input v-model="form1.address" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*单位账号">
+                                        <el-input v-model="form1.unitAccount" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="20">
+                            <el-col :span="6"><div class="grid-content bg-purple">
+                                <el-form-item label="*月收入">
+                                    <el-input v-model="form1.income" style="width: 200px;"></el-input>
+                                </el-form-item>
+                            </div></el-col>
+                            <el-col :span="6">
+                                <div class="grid-content bg-purple">
+                                    <el-form-item label="*银行存款">
+                                        <el-input v-model="form1.deposit" style="width: 200px;"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+            <h4 style="padding-left: 85px;">缴存信息</h4>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*缴至年月">
+                        <el-input v-model="form1.JCDate" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*缴存状态">
+                        <el-input v-model="form1.JCStatus" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*账户余额">
+                        <el-input v-model="form1.JCRest" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+            </el-row>
+
+            <h4 style="padding-left: 85px;">贷款信息</h4>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*贷款金额">
+                        <el-input v-model="form1.loanAmount" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*贷款期数">
+                        <el-input v-model="form1.loanPeriods" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*贷款利率">
+                            <el-input v-model="form1.loanRate" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*委托银行">
+                            <el-input v-model="form1.trustBank" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*还款方式">
+                        <el-input v-model="form1.paymentMethod" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*收款人">
+                        <el-input v-model="form1.payee" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*还款日">
+                            <el-input v-model="form1.paymentDay" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+                <h4 style="padding-left: 85px;">还款账户信息</h4>
+                <el-row :gutter="20">
+                    <el-col :span="6"><div class="grid-content bg-purple">
+                        <el-form-item label="*开户银行">
+                            <el-input v-model="form1.openBank" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div></el-col>
+                    <el-col :span="6"><div class="grid-content bg-purple">
+                        <el-form-item label="*还款账户号">
+                            <el-input v-model="form1.paymentAccount" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div></el-col>
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="*还款账户名">
+                                <el-input v-model="form1.paymentName" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+                <h4 style="padding-left: 85px;">配偶信息</h4>
+                <el-row :gutter="20">
+                    <el-col :span="6"><div class="grid-content bg-purple">
+                        <el-form-item label="*配偶姓名">
+                            <el-input v-model="form1.spouseName" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div></el-col>
+                    <el-col :span="6"><div class="grid-content bg-purple">
+                        <el-form-item label="*配偶电话">
+                            <el-input v-model="form1.spousePhone" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div></el-col>
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="*证件类型">
+                                <el-input v-model="form1.spouseType" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="*证件号码">
+                                <el-input v-model="form1.spouseNum" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+        </el-form>
+    </div>
+    <!--22222222222222222222222222222222222222222222222222222222222-->
+    <div class="id" v-if="active==2">
+        <el-form ref="form2" :model="form2" label-width="150px" size="mini">
+            <h4 style="padding-left: 85px;">共同借款人（可选择有或无）</h4>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*个人账户">
+                        <el-input v-model="form2.JKAccount" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*姓名">
+                        <el-input v-model="form2.JKName" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*手机号码">
+                            <el-input v-model="form2.JKPhone" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*单位编号">
+                            <el-input v-model="form2.JKJobNum" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*单位名称">
+                        <el-input v-model="form2.JKJobName" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*单位电话">
+                        <el-input v-model="form2.JKJobTell" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*证件类型">
+                            <el-input v-model="form2.JKIdType" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*证件号码">
+                            <el-input v-model="form2.JKIdNum" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*缴存状态">
+                        <el-input v-model="form2.JKJCStatus" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*账户余额">
+                        <el-input v-model="form2.JKJCRest" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*缴至年月">
+                            <el-input v-model="form2.JKJCDate" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-form>
+    </div>
+    <!--3333333333333333333333333333333333333333333333333-->
+    <div id="form3" v-if="active==3">
+        <el-form ref="form3" :model="form3" label-width="150px" size="mini">
+            <h4 style="padding-left: 85px;">购房信息</h4>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*房屋类型">
+                        <el-input v-model="form3.houseType" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*房屋位置">
+                        <el-input v-model="form3.houseAddress" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*房屋面积">
+                            <el-input v-model="form3.houseArea" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*证件号码">
+                        <el-input v-model="form3.HIdNum" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*购房人名称">
+                        <el-input v-model="form3.HName" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*银行账户">
+                            <el-input v-model="form3.HBank" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*房屋总价">
+                        <el-input v-model="form3.houseTotal" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*购房首付款">
+                        <el-input v-model="form3.houseFirst" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*房屋面积单价">
+                            <el-input v-model="form3.housePrice" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-form>
+    </div>
+    <!--444444444444444444444444444444444444444444444444444444-->
+    <div id="form4" v-if="active==4">
+        <el-form ref="form4" :model="form4" label-width="150px" size="mini">
+            <h4 style="padding-left: 85px;">抵押信息</h4>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*抵押类型">
+                        <el-input v-model="form4.DYType" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*抵押人姓名">
+                        <el-input v-model="form4.DYName" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*抵押人身份证号">
+                            <el-input v-model="form4.DYIdNum" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*抵押物地址">
+                        <el-input v-model="form4.DYAddress" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                    <el-form-item label="*抵押物状态">
+                        <el-input v-model="form4.DYStatus" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div></el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="*抵押物金额">
+                            <el-input v-model="form4.DYMoney" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-form>
+    </div>
+    <center>
+        <div>
+            <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+            <el-button style="margin-top: 12px;" @click="next"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+            <el-button style="margin-top: 12px;" v-if="active==4">提交</el-button>
+        </div>
+    </center>
+</div>
+
+<script type="text/javascript">
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            active:1,
+            form1:{
+                account:'',
+                name:'',
+                gender:'',
+                phone:'',
+                IDName:'',
+                IDNum:'',
+                marStatus:'',
+                job:'',
+                education:'',
+                email:'',
+                address:'',
+                unitAccount:'',
+                income:'',
+                deposit:'',
+                JCDate:'',
+                JCStatus:'',
+                JCRest:'',
+                loanAmount:'',
+                loanPeriods:'',
+                loanRate:'',
+                trustBank:'',
+                paymentMethod:'',
+                payee:'',
+                paymentDay:'',
+                openBank:'',
+                paymentAccount:'',
+                paymentName:'',
+                spouseName:'',
+                spousePhone:'',
+                spouseType:'',
+                spouseNum:''
+            },
+            form2:{
+                JKAccount:'',
+                JKName:'',
+                JKPhone:'',
+                JKJobNum:'',
+                JKJobName:'',
+                JKJobTell:'',
+                JKIdType:'',
+                JKIdNum:'',
+                JKJCStatus:'',
+                JKJCRest:'',
+                JKJCDate:''
+            },
+            form3:{
+                houseType:'',
+                houseAddress:'',
+                houseArea:'',
+                HIdNum:'',
+                HName:'',
+                HBank:'',
+                houseTotal:'',
+                houseFirst:'',
+                housePrice:''
+            },
+            form4:{
+                DYType:'',
+                DYName:'',
+                DYIdNum:'',
+                DYAddress:'',
+                DYStatus:'',
+                DYMoney:''
+            }
+        },
+        methods: {
+            next() {
+                if (this.active++> 3) this.active = 0;
+            },
+            prev() {
+                --this.active;
+                if (this.active< 0) this.active = 0;
+            }
+        }
+    })
+</script>
+</body>
+</html>

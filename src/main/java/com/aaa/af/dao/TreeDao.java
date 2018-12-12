@@ -1,5 +1,6 @@
 package com.aaa.af.dao;
 
+import com.aaa.af.entity.Children;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface TreeDao {
      * 查询树节点
      * @return
      */
-    @Select("select * from TB_TREEMEMU")
-    List<Map> getListTree();
+    @Select("select treeId,lable,treeUrl,treeParent from TB_TREEMEMU")
+    List<Children> getListTree();
 
 }
