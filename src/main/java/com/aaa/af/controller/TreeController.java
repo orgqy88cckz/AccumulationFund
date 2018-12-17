@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +27,19 @@ public class TreeController {
 
     @ResponseBody
     @RequestMapping("list")
-    public Object getListTree(){
-        return treeService.getListTree();
+    public Object getListTree(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        String username = (String) session.getAttribute("username");
+        return treeService.getListTree(username);
+    }
+
+    /**
+     * 获取全部树
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getList")
+    public Object getListAllTree(){
+        return treeService.getListAllTree();
     }
 }

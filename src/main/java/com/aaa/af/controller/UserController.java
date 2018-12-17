@@ -2,6 +2,7 @@ package com.aaa.af.controller;
 
 import com.aaa.af.service.UserService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -73,7 +76,7 @@ public class UserController {
      * 登录
      */
     @RequestMapping("/login")
-    public String login(@RequestBody Map map,Model model){
+    public String login(@RequestBody Map map, Model model,HttpServletRequest req){
         /**
          * 使用shiro编写认证操作
          */
@@ -89,6 +92,8 @@ public class UserController {
             subject.login(token);
             //登录成功
             //跳转到test.html
+            HttpSession session = req.getSession();
+            session.setAttribute("username",name);
             return "forward:/testThymeleaf";
         } catch (UnknownAccountException e) {
             //e.printStackTrace();

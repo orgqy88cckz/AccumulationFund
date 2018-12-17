@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{ message }}</h2>
+</div>
+<div id="tableView">
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+            <el-form-item>
+                <el-button type="success" icon="plus" @click="addClick">新增角色</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    v-if="show"
+                    prop="ROLEID"
+                    label="角色ID"
+                    width="355">
+            </el-table-column>
+            <el-table-column
+                    prop="ROLENAME"
+                    label="角色昵称"
+                    width="400">
+            </el-table-column>
+            <el-table-column
+                    prop="ROLEDESC"
+                    label="角色描述"
+                    width="450">
+            </el-table-column>
+            <el-table-column
+                    prop="ROLESTATUS"
+                    label="角色状态"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template scope="scope">
+                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">编辑</el-button>
+                    <el-button :plain="true" type="danger" size="small" icon="delete" @click="deleteClick(scope.row)">删除</el-button>
+                    <el-button :plain="true" type="primary" size="small" icon="edit" @click="selectTree(scope.row)">修改权限</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="6" >
+        </el-col>
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+    <!--编辑界面-->
+    <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
+        <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+            <el-form-item label="角色昵称">
+                <el-input v-model="editForm.ROLENAME" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="角色描述">
+                <el-input type="textarea" v-model="editForm.ROLEDESC"></el-input>
+            </el-form-item>
+            <el-form-item label="角色状态">
+                <el-radio-group v-model="editForm.ROLESTATUS">
+                    <el-radio class="radio" label="正常" value="正常">正常</el-radio>
+                    <el-radio class="radio" label="禁用" value="禁用">禁用</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="editFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+        </div>
+    </el-dialog>
+    <!--查看权限-->
+    <el-dialog title="查看角色权限信息" :visible.sync="selectTreeVisible" :close-on-click-modal="false">
+        <el-tree
+                :data="dataTree"
+                show-checkbox
+                :default-expanded-keys="defaultExpand"
+                node-key="treeId"
+                ref="tree"
+                :default-checked-keys="defaultChecked"
+                highlight-current
+                :props="defaultProps">
+        </el-tree>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="selectTreeVisible = false">取消</el-button>
+            <el-button type="warning" @click="resetChecked">清空</el-button>
+            <el-button type="success" @click.native="toSubmit" :loading="editLoading">确认</el-button>
+        </div>
+    </el-dialog>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '角色管理'
+        }
+    });
+    var tableView = new Vue({
+        el: '#tableView',
+        data: {
+            dataTree: [],
+            defaultProps: {
+                children: 'children',
+                label: 'lable'
+            },
+            show:false,
+            //默认展开
+            defaultExpand:[],
+            //默认选中
+            defaultChecked:[],
+            //权限下拉菜单
+            options:[],
+            //列表数据
+            tableData: [],
+            //显示加载中样式
+            loading:false,
+            //当前页
+            currentPage:1,
+            //分页大小
+            pageSize:10,
+            //总记录数
+            total:800,
+            //删除的弹出框
+            deleteVisible:false,
+            //编辑界面是否显示
+            editFormVisible: false,
+            selectTreeVisible:false,
+            editLoading: false,
+            goUrl:'',
+            editFormRules: {
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' }
+                ]
+            },
+            //编辑界面数据
+            editForm: {
+                ROLEID:'',
+                ROLENAME:'',
+                ROLEDESC: '',
+                ROLESTATUS: ''
+            },
+            //角色ID
+            selectTrees:{
+                ROLEID:'',
+                ROLEIDS:[]
+            }
+        },
+        created:function(){
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            var start =(this.currentPage-1)*this.pageSize;
+            var end =this.currentPage*this.pageSize+1;
+            axios.post('/af/role/getRoles',{'start':start,'end':end}).then(function(response){
+                self.total=response.data.total;
+                self.tableData = response.data.pageData;
+            });
+        },
+        methods:{
+            //清空勾选
+            resetChecked:function() {
+                this.$refs.tree.setCheckedKeys([]);
+            },
+            //表格重新加载数据
+            loadingData:function() {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start =(this.currentPage-1)*this.pageSize;
+                var end =this.currentPage*this.pageSize+1;
+                var searchForm={'start':start,'end':end};
+                axios.post('/af/role/getRoles',searchForm).then(function(response){
+                    _self.total=response.data.total;
+                    _self.tableData = response.data.pageData;
+                })
+                console.log(_self.currentPage);
+                setTimeout(function(){
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                },300);
+            },
+            //表格编辑事件
+            editClick:function(row) {
+                this.goUrl="/af/role/update";
+                this.editFormVisible = true;
+                this.editForm = Object.assign({}, row);
+            },
+            //查看权限事件
+            selectTree:function(row) {
+                var self = this;
+                this.selectTrees.ROLEID=row.ROLEID;
+                var formData=this.selectTrees;
+                axios.post('/af/role/getTreeid',formData).then(function(response){
+                    self.defaultChecked=response.data.checked;
+                    self.defaultExpand=response.data.expande;
+                });
+                axios.post('/af/tree/getList').then(function (response) {
+                    self.dataTree = response.data;
+                });
+                this.selectTreeVisible = true;
+            },
+            //表格删除事件
+            deleteClick:function(row) {
+                var _self = this;
+                this.$confirm('确认删除吗?', '提示', {
+                    type: 'warning'
+                }).then(function(){
+                    var  url="/af/role/delete";
+                    axios.post(url,{roleId:row.ROLEID}).then(function (response) {
+                        if(response.data>0){
+                            _self.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            _self.loadingData();//重新加载数据
+                        }
+                    });
+                }).catch(function(e){
+                    if(e != "cancel")
+                        console.log("出现错误：" + e);
+                });
+            },
+            //新建事件
+            addClick:function() {
+                this.goUrl="/af/role/add";
+                var _self = this;
+                this.editForm={
+                    ROLENAME: '',
+                    ROLEDESC: '',
+                    ROLESTATUS: ''
+                };
+                this.editFormVisible = true;
+                _self.loadingData();//重新加载数据
+            },
+            //表格查询事件
+            searchClick:function() {
+                var self = this;
+                self.loadingData();//重新加载数据
+            },
+            //表格勾选事件
+            selectionChange:function(val) {
+                for(var i=0;i<val.length;i++) {
+                    var row = val[i];
+                }
+                this.multipleSelection = val;
+                console.info(val);
+            },
+            //分页大小修改事件
+            pageSizeChange:function(val) {
+                console.log('每页 ' + val +' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange:function(val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //保存点击事件
+            editSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.editForm;
+                var goUrl=this.goUrl;
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.editFormVisible = false;
+                        _self.loadingData();//重新加载数据
+                    }else{
+                        _self.$message({
+                            message:'失败',
+                            type:'error'
+                        })
+                    }
+                    _self.editFormVisible = false;
+                    _self.loadingData();
+                })
+                console.info(this.editForm);
+            },
+            toSubmit:function(){
+              var nodes =  this.$refs.tree.getCheckedNodes();
+              var ids='';
+                for (var i = 0; i < nodes.length; i++) {
+                    var obj = nodes[i];
+                    ids+=obj.treeId+",";
+                }
+                console.log(ids);
+                console.log(this.selectTrees.ROLEID);
+                var _self = this;
+                _self.loading = true;
+                this.selectTrees.ROLEIDS=ids;
+                var formData =this.selectTrees;
+                axios.post('/af/role/updateTree',formData).then(function(response){
+                    if(response.data>0){
+                        _self.selectTreeVisible = false;
+                        _self.loadingData();//重新加载数据
+                        _self.$message({
+                            message: '提交成功',
+                            type: 'success'
+                        });
+                    }else{
+                        _self.$message({
+                            message:'失败',
+                            type:'error'
+                        })
+                    }
+                    _self.selectTreeVisible = false;
+                    _self.loadingData();
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
