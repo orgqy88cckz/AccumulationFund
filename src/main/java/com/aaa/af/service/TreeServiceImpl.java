@@ -22,8 +22,26 @@ public class TreeServiceImpl implements TreeService {
     private TreeDao treeDao;
 
     @Override
-    public List<Children> getListTree() {
-        List<Children> list = treeDao.getListTree();
+    public List<Children> getListTree(String username) {
+        List<Children> list = treeDao.getListTree(username);
+        //拼装后的临时集合,用于返回数据
+        List<Children> tempList = new ArrayList<Children>();
+        if(list!=null&&list.size()>0){
+            for (Children node : list) {
+                //找出父节点为0的一级节点
+                if(node.getTreeParent()==0){
+                    tempList.add(node);
+                    //调用递归方法，找当前节点的子节点
+                    bindChildren(node,list);
+                }
+            }
+        }
+        return tempList;
+    }
+
+    @Override
+    public List<Children> getListAllTree() {
+        List<Children> list = treeDao.getListAllTree();
         //拼装后的临时集合,用于返回数据
         List<Children> tempList = new ArrayList<Children>();
         if(list!=null&&list.size()>0){

@@ -17,7 +17,12 @@ public interface TreeDao {
      * 查询树节点
      * @return
      */
+    @Select("select tr.* from tb_user u left join tb_role r on r.roleid=u.roleid left join tb_middle m on m.roleId =r.roleId left join tb_treememu tr on tr.treeId=m.treeId where u.name=#{username}")
+    List<Children> getListTree(String username);
+    /**
+     * 查询全部树节点
+     * @return
+     */
     @Select("select treeId,lable,treeUrl,treeParent from TB_TREEMEMU")
-    List<Children> getListTree();
-
+    List<Children> getListAllTree();
 }

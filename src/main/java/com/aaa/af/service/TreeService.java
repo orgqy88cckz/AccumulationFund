@@ -16,5 +16,10 @@ public interface TreeService {
      * 查询树节点
      * @return
      */
-    public List<Children> getListTree();
+    public List<Children> getListTree(String username);
+    /**
+     * 查询全部树节点
+     * @return
+     */
+    public List<Children> getListAllTree();
 }

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权限列表</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{ message }}</h2>
+</div>
+<div id="tableView">
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+            <el-form-item label="权限名称">
+                <el-input v-model="searchForm.lable" placeholder="标题"></el-input>
+            </el-form-item>
+            <el-form-item>
+            <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
+            <el-button type="success" icon="plus" @click="addClick">新增</el-button>
+        </el-form-item>
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TREEID"
+                    label="权限ID"
+                    width="355">
+            </el-table-column>
+            <el-table-column
+                    prop="LABLE"
+                    label="权限名称"
+                    width="400">
+            </el-table-column>
+            <el-table-column
+                    prop="TREEURL"
+                    label="权限地址"
+                    width="450">
+            </el-table-column>
+            <el-table-column
+                    prop="TREEPARENT"
+                    label="父节点ID"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template scope="scope">
+                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">编辑</el-button>
+                    <el-button :plain="true" type="danger" size="small" icon="delete" @click="deleteClick(scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="6" >
+            <el-button :plain="true" type="danger" size="small" icon="delete" @click="removeSelection">删除所选</el-button>
+        </el-col>
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+    <!--编辑界面-->
+    <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
+        <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+            <el-form-item label="权限名称" prop="LABLE">
+                <el-input v-model="editForm.LABLE" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="权限地址">
+                <el-input type="textarea" v-model="editForm.TREEURL"></el-input>
+            </el-form-item>
+            <el-form-item label="父节点">
+                <template>
+                    <el-select v-model="editForm.TREEPARENT" placeholder="请选择">
+                        <el-option label="此节点为父节点" :value="0">
+                        </el-option>
+                        <el-option
+                                v-for="item in options"
+                                :key="item.TREEID"
+                                :label="item.LABLE"
+                                :value="item.TREEID">
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="editFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+        </div>
+    </el-dialog>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '权限列表'
+        }
+    });
+    var tableView = new Vue({
+        el: '#tableView',
+        data: {
+            show:false,
+            //权限下拉菜单
+            options:[],
+            //列表数据
+            tableData: [],
+            //显示加载中样式
+            loading:false,
+            //搜索表单
+            searchForm: {
+                lable: ''
+            },
+            //多选值
+            multipleSelection: [],
+            //当前页
+            currentPage:1,
+            //分页大小
+            pageSize:10,
+            //总记录数
+            total:800,
+            //删除的弹出框
+            deleteVisible:false,
+            //编辑界面是否显示
+            editFormVisible: false,
+            editLoading: false,
+            goUrl:'',
+            editFormRules: {
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' }
+                ]
+            },
+            //编辑界面数据
+            editForm: {
+                TREEID:'',
+                LABLE: '',
+                TREEURL: '',
+                TREEPARENT: ''
+            },
+        },
+        created:function(){
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            var start =(this.currentPage-1)*this.pageSize;
+            var end =this.currentPage*this.pageSize+1;
+            axios.post('/af/power/getPowers',{'start':start,'end':end}).then(function(response){
+                self.total=response.data.total;
+                self.tableData = response.data.pageData;
+            });
+            axios.post('/af/power/parents').then(function(response){
+                self.options = response.data;
+            })
+        },
+        methods:{
+            //表格重新加载数据
+            loadingData:function() {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start =(this.currentPage-1)*this.pageSize;
+                var end =this.currentPage*this.pageSize+1;
+                var searchForm={'start':start,'end':end,'lable':this.searchForm.lable};
+                axios.post('/af/power/getPowers',searchForm).then(function(response){
+                    _self.total=response.data.total;
+                    _self.tableData = response.data.pageData;
+                })
+                console.log(_self.currentPage);
+                setTimeout(function(){
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                },300);
+            },
+            //表格编辑事件
+            editClick:function(row) {
+                this.goUrl="/af/power/update";
+                this.editFormVisible = true;
+                this.editForm = Object.assign({}, row);
+            },
+            //表格删除事件
+            deleteClick:function(row) {
+                var _self = this;
+                this.$confirm('确认删除吗?', '提示', {
+                    type: 'warning'
+                }).then(function(){
+                    var  url="/af/power/delete";
+                    axios.post(url,{treeId:row.TREEID}).then(function (response) {
+                        if(response.data>0){
+                            _self.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            _self.loadingData();//重新加载数据
+                        }
+                    });
+                }).catch(function(e){
+                    if(e != "cancel")
+                        console.log("出现错误：" + e);
+                });
+            },
+            //新建事件
+            addClick:function() {
+                this.goUrl="/af/power/add";
+                var _self = this;
+                this.editForm={
+                    LABLE: '',
+                    TREEURL: '',
+                    TREEPARENT: ''
+                };
+                this.editFormVisible = true;
+                _self.loadingData();//重新加载数据
+            },
+            //表格查询事件
+            searchClick:function() {
+                var self = this;
+                self.loadingData();//重新加载数据
+            },
+            //表格勾选事件
+            selectionChange:function(val) {
+                for(var i=0;i<val.length;i++) {
+                    var row = val[i];
+                }
+                this.multipleSelection = val;
+                console.info(val);
+            },
+            //删除所选，批量删除
+            removeSelection:function() {
+                var _self = this;
+                var multipleSelection = this.multipleSelection;
+                if(multipleSelection.length < 1) {
+                    _self.$message({
+                        message: '请至少选中一条记录',
+                        type: 'error'
+                    });
+                    return;
+                }
+                var ids = "";
+                for(var i=0;i<multipleSelection.length;i++) {
+                    var row = multipleSelection[i];
+                    ids += row.TREEID + ","
+                }
+                this.$confirm('确认删除吗?', '提示', {
+                    type: 'warning'
+                }).then(function(){
+                    var  url="/af/power/batchDel/"+ids;
+                    axios.get(url).then(function (response) {
+                        var temp="";
+                        if(response.data>0){
+                            temp="删除成功";
+                        }else {
+                            temp="删除失败";
+                        }
+                        _self.$message({
+                            message: temp,
+                            type: 'success'
+                        });
+                        _self.loadingData();//重新加载数据
+                    });
+                }).catch(function(e){
+                    if(e != "cancel")
+                        console.log("出现错误：" + e);
+                });
+            },
+            //分页大小修改事件
+            pageSizeChange:function(val) {
+                console.log('每页 ' + val +' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange:function(val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //保存点击事件
+            editSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.editForm;
+                var goUrl=this.goUrl;
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.editFormVisible = false;
+                        _self.loadingData();//重新加载数据
+                    }else{
+                        _self.$message({
+                            message:'失败',
+                            type:'error'
+                        })
+                    }
+                    _self.editFormVisible = false;
+                    _self.loadingData();
+                })
+                console.info(this.editForm);
+            }
+        }
+    })
+</script>
+</body>
+</html>
