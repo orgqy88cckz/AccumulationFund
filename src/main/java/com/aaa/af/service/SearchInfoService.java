@@ -22,8 +22,13 @@ public interface SearchInfoService {
      */
     int addInfo(List<Map> map);
     /**
-     * 查询个人账户
+     * 查询贷款初审列表
      * @return
      */
-    List<Map> selectGRZH();
+    List<Map> loanCheckSelect(Map map);
+    /**
+     * 查询贷款初审列表总数量
+     * @return
+     */
+    int getPageCount(Map map);
 }

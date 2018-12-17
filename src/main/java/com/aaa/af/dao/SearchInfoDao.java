@@ -41,9 +41,26 @@ public interface SearchInfoDao {
     int addInfo(Map map);
 
     /**
-     * 查询个人账户
+     * 查询贷款初审列表
      * @return
      */
-    @Select("select * from TB_PACCOUNTUTIL")
-    List<Map> selectGRZH();
+    @Select("<script>select rownum rn,TB_PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,CTIME,STATUS from(\n" +
+            " select rownum rn,TB_PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,to_char(CTIME,'yyyy-MM-dd') as CTIME,STATUS from TB_LOAN l left join\n" +
+            " TB_PERSON_INFO p on l.pid=p.tb_pid where rownum &lt; #{end} \n" +
+            "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
+            "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if>" +
+            " ) a where a.rn &gt; #{start} </script>")
+    List<Map> loanCheckSelect(Map map);
+
+
+    /**
+     * 查询贷款初审列表总数量
+     * @return
+     */
+    @Select("<script>select count(*) from TB_LOAN l left join\n" +
+            " TB_PERSON_INFO p on l.pid=p.tb_pid <where>\n" +
+            "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
+            "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if></where></script>")
+    int getPageCount(Map map);
+
 }
