@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +57,23 @@ public class LoanController {
         return i;
     }
 
+
+    @RequestMapping("toLoanWait")
+    public String toLoanWait(){
+        return "loans/loanWait";
+    }
+
+    @RequestMapping("toLoanCheck")
+    public String toLoanCheck(){
+        return "loans/checkLoan";
+    }
+
     @ResponseBody
-    @RequestMapping("selectGRZH")
-    public Object selectGRZH(){
-        return searchInfoService.selectGRZH();
+    @RequestMapping("loanCheck")
+    public Object loanCheckSelect(@RequestBody Map map){
+        Map resultMap=new HashMap();
+        resultMap.put("pageData",searchInfoService.loanCheckSelect(map));
+        resultMap.put("total",searchInfoService.getPageCount(map));
+        return resultMap;
     }
 }

@@ -22,8 +22,13 @@ public class SearchInfoServiceImpl implements SearchInfoService{
     private SearchInfoDao searchInfoDao;
 
     @Override
-    public List<Map> selectGRZH() {
-        return searchInfoDao.selectGRZH();
+    public int getPageCount(Map map) {
+        return searchInfoDao.getPageCount(map);
+    }
+
+    @Override
+    public List<Map> loanCheckSelect(Map map) {
+        return searchInfoDao.loanCheckSelect(map);
     }
 
     @Override
