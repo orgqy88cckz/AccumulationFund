@@ -19,8 +19,8 @@ public interface RoleDao {
      * 查询角色列表
      * @return
      */
-    @Select("<script>select roleid,rolename,roledesc,rolestatus from" +
-            "(select rownum rn,roleid,rolename,roledesc,rolestatus from tb_role where rownum &lt; #{end}" +
+    @Select("<script>select roleid,rolename,roledesc from" +
+            "(select rownum rn,roleid,rolename,roledesc from tb_role where rownum &lt; #{end}" +
             " )a where a.rn &gt; #{start} </script>")
     List<Map> getRoles(Map map);
     /**
@@ -35,7 +35,7 @@ public interface RoleDao {
      * @param map
      * @return
      */
-    @Insert("insert into tb_role values(seq_role_id.nextval,#{ROLENAME},#{ROLEDESC},#{ROLESTATUS})")
+    @Insert("insert into tb_role values(seq_role_id.nextval,#{ROLENAME},#{ROLEDESC})")
     int add(Map map);
     /**
      * 删除
@@ -49,7 +49,7 @@ public interface RoleDao {
      * @param map
      * @return
      */
-    @Update("update tb_role set rolename=#{ROLENAME},roledesc=#{ROLEDESC},rolestatus=#{ROLESTATUS} where roleid=#{ROLEID}")
+    @Update("update tb_role set rolename=#{ROLENAME},roledesc=#{ROLEDESC} where roleid=#{ROLEID}")
     int update(Map map);
 
     /**
