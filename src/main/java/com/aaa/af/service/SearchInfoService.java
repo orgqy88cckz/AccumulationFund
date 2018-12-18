@@ -1,5 +1,7 @@
 package com.aaa.af.service;
 
+import sun.applet.resources.MsgAppletViewer;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +33,40 @@ public interface SearchInfoService {
      * @return
      */
     int getPageCount(Map map);
+    /**
+     * 贷款初审弹出框查询
+     * @param loan_id
+     * @return
+     */
+    Map selectForm(String loan_id);
+    /**
+     *贷款初审通过
+     * @param map
+     * @return
+     */
+    int checkPass(Map map);
+    /**
+     *贷款初审驳回更新贷款表中的数据
+     * @return
+     */
+    int checkReject(Map map);
+
+    /**
+     * 查询贷款终审列表
+     * @param map
+     * @return
+     */
+    List<Map> loanCheckSelectFinally(Map map);
+
+    /**
+     * 查询贷款初审列表总数量
+     * @return
+     */
+    int getPageCountFinally(Map map);
+
+    /**
+     *贷款终审驳回更新贷款审核表中的数据
+     * @return
+     */
+    int checkRejectFinally(Map map);
 }

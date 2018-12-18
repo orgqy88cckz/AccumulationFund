@@ -1,8 +1,11 @@
 package com.aaa.af.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
+import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +47,8 @@ public interface SearchInfoDao {
      * 查询贷款初审列表
      * @return
      */
-    @Select("<script>select rownum rn,TB_PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,CTIME,STATUS from(\n" +
-            " select rownum rn,TB_PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,to_char(CTIME,'yyyy-MM-dd') as CTIME,STATUS from TB_LOAN l left join\n" +
+    @Select("<script>select rownum rn,pid,LOAN_ID,GRZH,TB_PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,CTIME,STATUS from(\n" +
+            " select rownum rn,pid,LOAN_ID,GRZH,TB_PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,to_char(CTIME,'yyyy-MM-dd') as CTIME,STATUS from TB_LOAN l left join\n" +
             " TB_PERSON_INFO p on l.pid=p.tb_pid where rownum &lt; #{end} \n" +
             "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
             "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if>" +
@@ -62,5 +65,80 @@ public interface SearchInfoDao {
             "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
             "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if></where></script>")
     int getPageCount(Map map);
+
+    /**
+     * 贷款初审弹出框查询
+     * @param loan_id
+     * @return
+     */
+    @Select("select LOAN_ID,PID,GRZH,BANK_MONEY,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,LOAN_REPAYER,\n" +
+            "LOAN_REPAYDATE,REPAY_BANK,REPAY_ACCOUNT,STATUS,to_char(CTIME,'yyyy-MM-dd') as CTIME,HOUSE_TYPE,\n" +
+            "HOUSE_AREA,ID_NUMBER,BUY_NAME,BANK_ACCOUNT,HOUSE_TOTAL,TB_PIPHONE,TB_IDNUMBER,TB_PEDUCATION,TB_PEMAIL,TB_PADDRESS,UNIT_ID,\n" +
+            "HOUSE_FIRSTPAY,HOUSE_PRICE,PAWN_TYPE,PAWN_NAME,PAWN_IDNUMBER,PAWN_ADDRESS,PAWN_STATUS,PAWN_MONEY,HOUSE_LOCATION,TB_PNAME from TB_LOAN l left join Tb_Person_Info p on l.pid=p.tb_pid where loan_id=#{loan_id}")
+    Map selectForm(String loan_id);
+
+    /**
+     *贷款初审通过添加到TB_LOAN_CHECK
+     * @param map
+     * @return
+     */
+    @Insert("insert into TB_LOAN_CHECK(LOAN_CHECK_ID,LOAN_ID,PID,GRZH,LOAN_MONEY,LOAN_PERIODS," +
+            "LOAN_RATE,LOAN_BANK,LOAN_REPAY,REPAY_BANK,REPAY_ACCOUNT,PNAME,STATUS,CTIME) values(seq_check_loan.nextval,#{LOAN_ID},#{PID},#{GRZH},#{LOAN_MONEY},#{LOAN_PERIODS}," +
+            "#{LOAN_RATE},#{LOAN_BANK},#{LOAN_REPAY},#{REPAY_BANK},#{REPAY_ACCOUNT},#{TB_PNAME},'2',to_date(#{CTIME},'yyyy-MM-dd'))")
+    int checkPass(Map map);
+
+    /**
+     * 初审通过更新贷款表中的数据
+     * @return
+     */
+    @Update("update TB_LOAN set status='2' where loan_id=#{loan_id}")
+    int checkPassUpdate(Integer loan_id);
+
+    /**
+     *贷款初审驳回添加到TB_LOAN_CHECK
+     * @param map
+     * @return
+     */
+    @Insert("insert into TB_LOAN_CHECK(LOAN_CHECK_ID,LOAN_ID,PID,GRZH,LOAN_MONEY,LOAN_PERIODS," +
+            "LOAN_RATE,LOAN_BANK,LOAN_REPAY,REPAY_BANK,REPAY_ACCOUNT,PNAME,STATUS,CTIME,REJECTREASON) values(seq_check_loan.nextval,#{LOAN_ID},#{PID},#{GRZH},#{LOAN_MONEY},#{LOAN_PERIODS}," +
+            "#{LOAN_RATE},#{LOAN_BANK},#{LOAN_REPAY},#{REPAY_BANK},#{REPAY_ACCOUNT},#{TB_PNAME},'3',to_date(#{CTIME},'yyyy-MM-dd'),#{LOAN_REJECT})")
+    int checkReject(Map map);
+
+    /**
+     *贷款初审驳回更新贷款表中的数据
+     * @return
+     */
+    @Update("update TB_LOAN set status='3' where loan_id=#{loan_id}")
+    int checkRejectUpdate(Integer loan_id);
+
+    /**
+     * 查询贷款终审列表
+     * @return
+     */
+    @Select("<script>select rownum rn,pid,LOAN_ID,GRZH,PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,CTIME,STATUS from(\n" +
+            " select rownum rn,pid,LOAN_ID,GRZH,PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,to_char(CTIME,'yyyy-MM-dd') as CTIME,STATUS from TB_LOAN_CHECK\n" +
+            " where STATUS='2' or status='4' or status='5' and rownum &lt; #{end} \n" +
+            "<if test=\"PNAME!=null and PNAME!=''\"> and PNAME like '%'||#{PNAME}||'%'</if>" +
+            "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if>" +
+            " ) a where  STATUS='2' or status='4' or status='5' and a.rn &gt; #{start} </script>")
+    List<Map> loanCheckSelectFinally(Map map);
+
+
+    /**
+     * 查询贷款终审列表总数量
+     * @return
+     */
+    @Select("<script>select count(*) from TB_LOAN_CHECK where STATUS='2' or status='4' or status='5' \n" +
+            " <where>\n" +
+            "<if test=\"PNAME!=null and PNAME!=''\"> and PNAME like '%'||#{PNAME}||'%'</if>" +
+            "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if></where></script>")
+    int getPageCountFinally(Map map);
+
+    /**
+     *贷款终审驳回更新贷款审核表中的数据
+     * @return
+     */
+    @Update("update TB_LOAN_CHECK set status='5' where loan_id=#{loan_id}")
+    int checkRejectFinally(Integer loan_id);
 
 }

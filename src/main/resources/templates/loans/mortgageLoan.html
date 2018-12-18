@@ -291,8 +291,8 @@
             <h4 style="padding-left: 85px;">共同借款人（可选择有或无）</h4>
             <el-row :gutter="20">
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item  label="个人账户" prop="GRZH1">
-                        <el-input v-model="form2.GRZH1" @blur="blurs2()" style="width: 200px;"></el-input>
+                    <el-form-item  label="个人账户" key="2" prop="GRZH1">
+                        <el-input v-model="form2.GRZH1"  @blur="blurs2()" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4"><div class="grid-content bg-purple">
@@ -368,7 +368,7 @@
             <h4 style="padding-left: 85px;">购房信息</h4>
             <el-row :gutter="20">
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*房屋类型" prop="houseType">
+                    <el-form-item key="3" label="*房屋类型" prop="houseType">
                         <template>
                             <el-select v-model="form3.houseType" placeholder="请选择" size="small">
                                 <el-option
@@ -382,13 +382,13 @@
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item  prop="houseAddress" :rules="[{ required: true, message: '房屋位置不能为空',trigger: 'blur'}]" label="房屋位置">
+                    <el-form-item  key="5"  prop="houseAddress" :rules="[{ required: true, message: '房屋位置不能为空',trigger: 'blur'}]" label="房屋位置">
                         <el-input v-model="form3.houseAddress" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4">
                     <div class="grid-content bg-purple">
-                        <el-form-item  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
+                        <el-form-item key="6"  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
                                                             { type:'number', message: '房屋面积为数字',trigger:'blur'}]" label="房屋面积">
                             <el-input v-model.number="form3.houseArea" style="width: 200px;"></el-input>
                         </el-form-item>
@@ -397,18 +397,20 @@
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*证件号码">
+                    <el-form-item key="7" label="证件号码" prop="HIdNum" :rules="[{ required: true, message: '证件号码不能为空',trigger: 'blur'},
+                                                          {pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '证件号码格式不对请重新输入',trigger: 'blur'}]">
                         <el-input v-model="form3.HIdNum" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*购房人名称">
+                    <el-form-item key="8" label="购房人名称" prop="HName" :rules="[{ required: true, message: '购房人名称不能为空',trigger: 'blur'}]">
                         <el-input v-model="form3.HName" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="*银行账户">
+                        <el-form-item key="9" label="银行账户" prop="HBank" :rules="[{ required: true, message: '银行账户不能为空',trigger: 'blur'},
+                                                          {min:18,max:21, message: '银行账户为18到21位的数字',trigger: 'blur'}]">
                             <el-input v-model="form3.HBank" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
@@ -416,13 +418,15 @@
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*房屋总价">
-                        <el-input v-model="form3.houseTotal"  @blur="houseMoney()"  style="width: 200px;"></el-input>
+                    <el-form-item key="10" label="房屋总价" prop="houseTotal" :rules="[{ required: true, message: '房屋总价不能为空',trigger: 'blur'},
+                                                          {type:'number', message: '房屋总价为数字',trigger: 'blur'}]">
+                        <el-input v-model.number="form3.houseTotal"  @blur="houseMoney()"  style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*购房首付款">
-                        <el-input v-model="form3.houseFirst" style="width: 200px;"></el-input>
+                    <el-form-item key="11" label="购房首付款" prop="houseFirst" :rules="[{ required: true, message: '购房首付款不能为空',trigger: 'blur'},
+                                                          {type:'number', message: '购房首付款为数字',trigger: 'blur'}]">
+                        <el-input v-model.number="form3.houseFirst" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4">
@@ -441,18 +445,19 @@
             <h4 style="padding-left: 85px;">抵押信息</h4>
             <el-row :gutter="20">
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*抵押类型" prop="DYType">
+                    <el-form-item key="4" label="*抵押类型" prop="DYType">
                         <el-input v-model="form4.DYType" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*抵押人姓名">
+                    <el-form-item label="抵押人姓名" key="12" prop="DYName" :rules="[{ required: true, message: '抵押人姓名不能为空',trigger: 'blur'}]">
                         <el-input v-model="form4.DYName" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="*抵押人身份证号">
+                        <el-form-item key="13" label="抵押人身份证号" prop="DYIdNum" :rules="[{ required: true, message: '抵押人身份证号不能为空',trigger: 'blur'},
+                                                          {pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不对请重新输入',trigger: 'blur'}]">
                             <el-input v-model="form4.DYIdNum" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
@@ -460,12 +465,12 @@
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*抵押物地址">
+                    <el-form-item label="抵押物地址" key="14" prop="DYAddress" :rules="[{ required: true, message: '抵押物地址不能为空',trigger: 'blur'}]">
                         <el-input v-model="form4.DYAddress" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item label="*抵押物状态">
+                    <el-form-item label="抵押物状态">
                         <template>
                             <el-select v-model="form4.DYStatus" placeholder="请选择" size="small">
                                 <el-option
@@ -480,8 +485,9 @@
                 </div></el-col>
                 <el-col :span="4">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="*抵押物金额">
-                            <el-input v-model="form4.DYMoney" style="width: 200px;"></el-input>
+                        <el-form-item label="抵押物金额" key="15" prop="DYMoney" :rules="[{ required: true, message: '抵押物金额不能为空',trigger: 'blur'},
+                                                                                           {type:'number',message:'抵押物金额为数字'}]">
+                            <el-input v-model.number="form4.DYMoney" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -707,7 +713,7 @@
             blurs2:function () {
                 var self=this;
                 var url="/af/loan/searchInfo/"+this.form2.GRZH1;
-                if(this.form2.GRZH1){
+                if(this.form2.GRZH1!=""){
                     axios.get(url).then(function (response) {
                         //alert(JSON.stringify(response.data));
                         self.form2.GRZH1=response.data.GRZH;
