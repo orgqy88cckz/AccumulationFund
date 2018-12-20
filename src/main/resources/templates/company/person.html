@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人开户</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{message}}</h2>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/user/toList' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/user/toList">活动管理</a></el-breadcrumb-item>
+        <el-breadcrumb-item>个人开户</el-breadcrumb-item>
+    </el-breadcrumb>
+    <h3>{{message}}</h3>
+</div>
+<div id="app1">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司账号" prop="uname">
+                        <el-input v-model="form.gszh" style="width: 200px;" @blur="blur" ></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*职工学历" prop="UADRESS">
+                        <!--<el-input v-model="form.TB_PEDUCATION" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.TB_PEDUCATION" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="小学" value="小学"></el-option>
+                            <el-option label="初中" value="初中"></el-option>
+                            <el-option label="高中" value="高中"></el-option>
+                            <el-option label="大专" value="大专"></el-option>
+                            <el-option label="本科" value="本科"></el-option>
+                            <el-option label="硕士" value="硕士"></el-option>
+                            <el-option label="博士" value="博士"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*开户银行名称" prop="UTYPE">
+                        <!--<el-input v-model="form.TB_BNAME" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.TB_BNAME" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="中国银行" value="中国银行"></el-option>
+                            <el-option label="中国邮政" value="中国邮政"></el-option>
+                            <el-option label="中国建设银行" value="中国建设银行"></el-option>
+                            <el-option label="中国农业银行" value="中国农业银行"></el-option>
+                            <el-option label="中国工商银行" value="中国工商银行"></el-option>
+                            <el-option label="中国人民银行" value="中国人民银行"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司名称" prop="UOC">
+                        <el-input v-model="form.gsmc" style="width: 200px;" :disabled="true"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*职工职位" prop="LPERSONNAME">
+                        <el-input v-model="form.TB_PROFESSION" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*开户银行账号" prop="CARDTYPE">
+                        <el-input v-model="form.TB_ACCOUNT" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*职工姓名" prop="CARDNUM">
+                        <el-input v-model="form.TB_PNAME" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*电子邮箱" prop="WNAME">
+                        <el-input v-model="form.TB_PEMAIL" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*单位比例" prop="WORKPHO">
+                        <el-input v-model="form.dwbl" style="width: 200px;" :disabled="true"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*职工电话" prop="WCARDTYPE">
+                        <el-input v-model="form.TB_PIPHONE" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*家庭住址" prop="WCARDNUM">
+                        <el-input v-model="form.TB_PADDRESS" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*个人比例" prop="KBANK">
+                        <el-input v-model="form.grbl" style="width: 200px;" :disabled="true"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*职工性别" prop="URATIO">
+                        <!--<el-input v-model="form.gslx" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.TB_PSEX" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="男" value="男"></el-option>
+                            <el-option label="女" value="女"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*婚姻状态" prop="kdate">
+                        <el-select v-model="form.TB_PMARRIAGE" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="已婚" value="已婚"></el-option>
+                            <el-option label="未婚" value="未婚"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*证件类型" prop="ASTATE">
+                        <!--<el-input v-model="form.jjlx" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.TB_IDCARD" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="身份证" value="身份证"></el-option>
+                            <el-option label="户口本" value="户口本"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*缴存基数" prop="PRATIO">
+                        <el-input v-model="form.JCJS" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*证件号码" prop="URATIO">
+                        <el-input v-model="form.TB_IDNUMBER" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*办理人员" prop="SBANK">
+                        <el-input v-model="form.blry" style="width: 200px;" :disabled="true"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-form-item>
+            <el-button type="primary" @click.native="addClick">保存</el-button>
+            <el-button type="primary" @click="resetForm('form')">重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '个人开户',
+        }
+
+    });
+    var vm = new Vue({
+        el : "#app1",
+        data : {
+            form:{
+                AID:'',
+                TB_PEDUCATION:"",
+                TB_BNAME:"",
+                TB_PROFESSION:"",
+                TB_ACCOUNT:"",
+                TB_PNAME:"",
+                TB_PEMAIL:"",
+                TB_PIPHONE:"",
+                TB_PADDRESS:"",
+                TB_PSEX:"",
+                TB_PMARRIAGE:"",
+                TB_IDCARD:"",
+                TB_IDNUMBER:"",
+                gszh:"",
+                gsmc:"",
+                dwbl:"",
+                grbl:"",
+                blry:"",
+                JCJS:""
+            },
+            rules:{
+                named :[{required: true, message: '请输入', trigger: 'blur'}],
+                sex :[{required: true, message: '请输入', trigger: 'blur'}]
+            },
+        },
+        methods: {
+            //表格重新加载数据
+            loadingData:function() {
+                var self = this
+                var adds = this.form={
+                    AID:"",
+                    TB_PEDUCATION:"",
+                    TB_BNAME:"",
+                    TB_PROFESSION:"",
+                    TB_ACCOUNT:"",
+                    TB_PNAME:"",
+                    TB_PEMAIL:"",
+                    TB_PIPHONE:"",
+                    TB_PADDRESS:"",
+                    TB_PSEX:"",
+                    TB_PMARRIAGE:"",
+                    TB_IDCARD:"",
+                    TB_IDNUMBER:"",
+                    gszh:"",
+                    gsmc:"",
+                    dwbl:"",
+                    grbl:"",
+                    blry:"",
+                    JCJS:""
+                }
+            },
+            blur: function(){
+                var self = this;
+                if (this.form.gszh!=""){
+                    var url = '/af/person/getById/'+this.form.gszh;
+                    axios.get(url).then(function (response) {
+                        alert(response.data.AID);
+                        self.form.AID = response.data.AID;
+                        self.form.gsmc = response.data.UNAME;
+                        self.form.dwbl = response.data.UDEPOSITRATIO;
+                        self.form.grbl = response.data.UPERSONRATIO;
+                        self.form.blry = response.data.YWBLR;
+                    })
+                }else {
+                    self.form={
+                        AID:"",
+                        gszh:"",
+                        gsmc:"",
+                        dwbl:"",
+                        grbl:"",
+                        blry:""
+                    }
+                }
+            },
+            addClick: function () {
+                var self = this;
+                var formData =this.form;
+                alert(JSON.stringify(formData));
+                axios.post('/af/person/add',formData).then(function(response){
+                    if(response.data!=""){
+                        self.$message({
+                            message: '操作成功',
+                            type: 'success'
+                        });
+                        self.loadingData();
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

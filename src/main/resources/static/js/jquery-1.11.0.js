@@ -250,7 +250,7 @@ jQuery.extend({
 
 	noop: function() {},
 
-	// See test/unit/core.js for details concerning isFunction.
+	// See test/company/core.js for details concerning isFunction.
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
@@ -6610,7 +6610,7 @@ function getWidthOrHeight( elem, name, extra ) {
 			val = elem.style[ name ];
 		}
 
-		// Computed unit is not pixels. Stop here and return.
+		// Computed company is not pixels. Stop here and return.
 		if ( rnumnonpx.test(val) ) {
 			return val;
 		}
@@ -7056,7 +7056,7 @@ var
 				parts = rfxnum.exec( value ),
 				unit = parts && parts[ 3 ] || ( jQuery.cssNumber[ prop ] ? "" : "px" ),
 
-				// Starting value computation is required for potential unit mismatches
+				// Starting value computation is required for potential company mismatches
 				start = ( jQuery.cssNumber[ prop ] || unit !== "px" && +target ) &&
 					rfxnum.exec( jQuery.css( tween.elem, prop ) ),
 				scale = 1,

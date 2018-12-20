@@ -411,7 +411,7 @@ jQuery.extend({
 		}
 	},
 
-	// See test/unit/core.js for details concerning isFunction.
+	// See test/company/core.js for details concerning isFunction.
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
@@ -6963,7 +6963,7 @@ function getWidthOrHeight( elem, name, extra ) {
 			val = elem.style[ name ];
 		}
 
-		// Computed unit is not pixels. Stop here and return.
+		// Computed company is not pixels. Stop here and return.
 		if ( rnumnonpx.test(val) ) {
 			return val;
 		}
