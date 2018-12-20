@@ -24,7 +24,7 @@
                 <el-input v-model="searchForm.STATUS" placeholder="贷款状态"></el-input>
             </el-form-item>
             <el-form-item label="贷款人姓名">
-                <el-input v-model="searchForm.TB_PNAME" placeholder="贷款人姓名"></el-input>
+                <el-input v-model="searchForm.PNAME" placeholder="贷款人姓名"></el-input>
             </el-form-item>
            <el-form-item>
             <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
@@ -41,6 +41,7 @@
             <el-table-column
                     prop="LOAN_ID"
                     label="贷款id名"
+                    v-if='show'
                     align="center"
                     width="200">
             </el-table-column>
@@ -342,6 +343,7 @@
         data: {
             //列表数据
             tableData: [],
+            show:false,
             //显示加载中样式
             loading:false,
             //搜索表单
@@ -449,7 +451,7 @@
                 var self = this;
                 var start =(this.currentPage-1)*this.pageSize;
                 var end =this.currentPage*this.pageSize+1;
-                var searchForm={'start':start,'end':end,'STATUS':this.searchForm.STATUS,'TB_PNAME':this.searchForm.TB_PNAME};
+                var searchForm={'start':start,'end':end,'STATUS':this.searchForm.STATUS,'PNAME':this.searchForm.PNAME};
                 axios.post('/af/loan/loanCheckFinally',searchForm).then(function(response){
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
@@ -499,7 +501,7 @@
                 var _self = this;
                 _self.loadingData();//重新加载数据
             },
-            //初审通过点击事件
+            //终审通过点击事件
             editPass:function(){
                 var _self = this;
                 _self.loading = true;
@@ -507,6 +509,7 @@
                 alert(JSON.stringify(formData));
                 var url="/af/loan/finallyPass";
                 axios.post(url,formData).then(function(response){
+                    alert(11111111)
                     if(response.data>0){
                         _self.editFormVisible = false;
                     }else{
@@ -519,13 +522,13 @@
                 })
                 console.info(this.editForm);
             },
-            //初审驳回点击事件
+            //终审驳回点击事件
             editReject:function(){
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
                 //alert(JSON.stringify(formData));
-                //alert(formData.LOAN_REJECT);
+                //alert(formData.LOAN_);
                 if(formData.LOAN_REJECT!=''&&formData.LOAN_REJECT!=null){
                     var url="/af/loan/finallyReject";
                     axios.post(url,formData).then(function(response){

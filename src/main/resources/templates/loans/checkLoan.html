@@ -41,6 +41,7 @@
             <el-table-column
                     prop="LOAN_ID"
                     label="贷款id名"
+                    v-if='show'
                     align="center"
                     width="200">
             </el-table-column>
@@ -98,7 +99,7 @@
                     align="center"
                     label="操作">
                 <template scope="scope">
-                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">详细信息</el-button>
+                    <el-button :plain="true" id="btn1" type="success" size="small" icon="edit" @click="editClick(scope.row)">详细信息</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -342,6 +343,7 @@
         data: {
             //列表数据
             tableData: [],
+            show:false,
             //显示加载中样式
             loading:false,
             //搜索表单
