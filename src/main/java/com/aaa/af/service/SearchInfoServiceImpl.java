@@ -80,6 +80,12 @@ public class SearchInfoServiceImpl implements SearchInfoService{
     }
 
     @Override
+    public int checkPassFinally(Map map) {
+        searchInfoDao.checkFinallyUpdate(Integer.valueOf(map.get("LOAN_ID")+""));
+        return searchInfoDao.checkPassFinally(map);
+    }
+
+    @Override
     public int checkRejectFinally(Map map) {
         return searchInfoDao.checkRejectFinally(Integer.valueOf(map.get("LOAN_ID")+""));
     }

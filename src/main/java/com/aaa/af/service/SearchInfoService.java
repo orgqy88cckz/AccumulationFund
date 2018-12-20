@@ -69,4 +69,11 @@ public interface SearchInfoService {
      * @return
      */
     int checkRejectFinally(Map map);
+
+    /**
+     *贷款终审通过添加数据到还款表中并且更新审核表中的数据
+     * @return
+     */
+    int checkPassFinally(Map map);
+
 }

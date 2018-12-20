@@ -95,7 +95,7 @@ public interface SearchInfoDao {
     int checkPassUpdate(Integer loan_id);
 
     /**
-     *贷款初审驳回添加到TB_LOAN_CHECK
+     *贷款初审通过添加到TB_LOAN_CHECK
      * @param map
      * @return
      */
@@ -133,6 +133,24 @@ public interface SearchInfoDao {
             "<if test=\"PNAME!=null and PNAME!=''\"> and PNAME like '%'||#{PNAME}||'%'</if>" +
             "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if></where></script>")
     int getPageCountFinally(Map map);
+
+    /**
+     *贷款终审通过添加数据到还款表中
+     * @return
+     */
+    @Insert("insert into TB_REPAY(ID,REPAYID,PID,PNAME,GRZH,LOAN_MONEY,LOAN_PERIODS,CTIME,LOAN_RATE,REPAY_BANK,REPAY_ACCOUNT," +
+            "LOAN_REPAY,STATE,REPAYED_DATE) values(seq_repayid.nextval,extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(seq_repayid.nextval,'fm00')," +
+            "#{PID},#{TB_PNAME},#{LOAN_MONEY},#{GRZH},#{LOAN_PERIODS},sysdate,#{LOAN_RATE},#{REPAY_BANK},#{REPAY_ACCOUNT},#{LOAN_REPAY}," +
+            "'待还款',sysdate)")
+    int checkPassFinally(Map map);
+
+    /**
+     * 贷款终审通过更新贷款审核表中的数据
+     * @param loan_id
+     * @return
+     */
+    @Update("update TB_LOAN_CHECK set status='4' where loan_id=#{loan_id}")
+    int checkFinallyUpdate(Integer loan_id);
 
     /**
      *贷款终审驳回更新贷款审核表中的数据

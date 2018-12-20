@@ -154,7 +154,7 @@ public class LoanController {
     @ResponseBody
     @RequestMapping("finallyPass")
     public Object finallyPass(@RequestBody Map map){
-        return null;
+        return searchInfoService.checkPassFinally(map);
     }
 
     /**
