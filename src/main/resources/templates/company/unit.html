@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单位开户</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{message}}</h2>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/user/toList' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/user/toList">活动管理</a></el-breadcrumb-item>
+        <el-breadcrumb-item>单位开户</el-breadcrumb-item>
+    </el-breadcrumb>
+    <h3>{{message}}</h3>
+</div>
+<div id="app1">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司名称" prop="uname">
+                        <el-input v-model="form.uname" style="width: 200px;" ></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司地址" prop="UADRESS">
+                        <el-input v-model="form.uaddress" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司法人" prop="UTYPE">
+                        <el-input v-model="form.ulegalperson" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*法人证件类型" prop="UOC">
+                        <!--<el-input v-model="form.ulegaltype" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.ulegaltype" style="width: 200px;" placeholder="部门">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="身份证" value="身份证"></el-option>
+                            <el-option label="户口本" value="户口本"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*法人证件号" prop="LPERSONNAME">
+                        <el-input v-model="form.ulegalcard" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*发薪日" prop="CARDTYPE">
+                        <el-input v-model="form.upaydate" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*经办人姓名" prop="CARDNUM">
+                        <el-input v-model="form.uoperator" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*经办人电话" prop="WNAME">
+                        <el-input v-model="form.uopiphone" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*经办人证件类型" prop="WORKPHO">
+                        <!--<el-input v-model="form.jbrzjlx" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.jbrzjlx" style="width: 200px;" placeholder="部门">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="身份证" value="身份证"></el-option>
+                            <el-option label="户口本" value="户口本"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*经办人证件号" prop="WCARDTYPE">
+                        <el-input v-model="form.jbrzjhm" style="width: 200px;"></el-input>
+                        <!--<el-select v-model="form.wcardtype" placeholder="请选择">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>-->
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司成立时间" prop="WCARDNUM">
+                        <!--<el-input v-model="form.unitbegindate" style="width: 200px;"></el-input>-->
+                        <div class="block" style="width: 200px;">
+                            <el-date-picker
+                                    v-model="form.unitbegindate"
+                                    type="date"
+                                    placeholder="选择日期"
+                                    :picker-options="pickerOptions0">
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司机构代码" prop="KBANK">
+                        <el-input v-model="form.unetworkcode" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*公司类型" prop="URATIO">
+                        <!--<el-input v-model="form.gslx" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.gslx" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="国有企业" value="国有企业"></el-option>
+                            <el-option label="合伙企业" value="合伙企业"></el-option>
+                            <el-option label="有限责任公司" value="有限责任公司"></el-option>
+                            <el-option label="股份有限公司" value="股份有限公司"></el-option>
+                            <el-option label="全民所有制公司" value="全民所有制公司"></el-option>
+                            <el-option label="集体所有制公司" value="集体所有制公司"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*所属行业" prop="PRATIO">
+                        <!--<el-input v-model="form.sshy" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.sshy" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="制造业" value="制造业"></el-option>
+                            <el-option label="房地产业" value="房地产业"></el-option>
+                            <el-option label="批发和零售业" value="批发和零售业"></el-option>
+                            <el-option label="农、林、牧、渔业" value="农、林、牧、渔业"></el-option>
+                            <el-option label="环境和公共设施管理业" value="环境和公共设施管理业"></el-option>
+                            <el-option label="交通运输、仓储业和邮政业" value="交通运输、仓储业和邮政业"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*隶属关系" prop="SBANK">
+                       <!-- <el-input v-model="form.lsgx" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.lsgx" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="省" value="省"></el-option>
+                            <el-option label="市" value="市"></el-option>
+                            <el-option label="县" value="县"></el-option>
+                            <el-option label="乡" value="乡"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*经济类型" prop="ASTATE">
+                        <!--<el-input v-model="form.jjlx" style="width: 200px;"></el-input>-->
+                        <el-select v-model="form.jjlx" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="国有经济" value="国有经济"></el-option>
+                            <el-option label="集体经济" value="集体经济"></el-option>
+                            <el-option label="个体经济" value="个体经济"></el-option>
+                            <el-option label="私营经济" value="私营经济"></el-option>
+                            <el-option label="联营经济" value="联营经济"></el-option>
+                            <el-option label="股份制" value="股份制"></el-option>
+                            <el-option label="其他经济" value="其他经济"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*业务办理人" prop="kdate">
+                        <el-input v-model="form.ywblr" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+
+
+
+
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*开户银行名称" prop="OPERATOR">
+                        <el-select v-model="form.uabankname" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="中国银行" value="中国银行"></el-option>
+                            <el-option label="中国邮政" value="中国邮政"></el-option>
+                            <el-option label="中国建设银行" value="中国建设银行"></el-option>
+                            <el-option label="中国农业银行" value="中国农业银行"></el-option>
+                            <el-option label="中国工商银行" value="中国工商银行"></el-option>
+                            <el-option label="中国人民银行" value="中国人民银行"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*开户银行账号" prop="URATIO">
+                        <el-input v-model="form.uabanknumber" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*单位缴存比例" prop="PRATIO">
+                        <el-input v-model="form.udepositratio" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*个人汇缴比例" prop="SBANK">
+                        <el-input v-model="form.upersonratio" style="width: 200px;"></el-input>
+                    </el-form-item>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*受托银行名称" prop="URATIO">
+                        <el-select v-model="form.styh" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="中国银行" value="中国银行"></el-option>
+                            <el-option label="中国邮政" value="中国邮政"></el-option>
+                            <el-option label="中国建设银行" value="中国建设银行"></el-option>
+                            <el-option label="中国农业银行" value="中国农业银行"></el-option>
+                            <el-option label="中国工商银行" value="中国工商银行"></el-option>
+                            <el-option label="中国人民银行" value="中国人民银行"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*账号开户状态" prop="PRATIO">
+                        <el-select v-model="form.uastate" style="width: 200px;">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="正常" value="正常"></el-option>
+                            <el-option label="冻结" value="冻结"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="*单位开户日期" prop="SBANK">
+                        <div class="block" style="width: 200px;">
+                            <el-date-picker
+                                    v-model="form.khrq"
+                                    type="date"
+                                    placeholder="选择日期">
+                                    <!--:picker-options="pickerOptions0"-->
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+            <div class="grid-content bg-purple">
+                <el-form-item label="*上传单位执照" prop="yyzz">
+                    <el-input v-model="form.yyzz" style="width: 200px;"></el-input>
+                </el-form-item>
+            </div>
+        </el-col>
+        </el-row>
+        <el-form-item>
+            <el-button type="primary" @click.native="addClick">保存</el-button>
+            <el-button type="primary" @click="resetForm('form')">重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '单位开户',
+        }
+
+    });
+    var vm = new Vue({
+        el : "#app1",
+        data : {
+            form:{
+                uname:"",
+                uaddress:"",
+                ulegalperson:"",
+                ulegaltype:"",
+                ulegalcard:"",
+                upaydate:"",
+                uoperator:"",
+                uopiphone:"",
+                jbrzjlx:"",
+                jbrzjhm:"",
+                unitbegindate:"",
+                unetworkcode:"",
+                gslx:"",
+                sshy:"",
+                lsgx:"",
+                jjlx:"",
+                ywblr:"",
+                uabankname:"",
+                uabanknumber:"",
+                udepositratio:"",
+                upersonratio:"",
+                styh:"",
+                uastate:"",
+                yyzz:"",
+                khrq:''
+            },
+            rules:{
+                named :[{required: true, message: '请输入', trigger: 'blur'}],
+                sex :[{required: true, message: '请输入', trigger: 'blur'}]
+            },
+            pickerOptions0:{
+                disabledDate(time) {
+                    return time.getTime() > Date.now() - 8.64e7;
+                }
+            }
+        },
+
+
+        methods: {
+            //表格重新加载数据
+            loadingData:function() {
+                var self = this
+                var adds = this.form={
+                    uname:"",
+                    uaddress:"",
+                    ulegalperson:"",
+                    ulegaltype:"",
+                    ulegalcard:"",
+                    upaydate:"",
+                    uoperator:"",
+                    uopiphone:"",
+                    jbrzjlx:"",
+                    jbrzjhm:"",
+                    unitbegindate:"",
+                    unetworkcode:"",
+                    gslx:"",
+                    sshy:"",
+                    lsgx:"",
+                    jjlx:"",
+                    ywblr:"",
+                    uabankname:"",
+                    uabanknumber:"",
+                    udepositratio:"",
+                    upersonratio:"",
+                    styh:"",
+                    uastate:"",
+                    yyzz:"",
+                    khrq:''
+                }
+            },
+            addClick: function () {
+                var self = this;
+                var formData =this.form;
+                alert(formData.unitbegindate);
+                alert(formData.khrq);
+                axios.post('/af/unit/add',formData).then(function(response){
+                    if(response.data!=""){
+                        self.$message({
+                            message: '操作成功',
+                            type: 'success'
+                        });
+                        self.loadingData();
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
