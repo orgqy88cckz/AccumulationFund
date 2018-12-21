@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>人员转移</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!--&lt;!&ndash; 引入样式 &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!--&lt;!&ndash; 引入组件库 &ndash;&gt;-->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script src="../js/elementui.js"></script>
+    <link rel="stylesheet" href="../css/elementui.css">
+    <style type="text/css">
+        #tableView{margin-left: 155px;float: left;}
+    </style>
+</head>
+<body>
+<!-- -------------------------------------全体人员-------------------------------------------------------------------------------------------------->
+<div id="tableView">
+    <h2>{{ message }}</h2>
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+            <el-form-item label="证件号">
+                <el-input v-model="searchForm.id" placeholder="证件号"></el-input>
+            </el-form-item>
+            <el-form-item label="用户名">
+                <el-input v-model="searchForm.name" placeholder="用户名"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
+                <el-button type="success" icon="plus" @click="toFlush">搜索框刷新</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row >
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PNAME"
+                    label="姓名"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_IDNUMBER"
+                    label="证件号"
+                    width="150">
+            </el-table-column>
+
+            <el-table-column
+                    prop="DALANCE"
+                    label="个人账号余额"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="PERACCSTATE"
+                    label="账号状态"
+                    width="60">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template scope="scope">
+                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">转移</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[3,10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+    <!--编辑界面    ----可以分为两个，更新删除的编辑界面------>
+    <el-dialog title="待转移人员" :visible.sync="editFormVisible" :close-on-click-modal="false">
+        <el-form :model="editForm" label-width="80px" ref="editForm">
+            <el-form-item  label="转出单位名称">
+                <el-input v-model="editForm.UNAME" auto-complete="off" disabled></el-input><!--UNAME-->
+                <el-input type="hidden" v-model="editForm.TB_IDNUMBER" auto-complete="off" disabled></el-input><!--身份证号-->
+            </el-form-item>
+            <el-form-item label="转出受托银行名称">
+                <el-input v-model="editForm.STYH" auto-complete="off" disabled></el-input>
+
+                <el-input type="hidden" v-model="editForm.GRZH" auto-complete="off" disabled></el-input><!--身份证号-->
+            </el-form-item>
+            <!--<el-form-item label="转入单位名称">-->
+                <!--<el-input v-model="editForm.RUNAME" auto-complete="off"></el-input>-->
+                <el-form-item label="转入单位名称">
+                    <template>
+                        <el-select v-model="editForm.RUNAME" @change="selectUitl" placeholder="请选择">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.ID"
+                                    :label="item.UNAME"
+                                    :value="item.ID">
+                            </el-option>
+                        </el-select>
+                    </template>
+                    <el-input type="hidden" v-model="editForm.BASENUMMBER" auto-complete="off" disabled></el-input><!--身份证号-->
+                </el-form-item>
+            <!--</el-form-item>-->
+            <el-form-item label="转入受托银行名称">
+                <el-input v-model="editForm.R" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="editForm.DALANCE" auto-complete="off" disabled></el-input><!--身份证号-->
+            </el-form-item>
+            <el-form-item label="会计凭证日期">
+                <el-date-picker type="date" :picker-options="pickerOptions"  value-format="yyyy-MM-dd" placeholder="选择日期" v-model="editForm.SUBMIT_TIME" disabled></el-date-picker>
+                <el-input type="hidden" v-model="editForm.PERACCSTATE" auto-complete="off" disabled></el-input><!--身份证号-->
+            </el-form-item>
+            <el-form-item label="转移原因">
+                <el-input v-model="editForm.TRANSFER_REASON" auto-complete="off"></el-input>
+                <el-input type="hidden" v-model="editForm.TB_PNAME" auto-complete="off" disabled></el-input><!--身份证号-->
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="editFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+        </div>
+    </el-dialog>
+    <!-- -------------------------------------待转移人员--x------------------------------------------------------------------------------------------------>
+    <h2>{{ message2 }}</h2>
+    <!--列表顶部搜索和工具条-->
+    <el-row class="b">
+        <el-form :inline="true" :model="searchForm2" class="demo-form-inline">
+            <el-form-item label="证件号">
+                <el-input v-model="searchForm2.id" placeholder="证件号"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="searchClick2">查询</el-button>
+                <el-button type="success" icon="plus" @click="toFlush2">搜索框刷新</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData2"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    prop="PNAME"
+                    label="姓名"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="IDNUMBER"
+                    label="证件号"
+                    width="150">
+            </el-table-column>
+
+            <el-table-column
+                    prop="BALANCE"
+                    label="个人账号余额"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="STATE"
+                    label="账号状态"
+                    width="60">
+            </el-table-column>
+        </el-table>
+    </el-row>
+
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange2"
+                    @current-change="currentPageChange2"
+                    :current-page="currentPage2"
+                    :page-sizes="[3,10, 20, 30, 50]"
+                    :page-size="pageSize2"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total2">
+            </el-pagination>
+        </el-col>
+    </el-row>
+</div>
+<!-- -------------------------------------待转移人员--x------------------------------------------------------------------------------------------------>
+<script type="text/javascript">
+    var tableView = new Vue({
+        el: '#tableView',
+        data: {
+            message: '全部人员列表',
+            message2: '待转移人员列表',
+            //部门select
+            options:[],
+            //列表数据
+            tableData: [],
+            tableData2: [],
+            //显示加载中样式
+            loading:false,
+            //搜索表单
+            searchForm: {
+                id: '',
+                name: ''
+            },
+            searchForm2: {
+                id: ''
+            },
+            //多选值
+            multipleSelection: [],
+            //当前页
+            currentPage:1,
+            //分页大小
+            pageSize:3,
+            //总记录数
+            total:800,
+            //当前页2
+            currentPage2:1,
+            //分页大小2
+            pageSize2:3,
+            //总记录数2
+            total2:800,
+            //删除的弹出框
+            deleteVisible:false,
+            //编辑界面是否显示
+            editFormVisible: false,
+            editLoading: false,
+            goUrl:'',
+            //编辑界面数据
+            editForm: {
+                TB_IDNUMBER:'',
+                GRZH:0,
+                TB_PNAME:'',
+                BASENUMMBER:0,
+                DALANCE:0,
+                PERACCSTATE:'',
+                UNAME: '',
+                STYH: '',
+                RUNAME: '',
+                R: '',
+                SUBMIT_TIME: '',
+                TRANSFER_REASON: ''
+            },
+            pickerOptions: {}
+
+        },
+        created:function(){
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            var start =(this.currentPage-1)*this.pageSize;
+            var end =this.currentPage*this.pageSize+1;
+            axios.post('/af/userTransfer/page',{'start':start,'end':end}).then(function(response){
+                self.total=response.data.total;
+                self.tableData = response.data.pageData;
+            });
+            //初始化时，查询下拉框动态
+            axios.post('/af/userTransfer/select').then(function(response){
+                self.options = response.data;
+            });
+            //待转移人员预加载
+            axios.post('/af/userTransfer/page2', {'start': start, 'end': end}).then(function (response) {
+                self.total2 = response.data.total;
+                self.tableData2 = response.data.pageData;
+            });
+        },
+        /*************************************************************/
+        methods:{
+            //刷新
+            toFlush:function(){
+                this.searchForm= {
+                    id: '',
+                    name: ''
+                };
+                this.loadingData();
+            },
+            selectUitl:function (data) {
+                var _self = this;
+                var gourl='/af/userTransfer/Trustee/'+data;
+                axios.post(gourl).then(function(response){
+                    //把获取的受托银行绑定到editForm.R里面
+                    _self.editForm.R = response.data.STYH;
+                });
+            },
+            //表格重新加载数据
+            loadingData:function() {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start =(this.currentPage-1)*this.pageSize;
+                var end =this.currentPage*this.pageSize+1;
+                var searchForm={'start':start,'end':end,'tb_idnumber':this.searchForm.id,'tb_pname':this.searchForm.name};
+                axios.post('/af/userTransfer/page',searchForm).then(function(response){
+                    _self.total=response.data.total;
+                    _self.tableData = response.data.pageData;
+                });
+                console.log(_self.currentPage);
+                setTimeout(function(){
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                },300);
+            },
+            //表格查询事件
+            searchClick:function() {
+                var self = this;
+                self.loadingData();//重新加载数据
+            },
+            //分页大小修改事件
+            pageSizeChange:function(val) {
+                console.log('每页 ' + val +' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange:function(val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //表格勾选事件
+            selectionChange:function(val) {
+                this.multipleSelection = val;
+                console.info(val);
+            },
+            //表格编辑事件
+            editClick:function(row) {
+                //清空原有数据
+                this. editForm={
+                    TB_IDNUMBER:'',
+                    GRZH:0,
+                    TB_PNAME:'',
+                    BASENUMMBER:0,
+                    DALANCE:0,
+                    PERACCSTATE:'',
+                    UNAME: '',
+                    STYH: '',
+                    RUNAME: '',
+                    R: '',
+                    SUBMIT_TIME: '',
+                    TRANSFER_REASON: ''
+                }
+               // alert(JSON.stringify(row));
+                        this.goUrl="/af/userTransfer/transfer/"+row.TB_PNAME;
+                        this.editFormVisible = true;
+                        var gourl=this.goUrl;
+                        var self = this;
+                //获得当前时间，即只能是今天的时间
+                        var date = new Date();
+                        var seperator1 = "-";
+                        var year = date.getFullYear();
+                        var month = date.getMonth() + 1;
+                        var strDate = date.getDate();
+                        if (month >= 1 && month <= 9) {
+                            month = "0" + month;
+                        }
+                        if (strDate >= 0 && strDate <= 9) {
+                            strDate = "0" + strDate;
+                        }
+                        var currentdate = year + seperator1 + month + seperator1 + strDate;
+                   //获得当前时间结束
+                       // var tb_id=row.TB_PID;//表中已存在********************先不采用
+                        var tb_idnumber=row.TB_IDNUMBER;//表中已存在
+                        var GRZH=row.GRZH;//表中已存在，个人账号
+                        var TB_PNAME=row.TB_PNAME;//表中已存在
+                       // var BASENUMMBER=row.BASENUMMBER;
+                        var DALANCE=row.DALANCE;//表中已存在，个人公积金余额
+                        var PERACCSTATE=row.PERACCSTATE;//表中已存在，个人账号状态PERACCSTATE
+                        axios.get(gourl).then(function (response) {
+                            /****                         **/
+                            self.editForm.TB_IDNUMBER= tb_idnumber;
+                            self.editForm.GRZH= GRZH;
+                            self.editForm.TB_PNAME= TB_PNAME;
+                            self.editForm.DALANCE= DALANCE;
+                            self.editForm.PERACCSTATE= PERACCSTATE;
+                            //self.editForm.BASENUMMBER= BASENUMMBER;
+                            self.editForm.BASENUMMBER=response.data.BASENUMMBER;
+                            self.editForm.UNAME= response.data.UNAME;
+                            self.editForm.STYH=response.data.STYH;
+                            self.editForm.SUBMIT_TIME=currentdate;
+                       //     alert(JSON.stringify(response.data));
+                });
+            },
+            //保存点击事件----提交审核
+            editSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.editForm;
+                //这里可以添加验证？不能重复提交申请
+              //  alert(JSON.stringify(this.editForm.TB_IDNUMBER));
+                var url="/af/userTransfer/submitVerify/"+this.editForm.TB_IDNUMBER;
+                var goUrl="/af/userTransfer/submit";
+                axios.post(url).then(function(response){
+//                    alert(JSON.stringify(response.data));
+//                    alert(response.data.r)
+                    if(response.data.r==1){//如果查询到该人员在待转移审核表里，不可以申请
+                        _self.$message({
+                            message:'请勿重复操作',
+                            type: 'error'
+                        });
+                        _self.editFormVisible = false;
+                        _self.loadingData();//重新加载数据
+                        _self.loadingData2();//重新加载待转移人员
+                    }else{
+                        axios.post(goUrl,formData).then(function(response){
+                            if(response.data>0){
+                                _self.editFormVisible = false;
+                            }else{
+                                _self.$message({
+                                    message:'操作失败',
+                                    type: 'error'
+                                });
+                            }
+                            _self.loadingData();//重新加载数据
+                            _self.loadingData2();//重新加载待转移人员
+                        });
+                    }
+                });
+                this.loadingData2();//重新加载待转移人员
+                console.info(this.editForm);
+            },
+            /*******************待转移人员******************************************************************************************************************************************/
+            //刷新
+            toFlush2: function () {
+                this.searchForm2 = {
+                    id: ''
+                };
+                this.loadingData2();
+            },
+            //表格重新加载数据
+            loadingData2: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.currentPage2 - 1) * this.pageSize2;
+                var end = this.currentPage2 * this.pageSize2 + 1;
+                var searchForm2 = {
+                    'start': start,
+                    'end': end,
+                    'idnumber': this.searchForm2.id
+                };
+                axios.post('/af/userTransfer/page2', searchForm2).then(function (response) {
+                    _self.total2 = response.data.total;
+                    _self.tableData2 = response.data.pageData;
+                });
+                console.log(_self.currentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+            //表格查询事件
+            searchClick2: function () {
+                var self = this;
+                self.loadingData2();//重新加载数据
+            },
+            //分页大小修改事件
+            pageSizeChange2: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.pageSize2 = val;
+                var _self = this;
+                _self.loadingData2();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange2: function (val) {
+                this.currentPage2 = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData2();//重新加载数据
+            }
+        }
+    });
+</script>
+</body>
+</html>
