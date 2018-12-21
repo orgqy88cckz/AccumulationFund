@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>公积金提取审核</title>
+    <title>公积金约定提取审核</title>
     <!-- 引入样式 -->
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.min.js"></script>
@@ -24,14 +24,13 @@
     <!--列表顶部搜索和工具条-->
     <el-row>
         <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-            <el-form-item label="单位名称">
-                <el-input v-model="searchForm.UNAME" placeholder="单位名称"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <template>
-                    <el-radio v-model="searchForm.radio" label="部分提取">部分提取</el-radio>
-                    <el-radio v-model="searchForm.radio" label="销户提取">销户提取</el-radio>
-                </template>
+            <el-form-item label="审批状态">
+                <el-select v-model="searchForm.SHZT">
+                    <el-option value="">全状态</el-option>
+                    <el-option value="1">待审批</el-option>
+                    <el-option value="2">审批通过</el-option>
+                    <el-option value="3">审批驳回</el-option>
+                </el-select>
             </el-form-item>
             <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
         </el-form-item>
@@ -45,72 +44,79 @@
                 border
                 style="width: 100%">
             <el-table-column
-                    prop="BFTAKE_ID"
+                    prop="AID"
                     v-if='show'
                     label="提取编号"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="COMP_NAME"
-                    label="单位名称"
+                    prop="PNAME"
+                    label="提取人员姓名"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="APPL_NAME"
-                    label="职工姓名"
+                    prop="PIPHONE"
+                    label="手机号"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="APPL_BANK_ACCOUNT"
-                    label="职工账户"
+                    prop="PCNUMBER"
+                    label="身份证号"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="EXTRACT_MONEY"
-                    label="申请提取金额"
+                    prop="GRZH"
+                    label="个人账号"
                     align="center"
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="APPLICATION_WAY"
-                    label="提取方式"
+                    prop="HKJE"
+                    label="每月还贷额"
+                    align="center"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="DKLX"
+                    label="贷款类型"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="APPLICATION_TYPE"
-                    label="提取类型"
+                    prop="YDQS"
+                    label="约定期数"
+                    align="center"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="YDRQ"
+                    label="约定提取日期"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="EXTRACT_REASON"
-                    label="提取原因"
-                    align="center"
-                    width="300">
-            </el-table-column>
-            <el-table-column
-                    prop="TIME"
+                    prop="SHIJIAN"
                     label="申请时间"
                     align="center"
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="APPL_STATE"
-                    label="申请状态"
+                    prop="SHZT"
+                    label="审核状态"
                     :formatter="formatterColumn"
                     align="center"
-                    width="100">
+                    width="200">
             </el-table-column>
             <el-table-column
                     align="center"
                     label="操作">
                 <template scope="scope">
-                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">审核</el-button>
+                    <el-button type="success" size="small" @click.native="clickPass(scope.row)">通过</el-button>
+                    <el-button type="danger" size="small" @click.native="clickReject(scope.row)">驳回</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -133,7 +139,7 @@
     </el-row>
 
     <!--编辑界面-->
-    <el-dialog title="提取审核" :visible.sync="editFormVisible" :close-on-click-modal="false" style="margin-bottom: 20px;" width="1200px" >
+   <!-- <el-dialog title="提取审核" :visible.sync="editFormVisible" :close-on-click-modal="false" style="margin-bottom: 20px;" width="1200px" >
             <el-form  :model="editForm" ref="editForm" label-width="120px" size="middle">
                     <el-row :gutter="20">
                         <el-col :span="7"><div class="grid-content bg-purple">
@@ -250,35 +256,11 @@
                     </div></el-col>
                 </el-row>
             </el-form>
-        <!--<h5>个人信息</h5>
-        <el-form-item label="个人账户" prop="GRZH">
-            <el-input v-model="editForm.GRZH" auto-complete="off"></el-input>
-        </el-form-item>
-         <el-form-item label="性别">
-             <el-radio-group v-model="editForm.sex">
-                 <el-radio class="radio" :label="1">男</el-radio>
-                 <el-radio class="radio" :label="0">女</el-radio>
-             </el-radio-group>  EMPNO: 0,
-             ENAME: '',
-             JOB: '',
-             SAL: 0,
-             HIREDATE: ''
-         </el-form-item>
-        <el-form-item label="姓名">
-            <el-input-number v-model="editForm.SAL" :min="0" :max="20000"></el-input-number>
-        </el-form-item>
-        <el-form-item label="雇佣日期">
-            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="editForm.HIREDATE"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="职位">
-            <el-input type="textarea" v-model="editForm.JOB"></el-input>
-        </el-form-item>
-    </el-form>-->
         <div slot="footer" class="dialog-footer">
             <el-button type="success" @click.native="editPass" :loading="editLoading">通过</el-button>
-            <el-button type="danger" @click.native="editReject" :loading="editLoading">驳回</el-button>
+            <el-button type="error" @click.native="editReject" :loading="editLoading">驳回</el-button>
         </div>
-    </el-dialog>
+    </el-dialog>-->
 </div>
 
 
@@ -286,7 +268,7 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: '公积金提取审核'
+            message: '公积金约定提取审核'
         }
     });
 
@@ -300,8 +282,7 @@
             loading:false,
             //搜索表单
             searchForm: {
-                UNAME: '',
-                radio:'部分提取'
+               SHZT:''
             },
             //多选值
             multipleSelection: [],
@@ -319,39 +300,37 @@
             goUrl:'',
 
             //编辑界面数据
-             editForm: {
-                 BFTAKE_ID: '',
-                 EXTRACT_MONEY:'',
-                 APPL_BANK_NAME: '',
-                 APPL_NAME: '',
-                 APPL_BANK_ACCOUNT: '',
-                 BAILOR_NAME: '',
-                 APPLICATION_WAY: '',
-                 BILOR_IDNUM: '',
-                 IDNUM_TYPE: '',
-                 APPLICATION_TYPE: '',
-                 APPL_STATE: '',
-                 COMP_NAME: '',
-                 TIME: '',
-                 ALLOW_MONEY: '',
-            },
+            /* editForm: {
+                 AID: '',
+                 PNAME:'',
+                 PIPHONE: '',
+                 PCNUMBER: '',
+                 GRZH: '',
+                 HKJE: '',
+                 DKLX: '',
+                 YDQS: '',
+                 YDRQ: '',
+                 SHIJIAN: '',
+                 SHZT: '',
+            },*/
         },
         created:function(){
             //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
             var self = this;
             var start =(this.currentPage-1)*this.pageSize;
             var end =this.currentPage*this.pageSize+1;
-            axios.post('/af/fundTake/selectFundCheck',{'start':start,'end':end}).then(function(response){
+            axios.post('/af/fundTake/selectAppointCheck',{'start':start,'end':end}).then(function(response){
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+               // alert(JSON.stringify(response.data.total));
+               // alert(JSON.stringify(response.data.pageData));
             })
 
         },
         methods:{
             //状态改成汉字
             formatterColumn(row) {
-                switch(row.APPL_STATE){
+                switch(row.SHZT){
                     case 1:
                         return '待审批';
                         break;
@@ -368,14 +347,6 @@
                         return '未知';
                 }
             },
-            next() {
-                if (this.active++> 1) this.active = 0;
-            },
-            prev() {
-                --this.active;
-                if (this.active< 0) this.active = 0;
-            },
-
             //表格重新加载数据
             loadingData:function() {
                 var _self = this;
@@ -384,8 +355,8 @@
                 var start =(this.currentPage-1)*this.pageSize;
                 var end =this.currentPage*this.pageSize+1;
                 //alert(this.searchForm.radio);
-                var searchForm={'start':start,'end':end,'COMP_NAME':this.searchForm.UNAME,'radio':this.searchForm.radio};
-                axios.post('/af/fundTake/selectFundCheck',searchForm).then(function(response){
+                var searchForm={'start':start,'end':end,'SHZT':this.searchForm.SHZT};
+                axios.post('/af/fundTake/selectAppointCheck',searchForm).then(function(response){
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
                 })
@@ -395,17 +366,35 @@
                     _self.loading = false;
                 },300);
             },
-            //表格编辑事件
-            editClick:function(row) {
+            //提取申请通过事件
+            clickPass:function(row) {
                 var self=this;
-                //alert(row.APPL_STATE);
-                if(row.APPL_STATE==1){
+                if(row.SHZT==1){
                     this.goUrl="/af/fundTake/checkFundTake/"+row.BFTAKE_ID;
                     axios.post(this.goUrl).then(function (response) {
                     alert(JSON.stringify(response.data));
                     self.editForm= response.data;
                     self.editForm.IDNUM_TYPE='身份证';
                     self.editForm.APPL_STATE='待审批';
+                    })
+                    self.editFormVisible = true;
+                }else {
+                    self.$message({
+                        message:  '已审批不能重复操作',
+                        type: 'error'
+                    });
+                }
+            },
+            //提取申请驳回事件
+            clickReject:function(row) {
+                var self=this;
+                if(row.SHZT==1){
+                    this.goUrl="/af/fundTake/checkFundTake/"+row.BFTAKE_ID;
+                    axios.post(this.goUrl).then(function (response) {
+                        alert(JSON.stringify(response.data));
+                        self.editForm= response.data;
+                        self.editForm.IDNUM_TYPE='身份证';
+                        self.editForm.APPL_STATE='待审批';
                     })
                     self.editFormVisible = true;
                 }else {
@@ -433,46 +422,6 @@
                 console.log('当前页: ' + val);
                 var _self = this;
                 _self.loadingData();//重新加载数据
-            },
-            //提取审核通过
-            editPass:function(){
-                var _self = this;
-                _self.loading = true;
-                var formData =this.editForm;
-                alert(JSON.stringify(formData));
-                var url="/af/fundTake/takePass";
-                axios.post(url,formData).then(function(response){
-                    if(response.data>0){
-                        _self.editFormVisible = false;
-                    }else{
-                        _self.$message({
-                            message:  '操作失败',
-                            type: 'error'
-                        });
-                    }
-                    _self.loadingData();//重新加载数据
-                })
-                console.info(this.editForm);
-            },
-            //提取审核驳回
-            editReject:function(){
-                var _self = this;
-                _self.loading = true;
-                var formData =this.editForm;
-                alert(JSON.stringify(formData));
-                var url="/af/fundTake/takeReject";
-                axios.post(url,formData).then(function(response){
-                    if(response.data>0){
-                        _self.editFormVisible = false;
-                    }else{
-                        _self.$message({
-                            message:  '操作失败',
-                            type: 'error'
-                        });
-                    }
-                    _self.loadingData();//重新加载数据
-                })
-                console.info(this.editForm);
             }
         }
     })

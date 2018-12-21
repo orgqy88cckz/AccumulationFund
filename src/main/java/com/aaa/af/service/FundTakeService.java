@@ -57,4 +57,70 @@ public interface FundTakeService {
      * @return
      */
     int selectCheckCount(Map map);
+    /**
+     * 提取审核弹框查询
+     * @param id
+     * @return
+     */
+    Map checkFundTake(Integer id);
+
+    /**
+     * 提取审核通过
+     * @param map
+     * @return
+     */
+    int takePass(Map map);
+
+    /**
+     * 提取审核驳回
+     * @param map
+     * @return
+     */
+    int takeReject(Map map);
+
+    /**
+     * 查询公积金约定提取全部人员列表
+     * @param map
+     * @return
+     */
+    List<Map> selectFundAppoint(Map map);
+    /**
+     * 查询公积金约定提取总数量
+     * @param map
+     * @return
+     */
+    int selectAppointCount(Map map);
+
+    /**
+     * 约定提取弹出框数据
+     * @param GRZH
+     * @return
+     */
+    Map appointAppl(String GRZH);
+    /**
+     * 约定提取申请提交
+     * @param map
+     * @return
+     */
+    int appointSubmit(Map map);
+    /**
+     * 判断约定提取是否已经申请
+     * @param GRZH
+     * @return
+     */
+    int panduan(String GRZH);
+
+    /**
+     *查询约定审核列表
+     * @param map
+     * @return
+     */
+    List<Map> selectAppointCheck(Map map);
+
+    /**
+     *查询约定审核列表总数量
+     * @param map
+     * @return
+     */
+    int selectAppCheckCount(Map map);
 }

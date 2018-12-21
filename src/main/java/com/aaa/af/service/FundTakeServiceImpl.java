@@ -26,7 +26,7 @@ public class FundTakeServiceImpl implements FundTakeService{
 
     @Override
     public int takeSubmit(Map map) {
-        fundTakeDao.takeSubmitMoney(map);
+
         return fundTakeDao.takeSubmit(map);
     }
 
@@ -53,5 +53,55 @@ public class FundTakeServiceImpl implements FundTakeService{
     @Override
     public int selectCheckCount(Map map) {
         return fundTakeDao.selectCheckCount(map);
+    }
+
+    @Override
+    public Map checkFundTake(Integer id) {
+        return fundTakeDao.checkFundTake(id);
+    }
+
+    @Override
+    public int takePass(Map map) {
+        fundTakeDao.takeSubmitMoney(map);
+        return fundTakeDao.takePass(map);
+    }
+
+    @Override
+    public int takeReject(Map map) {
+        return fundTakeDao.takeReject(map);
+    }
+
+    @Override
+    public List<Map> selectFundAppoint(Map map) {
+        return fundTakeDao.selectFundAppoint(map);
+    }
+
+    @Override
+    public int selectAppointCount(Map map) {
+        return fundTakeDao.selectAppointCount(map);
+    }
+
+    @Override
+    public Map appointAppl(String GRZH) {
+        return fundTakeDao.appointAppl(GRZH);
+    }
+    @Override
+    public int appointSubmit(Map map) {
+        return fundTakeDao.appointSubmit(map);
+    }
+
+    @Override
+    public int panduan(String GRZH) {
+        return fundTakeDao.panduan(GRZH);
+    }
+
+    @Override
+    public List<Map> selectAppointCheck(Map map) {
+        return fundTakeDao.selectAppointCheck(map);
+    }
+
+    @Override
+    public  int selectAppCheckCount(Map map) {
+        return fundTakeDao.selectAppCheckCount(map);
     }
 }
