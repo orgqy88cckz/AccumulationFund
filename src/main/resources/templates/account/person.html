@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{ message }}</h2>
+</div>
+<div id="tableView">
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+            <el-form-item label="输入条件">
+                <el-input v-model="searchForm.REALNAME" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    v-if="show"
+                    prop="TB_PID"
+                    label="个人信息ID"
+                    width="200">
+            </el-table-column>
+            <el-table-column
+                    prop="PACCID"
+                    label="账号"
+                    width="200">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PNAME"
+                    label="员工姓名"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PSEX"
+                    label="性别"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PIPHONE"
+                    label="员工电话"
+                    width="355">
+            </el-table-column>
+            <el-table-column
+                    prop="UNAME"
+                    label="所在公司"
+                    width="355">
+            </el-table-column>
+            <el-table-column
+                    prop="UBITNROP"
+                    label="单位缴存比例"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="INDINROP"
+                    label="个人缴存比例"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PROFESSION"
+                    label="适用岗位"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="DALANCE"
+                    label="公积金余额"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="PERACCSTATE"
+                    label="账户状态"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_IDCARD"
+                    label="身份证"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_IDNUMBER"
+                    label="身份证号码"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_PEDUCATION"
+                    label="学历"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_PEMAIL"
+                    label="邮箱"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_PADDRESS"
+                    label="地址"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_PDATE"
+                    label="生日"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_PMARRIAGE"
+                    label="婚姻状况"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="BASENUMBER"
+                    label="缴存基数"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_BNAME"
+                    label="开户银行"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    v-if="show"
+                    prop="TB_ACCOUNT"
+                    label="银行账户"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template scope="scope">
+                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">编辑</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="6" >
+        </el-col>
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+    <!--编辑界面-->
+    <el-dialog title="个人详细信息" :visible.sync="editFormVisible" :close-on-click-modal="false">
+        <el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm">
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="账户:">
+                        <el-input v-model="editForm.PACCID" auto-complete="off" style="width:180px" :disabled="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="公司名称:">
+                        <el-input v-model="editForm.UNAME" style="width:180px" :disabled="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="职工姓名:">
+                        <el-input v-model="editForm.TB_PNAME" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="职工电话:">
+                        <el-input type="text" v-model="editForm.TB_PIPHONE" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="职工性别">
+                        <el-select style="width:180px" v-model="editForm.TB_PSEX" placeholder="请选择">
+                            <el-option label="男" value="男"></el-option>
+                            <el-option label="女" value="女"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="证件类型">
+                        <el-select style="width:180px" v-model="editForm.TB_IDCARD" placeholder="请选择">
+                            <el-option label="身份证" value="身份证"></el-option>
+                            <el-option label="户口本" value="户口本"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="证件号码:">
+                        <el-input type="text" v-model="editForm.TB_IDNUMBER" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="职工学历:">
+                        <el-select style="width:180px" v-model="editForm.TB_PEDUCATION" placeholder="请选择">
+                            <el-option label="小学" value="小学"></el-option>
+                            <el-option label="初中" value="初中"></el-option>
+                            <el-option label="高中" value="高中"></el-option>
+                            <el-option label="大专" value="大专"></el-option>
+                            <el-option label="本科" value="本科"></el-option>
+                            <el-option label="研究生" value="研究生"></el-option>
+                            <el-option label="硕士" value="硕士"></el-option>
+                            <el-option label="博士" value="博士"></el-option>
+                            <el-option label="博士后" value="博士后"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="职工职位:">
+                        <el-input type="text" v-model="editForm.TB_PROFESSION" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="单位比例:">
+                        <el-input type="text" v-model="editForm.UBITNROP" style="width:180px" :disabled="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="个人比例:">
+                        <el-input type="text" v-model="editForm.INDINROP" style="width:180px" :disabled="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="电子信箱:">
+                        <el-input type="text" v-model="editForm.TB_PEMAIL" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="家庭住址:">
+                        <el-input type="text" v-model="editForm.TB_PADDRESS" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="出生年月:">
+                        <el-date-picker style="width:180px" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="editForm.TB_PDATE"></el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="婚姻状态:">
+                        <el-select style="width:180px" v-model="editForm.TB_PMARRIAGE" placeholder="请选择">
+                            <el-option label="未婚" value="未婚"></el-option>
+                            <el-option label="已婚" value="已婚"></el-option>
+                            <el-option label="离异" value="离异"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="缴存基数:">
+                        <el-input type="text" v-model="editForm.BASENUMMBER" style="width:180px" :disabled="true"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="开户银行:">
+                        <el-select style="width:180px" v-model="editForm.TB_BNAME" placeholder="请选择">
+                            <el-option label="中国工商银行" value="中国工商银行"></el-option>
+                            <el-option label="中国银行" value="中国银行"></el-option>
+                            <el-option label="中国建设银行" value="中国建设银行"></el-option>
+                            <el-option label="中国农业银行" value="中国农业银行"></el-option>
+                            <el-option label="中国交通银行" value="中国交通银行"></el-option>
+                            <el-option label="中国邮政银行" value="中国邮政银行"></el-option>
+                            <el-option label="中国人民银行" value="中国人民银行"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="银行账户:">
+                        <el-input type="text" v-model="editForm.TB_ACCOUNT" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click.native="editSubmit" :loading="editLoading">确认更改</el-button>
+            <el-button type="success" @click.native="editFormVisible = false">取消</el-button>
+        </div>
+    </el-dialog>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '个人信息'
+        }
+    });
+    var tableView = new Vue({
+        el: '#tableView',
+        data: {
+            show:false,
+            //权限下拉菜单
+            options:[],
+            //列表数据
+            tableData: [],
+            //显示加载中样式
+            loading:false,
+            //搜索表单
+            searchForm: {
+                REALNAME: ''
+            },
+            //当前页
+            currentPage:1,
+            //分页大小
+            pageSize:10,
+            //总记录数
+            total:800,
+            //删除的弹出框
+            deleteVisible:false,
+            //编辑界面是否显示
+            editFormVisible: false,
+            editLoading: false,
+            goUrl:'',
+            editFormRules: {
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' }
+                ]
+            },
+            //编辑界面数据
+            editForm: {
+                TB_PID:'',
+                PACCID:'',
+                UNAME:'',
+                TB_PNAME: '',
+                TB_PIPHONE: '',
+                TB_PSEX: '',
+                TB_IDCARD:'',
+                TB_IDNUMBER:'',
+                TB_PEDUCATION:'',
+                TB_PROFESSION:'',
+                UBITNROP:'',
+                INDINROP:'',
+                TB_PEMAIL:'',
+                TB_PADDRESS:'',
+                TB_PDATE:'',
+                TB_PMARRIAGE:'',
+                BASENUMMBER:'',
+                TB_BNAME:'',
+                TB_ACCOUNT:''
+            },
+        },
+        created:function(){
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            var start =(this.currentPage-1)*this.pageSize;
+            var end =this.currentPage*this.pageSize+1;
+            axios.post('/af/account/getPerson',{'start':start,'end':end}).then(function(response){
+                self.total=response.data.total;
+                self.tableData = response.data.pageData;
+            })
+        },
+        methods:{
+            //表格重新加载数据
+            loadingData:function() {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start =(this.currentPage-1)*this.pageSize;
+                var end =this.currentPage*this.pageSize+1;
+                var searchForm={'start':start,'end':end,'title':this.searchForm.REALNAME};
+                axios.post('/af/account/getPerson',searchForm).then(function(response){
+                    _self.total=response.data.total;
+                    _self.tableData = response.data.pageData;
+                })
+                console.log(_self.currentPage);
+                setTimeout(function(){
+                    _self.loading = false;
+                },300);
+            },
+            //表格编辑事件
+            editClick:function(row) {
+                this.goUrl="/af/account/update";
+                this.editFormVisible = true;
+                this.editForm = Object.assign({}, row);
+            },
+            //表格查询事件
+            searchClick:function() {
+                var self = this;
+                self.loadingData();//重新加载数据
+            },
+            //分页大小修改事件
+            pageSizeChange:function(val) {
+                console.log('每页 ' + val +' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange:function(val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //保存点击事件
+            editSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.editForm;
+                var goUrl=this.goUrl;
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.editFormVisible = false;
+                        _self.loadingData();//重新加载数据
+                    }else{
+                        _self.$message({
+                            message:'失败',
+                            type:'error'
+                        })
+                    }
+                    _self.editFormVisible = false;
+                    _self.loadingData();
+                })
+                console.info(this.editForm);
+            }
+        }
+    })
+</script>
+</body>
+</html>

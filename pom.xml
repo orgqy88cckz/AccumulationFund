@@ -97,6 +97,12 @@
       <artifactId>shiro-spring</artifactId>
       <version>1.4.0</version>
     </dependency>
+    <!--FTP依赖包-->
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.3</version>
+    </dependency>
   </dependencies>
 
   <build>
