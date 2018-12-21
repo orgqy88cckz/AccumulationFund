@@ -310,7 +310,7 @@
             //搜索表单
             searchForm: {
                 STATUS: '',
-                TB_PNAME: ''
+                APPL_NAME: ''
             },
             //多选值
             multipleSelection: [],
@@ -393,29 +393,36 @@
             //表格编辑事件
             editClick:function(row) {
                 var self=this;
-                var url="/af/fundTake/applitation/"+row.GRZH;
-                axios.post(url).then(function (response) {
-                    //alert(response.data);
-                    if(response.data==0){
-                        //alert(11111111)
-                        this.active=1;
-                        //alert(row.STATUS);
-                        //alert(row.PID);
-                        this.goUrl="/af/fundTake/selectFormInfo/"+row.PID;
-                        axios.post(this.goUrl).then(function (response) {
-                            //alert(JSON.stringify(response.data));
-                            self.editForm= response.data;
-                        })
-                        self.editFormVisible = true;
-                        //this.editForm = Object.assign({}, row);
-                    }else{
-                        //alert(2222222)
-                        self.$message({
-                            message:  '已经提交申请不能重复提交!!!',
-                            type: 'error'
-                        });
-                    }
-                })
+                if(row.PERACCSTATE=='正常'){
+                    var url="/af/fundTake/applitation/"+row.GRZH;
+                    axios.post(url).then(function (response) {
+                        //alert(response.data);
+                        if(response.data==0){
+                            //alert(11111111)
+                            this.active=1;
+                            //alert(row.STATUS);
+                            //alert(row.PID);
+                            this.goUrl="/af/fundTake/selectFormInfo/"+row.PID;
+                            axios.post(this.goUrl).then(function (response) {
+                                //alert(JSON.stringify(response.data));
+                                self.editForm= response.data;
+                            })
+                            self.editFormVisible = true;
+                            //this.editForm = Object.assign({}, row);
+                        }else{
+                            //alert(2222222)
+                            self.$message({
+                                message:  '已经提交申请不能重复提交!!!',
+                                type: 'error'
+                            });
+                        }
+                    })
+                }else{
+                    self.$message({
+                        message:  '用户状态异常不能申请提取!!!',
+                        type: 'error'
+                    });
+                }
                /* this.active=1;
                 //alert(row.STATUS);
                 var self=this;

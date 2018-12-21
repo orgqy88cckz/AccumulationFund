@@ -97,9 +97,123 @@ public class FundTakeController {
     @ResponseBody
     @RequestMapping("selectFundCheck")
     public Object selectFundCheck(@RequestBody Map map){
+        System.out.println(map+"6666666666666666666666666666666666666666666");
         Map resultMap=new HashMap();
         resultMap.put("pageData",fundTakeService.selectFundCheck(map));
         resultMap.put("total",fundTakeService.selectCheckCount(map));
         return resultMap;
     }
+
+    /**
+     * 提取审核弹框查询
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("checkFundTake/{BFTAKE_ID}")
+    public Object checkFundTake(@PathVariable("BFTAKE_ID") Integer id){
+        return fundTakeService.checkFundTake(id);
+    }
+
+    /**
+     * 提取审核通过
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("takePass")
+    public Object takePass(@RequestBody Map map){
+        return fundTakeService.takePass(map);
+    }
+
+    /**
+     * 提取审核通过
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("takeReject")
+    public Object takeReject(@RequestBody Map map){
+        return fundTakeService.takeReject(map);
+    }
+
+    /**
+     * 约定提取列表
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("selectFundAppoint")
+    public Object selectFundAppoint(@RequestBody Map map){
+        Map resultMap=new HashMap();
+        resultMap.put("pageData",fundTakeService.selectFundAppoint(map));
+        resultMap.put("total",fundTakeService.selectAppointCount(map));
+        return resultMap;
+    }
+
+    /**
+     * -----跳转到约定提取列表
+     * @return
+     */
+    @RequestMapping("toSelectFundAppoint")
+    public String toSelectFundAppoint(){
+        return "fundTakeOut/fundAppoint";
+    }
+
+    /**
+     * 约定提取弹出框数据
+     * @param GRZH
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("appointAppl/{GRZH}")
+    public Object appointAppl(@PathVariable("GRZH") String GRZH){
+        return fundTakeService.appointAppl(GRZH);
+    }
+
+    /**
+     * 约定提取申请提交
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("appointSubmit")
+    public Object appointSubmit(@RequestBody Map map){
+        return fundTakeService.appointSubmit(map);
+    }
+
+    /**
+     * 判断约定提取是否已经申请
+     * @param GRZH
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("panduan/{GRZH}")
+    public Object panduan(@PathVariable("GRZH") String GRZH){
+        return  fundTakeService.panduan(GRZH);
+    }
+
+    /**
+     * 查询约定审核列表
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("selectAppointCheck")
+    public Object selectAppointCheck(@RequestBody Map map){
+        Map resultMap=new HashMap();
+        resultMap.put("pageData",fundTakeService.selectAppointCheck(map));
+        resultMap.put("total",fundTakeService.selectAppCheckCount(map));
+        return resultMap;
+    }
+
+    /**
+     * -----跳转到约定提取审核列表
+     * @return
+     */
+    @RequestMapping("toSelectAppointCheck")
+    public String toSelectAppointCheck(){
+        return "fundTakeOut/fundAppointCheck";
+    }
+
 }
