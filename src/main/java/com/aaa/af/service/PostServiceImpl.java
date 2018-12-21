@@ -21,7 +21,6 @@ public class PostServiceImpl implements PostService {
     private PostDao postDao;
     @Override
     public Object getUsers(Map map) {
-        System.out.println(postDao.getUsers(map));
         Map resulMap=new HashMap();
         resulMap.put("pageData",postDao.getUsers(map));
         resulMap.put("total",postDao.getPageCount(map));
@@ -35,13 +34,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public int add(Map map) {
-        System.out.println(map);
         return postDao.add(map);
     }
 
     @Override
     public int delete(int id) {
-        System.out.println(id);
         return postDao.delete(id);
     }
 
