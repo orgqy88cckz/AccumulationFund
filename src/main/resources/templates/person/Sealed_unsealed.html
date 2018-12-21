@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封存&启封&销户</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../css/elementui.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!-- 引入组件库 -->
+    <script src="../js/elementui.js"></script>
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <style type="text/css">
+        #tableView{margin-left: 155px;float: left;}
+    </style>
+
+</head>
+<body>
+<div id="tableView">
+    <h2>{{ message }}</h2>
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+            <el-form-item label="姓名">
+                <el-input v-model="searchForm.id" placeholder="姓名"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
+                <el-button type="success" icon="plus" @click="toFlush">搜索框刷新</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    prop="GRZH"
+                    label="个人账号"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PNAME"
+                    label="姓名"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="UBITNROP"
+                    label="单位缴存比例(百分制)"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="INDINROP"
+                    label="个人缴存比例(百分制)"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="BASENUMMBER"
+                    label="缴存基数"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="DALANCE"
+                    label="个人公积金余额"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="PERACCSTATE"
+                    label="个人账户状态"
+                    width="60"  >
+            </el-table-column>
+            <el-table-column
+                    prop="LASTNAYDATE"
+                    label="最后汇缴月"
+                    width="60">
+            </el-table-column>
+            <el-table-column
+                    label="操作"
+                    width="160">
+                <template scope="scope">
+                    <el-button  v-if="scope.row.PERACCSTATE=='正常'" :plain="true" type="success" size="small" icon="edit" @click="fcClick(scope.row)">封存</el-button>
+                    <el-button  v-if="scope.row.PERACCSTATE=='封存'" :plain="true" type="success" size="small" icon="edit" @click="qfClick(scope.row)">启封</el-button>
+                    <el-button  v-if="scope.row.PERACCSTATE=='正常'" :plain="true" type="danger" size="small" icon="delete" @click="xhClick(scope.row)">销户</el-button>
+                    <el-button  v-if="scope.row.PERACCSTATE=='销户'" :plain="true" type="danger" size="small" icon="delete" >暂无</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+<!--*********************---------封存弹出层 --------------------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="封存申请" :visible.sync="FeditFormVisible" :close-on-click-modal="false">
+        <el-form :model="FeditForm" label-width="80px" ref="FeditForm">
+            <el-form-item label="单位名称">
+                <el-input v-model="FeditForm.UNAME" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="FeditForm.TB_PSEX" auto-complete="off" disabled></el-input><!--隐藏数据性别-->
+            </el-form-item>
+            <el-form-item label="单位账号">
+                <el-input v-model="FeditForm.DWZH" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="FeditForm.TB_PROFESSION" auto-complete="off" disabled></el-input><!--隐藏数据职位-->
+            </el-form-item>
+            <el-form-item label="人员姓名">
+                <el-input v-model="FeditForm.TB_PNAME" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="FeditForm.TB_PIPHONE" auto-complete="off" disabled></el-input><!--隐藏数据手机号-->
+            </el-form-item>
+            <el-form-item label="个人账户">
+                <el-input v-model="FeditForm.GRZH" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="FeditForm.TB_IDNUMBER" auto-complete="off" disabled></el-input><!--隐藏数据身份证-->
+            </el-form-item>
+            <el-form-item label="账户状态">
+                <el-input v-model="FeditForm.PERACCSTATE" auto-complete="off" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="封存理由">
+                <el-input v-model="FeditForm.REASON" auto-complete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="FeditFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="FeditSubmit" :loading="editLoading">提交</el-button>
+        </div>
+    </el-dialog>
+    <!--*********************-----销户弹出层---------------------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="销户申请" :visible.sync="XeditFormVisible" :close-on-click-modal="false">
+        <el-form :model="XeditForm" label-width="80px" ref="XeditForm">
+            <el-form-item label="单位名称">
+                <el-input v-model="XeditForm.UNAME" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="XeditForm.TB_PSEX" auto-complete="off" disabled></el-input><!--隐藏数据性别-->
+            </el-form-item>
+            <el-form-item label="单位账号">
+                <el-input v-model="XeditForm.DWZH" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="XeditForm.TB_PROFESSION" auto-complete="off" disabled></el-input><!--隐藏数据职位-->
+            </el-form-item>
+            <el-form-item label="人员姓名">
+                <el-input v-model="XeditForm.TB_PNAME" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="XeditForm.TB_PIPHONE" auto-complete="off" disabled></el-input><!--隐藏数据手机号-->
+            </el-form-item>
+            <el-form-item label="个人账户">
+                <el-input v-model="XeditForm.GRZH" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="XeditForm.TB_IDNUMBER" auto-complete="off" disabled></el-input><!--隐藏数据身份证-->
+            </el-form-item>
+            <el-form-item label="账户状态">
+                <el-input v-model="XeditForm.PERACCSTATE" auto-complete="off" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="封存理由">
+                <el-input v-model="XeditForm.REASON" auto-complete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="XeditFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="XeditSubmit" :loading="editLoading">提交</el-button>
+        </div>
+    </el-dialog>
+
+    <!--*********************------启封弹出层--------------------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="启封申请" :visible.sync="QeditFormVisible" :close-on-click-modal="false">
+        <el-form :model="QeditForm" label-width="80px" ref="QeditForm">
+            <el-form-item label="单位名称">
+                <el-input v-model="QeditForm.UNAME" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="QeditForm.TB_PSEX" auto-complete="off" disabled></el-input><!--隐藏数据性别-->
+            </el-form-item>
+            <el-form-item label="单位账号">
+                <el-input v-model="QeditForm.DWZH" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="QeditForm.TB_PROFESSION" auto-complete="off" disabled></el-input><!--隐藏数据职位-->
+            </el-form-item>
+            <el-form-item label="人员姓名">
+                <el-input v-model="QeditForm.TB_PNAME" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="QeditForm.TB_PIPHONE" auto-complete="off" disabled></el-input><!--隐藏数据手机号-->
+            </el-form-item>
+            <el-form-item label="个人账户">
+                <el-input v-model="QeditForm.GRZH" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="QeditForm.TB_IDNUMBER" auto-complete="off" disabled></el-input><!--隐藏数据身份证-->
+            </el-form-item>
+            <el-form-item label="账户状态">
+                <el-input v-model="QeditForm.PERACCSTATE" auto-complete="off" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="封存理由">
+                <el-input v-model="QeditForm.REASON" auto-complete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click.native="QeditFormVisible = false">取消</el-button>
+            <el-button type="primary" @click.native="QeditSubmit" :loading="editLoading">提交</el-button>
+        </div>
+    </el-dialog>
+    <!--*********************--------------------------------------------------------------------------------------------------------------*************************-->
+    <!--*********************--------------------------------------------------------------------------------------------------------------*************************-->
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+</div>
+<script>
+    var tableView=new Vue({
+        el: '#tableView',
+        data: {
+            show:false,
+            message: '封存&启封&销户',
+            //部门select
+            options: [],
+            //列表数据
+            tableData: [],
+            //显示加载中样式
+            loading: false,
+            //搜索表单
+            searchForm: {
+                id: ''
+            },
+            //多选值
+            multipleSelection: [],
+            //当前页
+            currentPage: 1,
+            //分页大小
+            pageSize: 10,
+            //总记录数
+            total: 800,
+            //删除的弹出框
+            deleteVisible: false,
+            //编辑界面是否显示
+            FeditFormVisible: false,
+            QeditFormVisible: false,
+            XeditFormVisible: false,
+            editLoading: false,
+            goUrl: '',
+            //编辑界面数据
+            FeditForm: {
+                UNAME:'',
+                DWZH:'',
+                TB_PNAME:'',
+                GRZH:'',
+                PERACCSTATE:'',
+                REASON: '',
+                TB_PSEX:'',
+                TB_PROFESSION:'',
+                TB_PIPHONE:'',
+                TB_IDNUMBER:''
+            },
+            //编辑界面数据
+            QeditForm: {
+                UNAME:'',
+                DWZH:'',
+                TB_PNAME:'',
+                GRZH:'',
+                PERACCSTATE:'',
+                REASON: '',
+                TB_PSEX:'',
+                TB_PROFESSION:'',
+                TB_PIPHONE:'',
+                TB_IDNUMBER:''
+            },
+            //编辑界面数据
+            XeditForm: {
+                UNAME:'',
+                DWZH:'',
+                TB_PNAME:'',
+                GRZH:'',
+                PERACCSTATE:'',
+                REASON: '',
+                TB_PSEX:'',
+                TB_PROFESSION:'',
+                TB_PIPHONE:'',
+                TB_IDNUMBER:''
+            },
+        },
+        created: function () {
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            var start = (this.currentPage - 1) * this.pageSize;
+            var end = this.currentPage * this.pageSize + 1;
+            axios.post('/af/merge/page', {'start': start, 'end': end}).then(function (response) {
+                self.total = response.data.total;
+                self.tableData = response.data.pageData;
+            });
+        },
+        methods: {
+            //刷新
+            toFlush: function () {
+                this.searchForm = {
+                    id: ''
+                };
+                this.loadingData();
+            },
+            //表格重新加载数据
+            loadingData: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.currentPage - 1) * this.pageSize;
+                var end = this.currentPage * this.pageSize + 1;
+                var searchForm = {
+                    'start': start,
+                    'end': end,
+                    'tb_pname': this.searchForm.id
+                };
+                axios.post('/af/merge/page', searchForm).then(function (response) {
+                    _self.total = response.data.total;
+                    _self.tableData = response.data.pageData;
+                });
+                console.log(_self.currentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+            //表格查询事件
+            searchClick: function () {
+                var self = this;
+                self.loadingData();//重新加载数据
+            },
+            //分页大小修改事件
+            pageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange: function (val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //表格勾选事件
+            selectionChange:function(val) {
+                this.multipleSelection = val;
+                console.info(val);
+            },
+//----------------------------------封存的编辑及保存------------------封存--------------------------------封存-----------------------------封存--------------------------------------------------------------------
+            //表格编辑事件
+            fcClick:function(row) {
+                var url="/af/merge/edit";
+                var _self=this;
+////在这里判断人员是否能进行操作，if--else 如果可以操作，就继续进行保存操作，如果不能，就关闭弹出框
+                    axios.post(url,row).then(function (response) {
+                        if(response.data.daikan==1){//如果查询到该人员在待转移审核表里，不可以申请
+                            _self.$message({
+                                message:'此人有带贷款信息,不能进行操作!',
+                                type: 'error'
+                            });
+                            _self.FeditFormVisible = false;
+                        }
+                        if(response.data.grzh==1){//判断按照GRZH查询封存 销户 启封审核表中是否已经提交申请 是否重复操作
+                            _self.$message({
+                                message:'请勿重复操作!',
+                                type: 'error'
+                            });
+                            _self.FeditFormVisible = false;
+                        }
+                        if(response.data.grzh!=1 && response.data.daikan!=1){
+                            _self.FeditFormVisible = true;
+                            _self.FeditForm = Object.assign({}, row);
+                        }
+                    });
+            },
+            //保存点击事件----提交审核
+            FeditSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.FeditForm;
+                var goUrl="/af/merge/submit";
+                this.FeditForm.PERACCSTATE='封存申请';
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.FeditFormVisible = false;
+                    }else{
+                        _self.$message({
+                            message:'操作失败',
+                            type: 'error'
+                        });
+                    }
+                    _self.loadingData();//重新加载数据
+                });
+                console.info(this.FeditForm);
+            },
+//----------------------------------启封的编辑及保存--------------------启封------------------启封----------------------启封-----------------------启封--------------------启封-------------------------------
+            //表格编辑事件
+            qfClick:function(row) {
+                var url="/af/merge/edit";
+                var _self=this;
+////在这里判断人员是否能进行操作，if--else 如果可以操作，就继续进行保存操作，如果不能，就关闭弹出框
+                axios.post(url,row).then(function (response) {
+//                    if(response.data.daikan==1){//如果查询到该人员在待转移审核表里，不可以申请
+//                        _self.$message({
+//                            message:'此人有带贷款信息,不能进行操作!',
+//                            type: 'error'
+//                        });
+//                        _self.QeditFormVisible = false;
+//                    }
+                    if(response.data.grzh==1){//判断按照GRZH查询封存 销户 启封 是否重复操作
+                        _self.$message({
+                            message:'请勿重复操作!',
+                            type: 'error'
+                        });
+                        _self.QeditFormVisible = false;
+                    }
+                    if(response.data.grzh!=1 && response.data.daikan!=1){
+                        _self.QeditFormVisible = true;
+                        _self.QeditForm = Object.assign({}, row);
+                    }
+                });
+            },
+            //保存点击事件----提交审核
+            QeditSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.QeditForm;
+                var goUrl="/af/merge/submit";
+                this.QeditForm.PERACCSTATE='启封申请';
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.QeditFormVisible = false;
+                    }else{
+                        _self.$message({
+                            message:'操作失败',
+                            type: 'error'
+                        });
+                    }
+                    _self.loadingData();//重新加载数据
+                });
+                console.info(this.QeditForm);
+            },
+//----------------------------------销户的编辑及保存-------销户--------------销户-------------销户-------------销户------------销户------------------销户----------------
+//表格编辑事件
+            xhClick:function(row) {
+                var url="/af/merge/edit";
+                var _self=this;
+////在这里判断人员是否能进行操作，if--else 如果可以操作，就继续进行保存操作，如果不能，就关闭弹出框
+                axios.post(url,row).then(function (response) {
+                    if(response.data.daikan==1){//如果查询到该人员在待转移审核表里，不可以申请
+                        _self.$message({
+                            message:'此人有带贷款信息,不能进行操作!',
+                            type: 'error'
+                        });
+                        _self.QeditFormVisible = false;
+                    }
+                    if(response.data.grzh==1){//判断按照GRZH查询封存 销户 启封 是否重复操作
+                        _self.$message({
+                            message:'请勿重复操作!',
+                            type: 'error'
+                        });
+                        _self.XeditFormVisible = false;
+                    }
+                    if(response.data.grzh!=1 && response.data.daikan!=1){
+                        _self.XeditFormVisible = true;
+                        _self.XeditForm = Object.assign({}, row);
+                    }
+                });
+            },
+            //保存点击事件----提交审核
+            XeditSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.XeditForm;
+                var goUrl="/af/merge/submit";
+                this.XeditForm.PERACCSTATE='销户申请';
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.XeditFormVisible = false;
+                    }else{
+                        _self.$message({
+                            message:'操作失败',
+                            type: 'error'
+                        });
+                    }
+                    _self.loadingData();//重新加载数据
+                });
+                console.info(this.XeditForm);
+            },
+        }
+    });
+</script>
+</body>
+</html>
