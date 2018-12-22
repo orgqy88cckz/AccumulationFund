@@ -216,4 +216,24 @@ public class FundTakeController {
         return "fundTakeOut/fundAppointCheck";
     }
 
+    /**
+     *约定审核通过事件
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("appointPass/{AID}")
+    public Object appointPass(@PathVariable("AID") Integer aid){
+        return fundTakeService.appointPass(aid);
+    }
+
+    /**
+     *约定审核驳回事件
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("appointReject/{AID}")
+    public Object appointReject(@PathVariable("AID") Integer aid){
+        return fundTakeService.appointReject(aid);
+    }
+
 }

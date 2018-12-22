@@ -205,9 +205,25 @@ public interface FundTakeDao {
      * @param map
      * @return
      */
-    @Select("<script>select count(*) from TB_APPOINT_CHECK  where SHZT=1 " +
+    @Select("<script>select count(*) from TB_APPOINT_CHECK " +
             "<where>" +
             "<if test=\"SHZT!=null and SHZT!=''\"> and SHZT=#{SHZT}</if>" +
             "</where></script>")
    int selectAppCheckCount(Map map);
+
+    /**
+     *约定审核通过事件
+     * @param aid
+     * @return
+     */
+    @Update("update TB_APPOINT_CHECK set SHZT=2 where aid=#{aid}")
+    int appointPass(Integer aid);
+
+    /**
+     *约定审核驳回事件
+     * @param aid
+     * @return
+     */
+    @Update("update TB_APPOINT_CHECK set SHZT=3 where aid=#{aid}")
+    int appointReject(Integer aid);
 }

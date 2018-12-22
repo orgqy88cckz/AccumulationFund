@@ -25,24 +25,24 @@
     </div>
     <!--11111111111111111111111111111111111111111111111111111-->
     <div id="form1" v-if="active==1">
-        <el-form  :model="form1" ref="form1" :rules="rules" label-width="150px" size="small">
+        <el-form  :model="form1" ref="form1" :rules="rules" label-width="160px" size="small">
                     <h4 style="padding-left: 85px;">个人信息</h4>
                         <el-row :gutter="20">
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item key="1" label="个人账号" prop="GRZH">
                                         <el-input  @blur="blurs()" v-model="form1.GRZH" style="width: 200px;"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*姓名">
                                         <el-input v-model="form1.TB_PNAME" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*性别">
                                         <el-input v-model="form1.TB_PSEX" style="width: 200px;"  :disabled="true"></el-input>
@@ -50,7 +50,7 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*手机号">
                                         <el-input v-model="form1.TB_PIPHONE" style="width: 200px;"  :disabled="true"></el-input>
@@ -59,28 +59,28 @@
                             </el-col>
                         </el-row>
                         <el-row :gutter="20">
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*证件类型">
                                         <el-input v-model="form1.TB_IDCARD" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*证件号码">
                                         <el-input v-model="form1.TB_IDNUMBER" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*婚姻状态">
                                         <el-input v-model="form1.TB_PMARRIAGE" style="width: 200px;"  :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*职业">
                                         <el-input v-model="form1.TB_PROFESSION" style="width: 200px;"  :disabled="true"></el-input>
@@ -89,24 +89,24 @@
                             </el-col>
                         </el-row>
                         <el-row :gutter="20">
-                            <el-col :span="4"><div class="grid-content bg-purple">
+                            <el-col :span="5"><div class="grid-content bg-purple">
                                 <el-form-item label="*学历">
                                     <el-input v-model="form1.TB_PEDUCATION" style="width: 200px;" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
-                            <el-col :span="4"><div class="grid-content bg-purple">
+                            <el-col :span="5"><div class="grid-content bg-purple">
                                 <el-form-item label="*邮箱">
                                     <el-input v-model="form1.TB_PEMAIL" style="width: 200px;" :disabled="true"></el-input>
                                 </el-form-item>
                             </div></el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*家庭地址">
                                         <el-input v-model="form1.TB_PADDRESS" style="width: 200px;" :disabled="true"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item label="*单位编号">
                                         <el-input v-model="form1.UNIT_ID" style="width: 200px;" :disabled="true"></el-input>
@@ -115,7 +115,7 @@
                             </el-col>
                         </el-row>
                         <el-row :gutter="20">
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item prop="income" :rules="[{ required: true, message: '月收入不能为空',trigger: 'blur'},
                                                             { type: 'number', message: '月收入必须为数字值',trigger:'blur'}]" label="月收入">
@@ -123,7 +123,7 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="4">
+                            <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item  prop="deposit" :rules="[{ required: true, message: '银行存款不能为空',trigger: 'blur'},
                                                             { type: 'number', message: '银行存款必须为数字值',trigger:'blur'}]" label="银行存款">
@@ -134,17 +134,17 @@
                         </el-row>
             <h4 style="padding-left: 85px;">缴存信息</h4>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="*缴至年月">
                         <el-input v-model="form1.LASTNAYDATE" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="*缴存状态">
                         <el-input v-model="form1.PERACCSTATE" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="*账户余额">
                         <el-input v-model="form1.DALANCE" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
@@ -153,14 +153,14 @@
 
             <h4 style="padding-left: 85px;">贷款信息</h4>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item prop="loanAmount" :rules="[{ required: true, message: '银行存款不能为空',trigger: 'blur'},
                                            { type: 'number', message: '银行存款必须为数字值',trigger:'blur'}]" label="贷款金额">
                         <el-input v-model.number="form1.loanAmount" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
-                    <el-form-item prop="loanPeriods" :rules="[{ required: true, message: '贷款期数不能为空',trigger: 'blur'}]" label="贷款期数">
+                <el-col :span="5"><div class="grid-content bg-purple">
+                    <el-form-item prop="loanPeriods" label="贷款期数">
                         <!--<el-input v-model="form1.loanPeriods" @blur="periods()"  style="width: 200px;"></el-input>-->
                         <el-select  v-model="form1.loanPeriods" @change="periods()"  style="width: 200px;">
                             <el-option value="12">12</el-option>
@@ -173,14 +173,14 @@
                         </el-select>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="*贷款利率">
                             <el-input v-model="form1.loanRate" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="*委托银行">
                             <template>
@@ -198,7 +198,7 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="*还款方式">
                         <template>
                             <el-select v-model="form1.paymentMethod" placeholder="请选择" size="small">
@@ -212,12 +212,12 @@
                         </template>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item prop="payee" :rules="[{ required: true, message: '收款人不能为空',trigger: 'blur'}]"  label="收款人">
                         <el-input v-model="form1.payee" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="*还款日">
                             <el-input v-model="form1.paymentDay" style="width: 200px;" :disabled="true"></el-input>
@@ -227,7 +227,7 @@
             </el-row>
                 <h4 style="padding-left: 85px;">还款账户信息</h4>
                 <el-row :gutter="20">
-                    <el-col :span="4"><div class="grid-content bg-purple">
+                    <el-col :span="5"><div class="grid-content bg-purple">
                         <el-form-item label="*开户银行">
                             <template>
                                 <el-select v-model="form1.openBank" placeholder="请选择" size="small">
@@ -241,13 +241,13 @@
                             </template>
                         </el-form-item>
                     </div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple">
+                    <el-col :span="5"><div class="grid-content bg-purple">
                         <el-form-item  prop="paymentAccount" :rules="[{ required: true, message: '还款账户号不能为空',trigger: 'blur'},
                                                             { min:18,max:21, message: '还款账户号为18到21位数字',trigger:'blur'}]"  label="还款账户号">
                             <el-input v-model="form1.paymentAccount" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div></el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <div class="grid-content bg-purple">
                             <el-form-item  prop="paymentName" :rules="[{ required: true, message: '还款账户名不能为空',trigger: 'blur'}]"  label="还款账户名">
                                 <el-input v-model="form1.paymentName" style="width: 200px;"></el-input>
@@ -257,30 +257,37 @@
                 </el-row>
                 <h4 style="padding-left: 85px;">配偶信息(选填)</h4>
                 <el-row :gutter="20">
-                    <el-col :span="4"><div class="grid-content bg-purple">
+                    <el-col :span="5"><div class="grid-content bg-purple">
                         <el-form-item label="配偶姓名">
                             <el-input v-model="form1.spouseName" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div></el-col>
-                    <el-col :span="4"><div class="grid-content bg-purple">
+                    <el-col :span="5"><div class="grid-content bg-purple">
                         <el-form-item  prop="spousePhone" :rules="[{pattern: /^1[34578]\d{9}$/, message: '手机号码格式不对请重新输入',trigger: 'blur'}]"  label="配偶电话">
                             <el-input v-model="form1.spousePhone" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div></el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <div class="grid-content bg-purple">
                             <el-form-item label="证件类型">
                                 <el-input v-model="form1.spouseType" style="width: 200px;"  :disabled="true"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <div class="grid-content bg-purple">
                             <el-form-item prop="spouseNum" :rules="[{pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '证件号码格式不对请重新输入',trigger: 'blur'}]"  label="证件号码">
                                 <el-input v-model="form1.spouseNum" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
+                </el-row>
+                <el-row>
+                    <div>
+                        <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                        <el-button style="margin-top: 12px;" @click="next('form1')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                        <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
+                    </div>
                 </el-row>
         </el-form>
     </div>
@@ -289,24 +296,24 @@
         <el-form ref="form2" :model="form2" label-width="150px" size="small">
             <h4 style="padding-left: 85px;">共同借款人（可选择有或无）</h4>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item  label="个人账户" key="2" prop="GRZH1">
                         <el-input v-model="form2.GRZH1"  @blur="blurs2()" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="姓名">
                         <el-input v-model="form2.TB_PNAME" style="width: 200px;"  :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="手机号码">
                             <el-input v-model="form2.TB_PIPHONE" style="width: 200px;"  :disabled="true"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="单位编号">
                             <el-input v-model="form2.UNIT_ID" style="width: 200px;"  :disabled="true"></el-input>
@@ -315,24 +322,24 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="单位名称">
                         <el-input v-model="form2.UNAME" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="单位电话">
                         <el-input v-model="form2.UOPIPHONE" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="证件类型">
                             <el-input v-model="form2.TB_IDCARD" style="width: 200px;" :disabled="true"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="证件号码">
                             <el-input v-model="form2.TB_IDNUMBER" style="width: 200px;" :disabled="true"></el-input>
@@ -341,23 +348,30 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="缴存状态">
                         <el-input v-model="form2.PERACCSTATE" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="账户余额">
                         <el-input v-model="form2.DALANCE" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="缴至年月">
                             <el-input v-model="form2.LASTNAYDATE" style="width: 200px;" :disabled="true"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
+            </el-row>
+            <el-row>
+                <div>
+                    <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                    <el-button style="margin-top: 12px;" @click="next('form2')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                    <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
+                </div>
             </el-row>
         </el-form>
     </div>
@@ -366,7 +380,7 @@
         <el-form ref="form3" :model="form3" label-width="150px" size="small">
             <h4 style="padding-left: 85px;">购房信息</h4>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="3" label="*房屋类型" prop="houseType">
                         <template>
                             <el-select v-model="form3.houseType" placeholder="请选择" size="small">
@@ -380,12 +394,12 @@
                         </template>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item  key="5"  prop="houseAddress" :rules="[{ required: true, message: '房屋位置不能为空',trigger: 'blur'}]" label="房屋位置">
                         <el-input v-model="form3.houseAddress" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item key="6"  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
                                                             { type:'number', message: '房屋面积为数字',trigger:'blur'}]" label="房屋面积">
@@ -395,18 +409,18 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="7" label="证件号码" prop="HIdNum" :rules="[{ required: true, message: '证件号码不能为空',trigger: 'blur'},
                                                           {pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '证件号码格式不对请重新输入',trigger: 'blur'}]">
                         <el-input v-model="form3.HIdNum" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="8" label="购房人名称" prop="HName" :rules="[{ required: true, message: '购房人名称不能为空',trigger: 'blur'}]">
                         <el-input v-model="form3.HName" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item key="9" label="银行账户" prop="HBank" :rules="[{ required: true, message: '银行账户不能为空',trigger: 'blur'},
                                                           {min:18,max:21, message: '银行账户为18到21位的数字',trigger: 'blur'}]">
@@ -416,25 +430,32 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="10" label="房屋总价" prop="houseTotal" :rules="[{ required: true, message: '房屋总价不能为空',trigger: 'blur'},
                                                           {type:'number', message: '房屋总价为数字',trigger: 'blur'}]">
                         <el-input v-model.number="form3.houseTotal"  @blur="houseMoney()"  style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="11" label="购房首付款" prop="houseFirst" :rules="[{ required: true, message: '购房首付款不能为空',trigger: 'blur'},
                                                           {type:'number', message: '购房首付款为数字',trigger: 'blur'}]">
                         <el-input v-model.number="form3.houseFirst" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="*房屋面积单价">
                             <el-input v-model="form3.housePrice" style="width: 200px;" :disabled="true"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
+            </el-row>
+            <el-row>
+                <div>
+                    <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                    <el-button style="margin-top: 12px;" @click="next('form3')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                    <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
+                </div>
             </el-row>
         </el-form>
     </div>
@@ -443,17 +464,17 @@
         <el-form ref="form4" :model="form4" label-width="150px" size="small">
             <h4 style="padding-left: 85px;">抵押信息</h4>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="4" label="*抵押类型" prop="DYType">
                         <el-input v-model="form4.DYType" style="width: 200px;" :disabled="true"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="抵押人姓名" key="12" prop="DYName" :rules="[{ required: true, message: '抵押人姓名不能为空',trigger: 'blur'}]">
                         <el-input v-model="form4.DYName" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item key="13" label="抵押人身份证号" prop="DYIdNum" :rules="[{ required: true, message: '抵押人身份证号不能为空',trigger: 'blur'},
                                                           {pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不对请重新输入',trigger: 'blur'}]">
@@ -463,12 +484,12 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="抵押物地址" key="14" prop="DYAddress" :rules="[{ required: true, message: '抵押物地址不能为空',trigger: 'blur'}]">
                         <el-input v-model="form4.DYAddress" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4"><div class="grid-content bg-purple">
+                <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item label="抵押物状态">
                         <template>
                             <el-select v-model="form4.DYStatus" placeholder="请选择" size="small">
@@ -482,24 +503,33 @@
                         </template>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="4">
+                <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="抵押物金额" key="15" prop="DYMoney" :rules="[{ required: true, message: '抵押物金额不能为空',trigger: 'blur'},
-                                                                                           {type:'number',message:'抵押物金额为数字'}]">
+                                                                                          {type:'number',message:'抵押物金额为数字'}]">
                             <el-input v-model.number="form4.DYMoney" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
             </el-row>
+            <el-row>
+                <center>
+                    <div>
+                        <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                        <el-button style="margin-top: 12px;" @click="next"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                        <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit('form4')"  v-if="active==4">提交</el-button>
+                    </div>
+                </center>
+            </el-row>
         </el-form>
     </div>
-    <center>
+    <!--<center>
         <div>
             <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
             <el-button style="margin-top: 12px;" @click="next"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
             <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
         </div>
-    </center>
+    </center>-->
 </div>
 
 <script type="text/javascript">
@@ -546,7 +576,7 @@
             rules: {
                 GRZH: [
                     { required: true, message: '个人账号不能为空', trigger: 'blur' },
-                    { min: 2, max: 2, message: '账号有误请重新输入', trigger: 'blur' }
+                    { min: 1, max: 7, message: '账号有误请重新输入', trigger: 'blur' }
                 ]},
             form2:{
                 GRZH1:'',
@@ -660,8 +690,18 @@
             }]
             },
         methods: {
-            next() {
-                if (this.active++> 3) this.active = 0;
+            next(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (this.active++> 3) this.active = 0;
+                    } else {
+                        this.$message({
+                            message:  '信息填写不完整',
+                            type: 'error'
+                        });
+                    }
+                });
+
             },
             prev() {
                 --this.active;
@@ -744,7 +784,15 @@
                     self.form2.LASTNAYDATE='';
                 }
             },
-            onSubmit:function () {
+            onSubmit:function (formName) {
+                /*this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });*/
                 var _self = this;
                 this.formData.push(this.form1);
                 this.formData.push(this.form2);

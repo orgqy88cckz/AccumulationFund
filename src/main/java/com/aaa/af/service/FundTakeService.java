@@ -123,4 +123,18 @@ public interface FundTakeService {
      * @return
      */
     int selectAppCheckCount(Map map);
+
+    /**
+     *约定审核通过事件
+     * @param aid
+     * @return
+     */
+    int appointPass(Integer aid);
+
+    /**
+     *约定审核驳回事件
+     * @param aid
+     * @return
+     */
+    int appointReject(Integer aid);
 }

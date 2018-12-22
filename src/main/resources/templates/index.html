@@ -28,7 +28,7 @@
 <body>
 <div id="app">
     <el-header style="height: 100px;">Header<span>王小虎</span></el-header>
-    <el-container style="height: 850px; border: 1px solid #eee;">
+    <el-container style="height: 950px; border: 1px solid #eee;">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
             <el-tree :data="dataTree" :props="defaultProps" accordion @node-click="handleNodeClick "></el-tree>
         </el-aside>
@@ -65,7 +65,7 @@ var vm=new Vue({
         editableTabsValue2: '2',
         editableTabs2:[{title: '首页',
             name: '2',
-            content: "<iframe src='https://www.baidu.com' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:710px;\"> </iframe>"
+            content: "<iframe src='https://www.baidu.com' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>"
         }],
         tabIndex: 2
     },
@@ -91,7 +91,7 @@ var vm=new Vue({
             var title = data.lable;
             //alert(url);
             //var content = "<iframe src='"+url+"' width='100%' height='500' scrollin
-            var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:710px;\"> </iframe>";
+            var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:1000px;\"> </iframe>";
             //var targetName = this.editableTabsValue2;
             //var targetName = this.editableTabsValue2;
             if(url!=null&&url!='null'&&url!='') {

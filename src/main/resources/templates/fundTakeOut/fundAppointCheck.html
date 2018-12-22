@@ -25,12 +25,16 @@
     <el-row>
         <el-form :inline="true" :model="searchForm" class="demo-form-inline">
             <el-form-item label="审批状态">
-                <el-select v-model="searchForm.SHZT">
-                    <el-option value="">全状态</el-option>
-                    <el-option value="1">待审批</el-option>
-                    <el-option value="2">审批通过</el-option>
-                    <el-option value="3">审批驳回</el-option>
-                </el-select>
+                <template>
+                    <el-select v-model="searchForm.SHZT">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
             </el-form-item>
             <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
         </el-form-item>
@@ -96,7 +100,7 @@
                     prop="YDRQ"
                     label="约定提取日期"
                     align="center"
-                    width="200">
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="SHIJIAN"
@@ -109,7 +113,7 @@
                     label="审核状态"
                     :formatter="formatterColumn"
                     align="center"
-                    width="200">
+                    width="100">
             </el-table-column>
             <el-table-column
                     align="center"
@@ -137,130 +141,6 @@
             </el-pagination>
         </el-col>
     </el-row>
-
-    <!--编辑界面-->
-   <!-- <el-dialog title="提取审核" :visible.sync="editFormVisible" :close-on-click-modal="false" style="margin-bottom: 20px;" width="1200px" >
-            <el-form  :model="editForm" ref="editForm" label-width="120px" size="middle">
-                    <el-row :gutter="20">
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item>
-                                <h3 style="color: #5daf34;">基本信息</h3>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item>
-                                <h3 style="color: #5daf34;">款项信息</h3>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item>
-                                <h3 style="color: #5daf34;">收发款信息</h3>
-                            </el-form-item>
-                        </div></el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="提取编号">
-                                <el-input v-model="editForm.BFTAKE_ID" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="申请提取金额">
-                                <el-input v-model="editForm.EXTRACT_MONEY" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="收款户名">
-                                <el-input v-model="editForm.APPL_BANK_NAME" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="姓名">
-                                <el-input v-model="editForm.APPL_NAME" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="收款账号">
-                                <el-input v-model="editForm.APPL_BANK_ACCOUNT"style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="委托人姓名">
-                                <el-input v-model="editForm.BAILOR_NAME"style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="个人账号">
-                                    <el-input v-model="editForm.APPL_ACCOUNT"style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="提取方式">
-                                <el-input v-model="editForm.APPLICATION_WAY"style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="委托人身份证号">
-                                <el-input v-model="editForm.BILOR_IDNUM" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="证件类型">
-                                <el-input v-model="editForm.IDNUM_TYPE" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="提取类型">
-                                <el-input v-model="editForm.APPLICATION_TYPE" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="审批状态">
-                                <el-input  v-model="editForm.APPL_STATE" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="证件号码">
-                                <el-input v-model="editForm.APPL_IDNUM" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-form-item label="提取原因">
-                                <el-input type="textarea" v-model="editForm.EXTRACT_REASON" style="width: 200px;" :disabled="true"></el-input>
-                            </el-form-item>
-                        </div></el-col>
-                    </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="7"><div class="grid-content bg-purple">
-                        <el-form-item label="单位名称">
-                            <el-input v-model="editForm.COMP_NAME" style="width: 200px;" :disabled="true"></el-input>
-                        </el-form-item>
-                    </div></el-col>
-                    <el-col :span="7"><div class="grid-content bg-purple">
-                        <el-form-item label="申请时间">
-                            <el-input v-model="editForm.TIME" style="width: 200px;" :disabled="true"></el-input>
-                        </el-form-item>
-                    </div></el-col>
-                    <el-col :span="7"><div class="grid-content bg-purple">
-                        <el-form-item label="*准许提取金额" style="color: red;">
-                            <el-input v-model="editForm.ALLOW_MONEY" style="width: 200px;color: red;"></el-input>
-                        </el-form-item>
-                    </div></el-col>
-                </el-row>
-            </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button type="success" @click.native="editPass" :loading="editLoading">通过</el-button>
-            <el-button type="error" @click.native="editReject" :loading="editLoading">驳回</el-button>
-        </div>
-    </el-dialog>-->
 </div>
 
 
@@ -275,6 +155,20 @@
     var tableView = new Vue({
         el: '#tableView',
         data: {
+            options:[{
+                value: '',
+                label: '全状态'
+            }, {
+                value: '1',
+                label: '待审批'
+            }, {
+                value: '2',
+                label: '审批通过'
+            }, {
+                value: '3',
+                label: '审批驳回'
+            }],
+            value:'',
             //列表数据
             tableData: [],
             show:false,
@@ -370,17 +264,23 @@
             clickPass:function(row) {
                 var self=this;
                 if(row.SHZT==1){
-                    this.goUrl="/af/fundTake/checkFundTake/"+row.BFTAKE_ID;
+                    this.goUrl="/af/fundTake/appointPass/"+row.AID;
                     axios.post(this.goUrl).then(function (response) {
-                    alert(JSON.stringify(response.data));
-                    self.editForm= response.data;
-                    self.editForm.IDNUM_TYPE='身份证';
-                    self.editForm.APPL_STATE='待审批';
+                        if(response.data>0){
+                            self.$message({
+                                message:  '操作成功',
+                                type: 'success'
+                            });
+                        }else {
+                            self.$message({
+                                message:  '审核失败',
+                                type: 'error'
+                            });
+                        }
                     })
-                    self.editFormVisible = true;
                 }else {
                     self.$message({
-                        message:  '已审批不能重复操作',
+                        message:  '已审核不能重复操作',
                         type: 'error'
                     });
                 }
@@ -389,17 +289,23 @@
             clickReject:function(row) {
                 var self=this;
                 if(row.SHZT==1){
-                    this.goUrl="/af/fundTake/checkFundTake/"+row.BFTAKE_ID;
+                    this.goUrl="/af/fundTake/appointReject/"+row.AID;
                     axios.post(this.goUrl).then(function (response) {
-                        alert(JSON.stringify(response.data));
-                        self.editForm= response.data;
-                        self.editForm.IDNUM_TYPE='身份证';
-                        self.editForm.APPL_STATE='待审批';
+                        if(response.data>0){
+                            self.$message({
+                                message:  '操作成功',
+                                type: 'success'
+                            });
+                        }else {
+                            self.$message({
+                                message:  '审核失败',
+                                type: 'error'
+                            });
+                        }
                     })
-                    self.editFormVisible = true;
                 }else {
                     self.$message({
-                        message:  '已审批不能重复操作',
+                        message:  '已审核不能重复操作',
                         type: 'error'
                     });
                 }
