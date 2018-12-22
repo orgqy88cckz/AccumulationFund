@@ -44,6 +44,6 @@ public interface PersonDao {
     int update(Map map);
 
 
-    @Update("update tb_unitaccount set UAOWEMONERY = (select sum(UNITMONPAYSUM) from TB_PACCOUNTUTIL where uaid = #{AID}) WHERE ID = #{AID}")
+    @Update("update tb_unitaccount set UAOWEMONERY = (select sum(YDRAWAMT) from TB_PACCOUNTUTIL where uaid = #{AID}) WHERE ID = #{AID}")
     int update1(Map map);
 }

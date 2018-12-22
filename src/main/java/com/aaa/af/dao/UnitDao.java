@@ -28,8 +28,8 @@ public interface UnitDao {
      * @param map
      * @return
      */
-    @Insert("insert into TB_UNITACCOUNT(id,udepositratio,upersonratio,uastate,uabankname,uabanknumber,styh,ywblr,khrq,dwzh,AID) values(tb_unitaccount_id.nextval," +
+    @Insert("insert into TB_UNITACCOUNT(id,udepositratio,upersonratio,uastate,uabankname,uabanknumber,styh,ywblr,khrq,dwzh,AID,UAOWEMONTHS) values(tb_unitaccount_id.nextval," +
             "#{udepositratio},#{upersonratio},#{uastate},#{uabankname},#{uabanknumber},#{styh},#{ywblr},to_date(substr(#{khrq},1,10),'yyyy-MM-dd')," +
-            "extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(tb_unit_ida.currval,'fm00000'),tb_unit_id.currval)")
+            "extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(tb_unit_ida.currval,'fm00000'),tb_unit_id.currval,1)")
     int add1(Map map);
 }

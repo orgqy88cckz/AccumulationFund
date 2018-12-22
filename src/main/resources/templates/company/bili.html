@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>挂账办理</title>
+    <title>比例变更</title>
     <!-- 引入样式 -->
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.min.js"></script>
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/elementui.css">
     <!-- 引入组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/elementui.js"></script>
+
 </head>
 <body>
 <div id="app">
@@ -36,6 +37,12 @@
                 border
                 @selection-change="selectionChange"
                 style="width: 100%">
+            <el-table-column
+                    prop="AID"
+                    label="单位账号"
+                    v-if="show"
+                    width="150">
+            </el-table-column>
             <el-table-column
                     prop="DWZH"
                     label="单位账号"
@@ -85,7 +92,7 @@
             <el-table-column
                     label="操作">
                 <template scope="scope">
-                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">挂账办理</el-button>
+                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">比例变更</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -116,11 +123,11 @@
             <el-form-item label="单位名称">
                 <el-input v-model="editForm.UNAME" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="单位账户余额">
-                <el-input v-model="editForm.UAREMAIN" auto-complete="off"></el-input>
+            <el-form-item label="单位缴存比例(%)">
+                <el-input v-model="editForm.UDEPOSITRATIO" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="挂账金额">
-                <el-input v-model="editForm.GZJE" auto-complete="off"></el-input>
+            <el-form-item label="个人缴存比例(%)">
+                <el-input v-model="editForm.UPERSONRATIO" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -136,13 +143,14 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: '挂账办理'
+            message: '比例变更'
         }
     });
 
     var tableView = new Vue({
         el: '#tableView',
         data: {
+            show:false,
             //列表数据
             tableData: [],
             //显示加载中样式
@@ -174,10 +182,11 @@
             },
             //编辑界面数据
             editForm: {
-                DWZH:'',
+                AID:'',
+                DWZH: '',
                 UNAME:'',
-                UAREMAIN:0,
-                GZJE:0
+                UDEPOSITRATIO:'',
+                UPERSONRATIO:''
             },
         },
         created:function(){
@@ -185,7 +194,7 @@
             var self = this;
             var start =(this.currentPage-1)*this.pageSize;
             var end =this.currentPage*this.pageSize+1;
-            axios.post('/af/guazhang/page',{'start':start,'end':end}).then(function(response){
+            axios.post('/af/bili/page',{'start':start,'end':end}).then(function(response){
                 // console.log(response.data);
                //alert(response.data.total);
                 self.total=response.data.total;
@@ -204,9 +213,7 @@
                 var end =this.currentPage*this.pageSize+1;
                 var searchForm={'start':start,'end':end,'UNAME':this.searchForm.UNAME};
              //   alert(JSON.stringify(searchForm));
-                axios.post('/af/guazhang/page',searchForm).then(function(response){
-                    // console.log(response.data);
-                    // alert(222);
+                axios.post('/af/bili/page',searchForm).then(function(response){
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
                     //_self.multipleSelection=response.data.data;
@@ -219,21 +226,20 @@
             },
             //表格编辑事件
             editClick:function(row) {
-                this.goUrl="/af/guazhang/update";
+                alert(JSON.stringify(row));
+                this.goUrl="/af/bili/update";
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
             },
             //新建事件
             addClick:function() {
-                //alert(111);
                 var _self = this;
                 //清空原有数据
                 this.editForm= {
-                    EMPNO: 0,
-                        ENAME: '',
-                        JOB: '',
-                        SAL: 0,
-                        HIREDATE: ''
+                    DWZH: '',
+                    UNAME:'',
+                    UDEPOSITRATIO:'',
+                    UPERSONRATIO:''
                 }
                 //显示隐藏的form表单
                 this.editFormVisible = true;
@@ -242,20 +248,6 @@
             //表格查询事件
             searchClick:function() {
                 var self = this;
-               /* var start =(this.currentPage-1)*this.pageSize;
-                var end =this.currentPage*this.pageSize+1;
-                //var searchForm =this.searchForm;
-
-                var searchForm={'start':start,'end':end,'id':this.id,'name':this.name,'deptNo':this.deptNo};
-                alert(searchForm);
-                //formData.push({'start':start}).push({'end':end})
-                axios.post('/emp/list',searchForm).then(function(response){
-                    // console.log(response.data);
-                    //alert(response.data.total);
-                    self.total=response.data.total;
-                    self.tableData = response.data.data;
-                    // self.multipleSelection=response.data.data;
-                })*/
                 self.loadingData();//重新加载数据
             },
             //表格勾选事件
@@ -285,14 +277,9 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                //alert(formData);
-                var goUrl=this.goUrl;
-                //alert(goUrl);
-                //alert(JSON.stringify(formData));
+                alert(JSON.stringify(formData));
+                var goUrl="/af/bili/update";
                 axios.post(goUrl,formData).then(function(response){
-                    // console.log(response.data);
-                    // alert(222);
-                    // self.total=response.data.total;
                      if(response.data>0){
                          _self.editFormVisible = false;
                          _self.loadingData();//重新加载数据
@@ -301,9 +288,7 @@
                 console.info(this.editForm);
             }
         }
-
     })
 </script>
-
 </body>
 </html>
