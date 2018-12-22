@@ -283,11 +283,13 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <div>
-                        <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
-                        <el-button style="margin-top: 12px;" @click="next('form1')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
-                        <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
-                    </div>
+                    <center>
+                        <div>
+                            <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                            <el-button style="margin-top: 12px;" @click="next('form1')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                            <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
+                        </div>
+                    </center>
                 </el-row>
         </el-form>
     </div>
@@ -367,11 +369,13 @@
                 </el-col>
             </el-row>
             <el-row>
-                <div>
-                    <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
-                    <el-button style="margin-top: 12px;" @click="next('form2')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
-                    <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
-                </div>
+                <center>
+                    <div>
+                        <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                        <el-button style="margin-top: 12px;" @click="next('form2')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                        <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
+                    </div>
+                </center>
             </el-row>
         </el-form>
     </div>
@@ -400,12 +404,14 @@
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="5">
-                    <div class="grid-content bg-purple">
-                        <el-form-item key="6"  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
-                                                            { type:'number', message: '房屋面积为数字',trigger:'blur'}]" label="房屋面积">
-                            <el-input v-model.number="form3.houseArea" style="width: 200px;"></el-input>
-                        </el-form-item>
-                    </div>
+                    <center>
+                        <div class="grid-content bg-purple">
+                            <el-form-item key="6"  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
+                                                                { type:'number', message: '房屋面积为数字',trigger:'blur'}]" label="房屋面积">
+                                <el-input v-model.number="form3.houseArea" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </center>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
@@ -451,11 +457,13 @@
                 </el-col>
             </el-row>
             <el-row>
-                <div>
-                    <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
-                    <el-button style="margin-top: 12px;" @click="next('form3')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
-                    <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
-                </div>
+                <center>
+                    <div>
+                        <el-button style="margin-top: 12px;" @click="prev" v-if="active==2||active==3||active==4">上一步</el-button>
+                        <el-button style="margin-top: 12px;" @click="next('form3')"  v-if="active==0||active==1||active==2||active==3">下一步</el-button>
+                        <el-button  style="margin-top: 12px;"  type="primary" @click.native="onSubmit()"  v-if="active==4">提交</el-button>
+                    </div>
+                </center>
             </el-row>
         </el-form>
     </div>
