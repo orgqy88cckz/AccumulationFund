@@ -104,4 +104,14 @@ public class FundTakeServiceImpl implements FundTakeService{
     public  int selectAppCheckCount(Map map) {
         return fundTakeDao.selectAppCheckCount(map);
     }
+
+    @Override
+    public int appointPass(Integer aid) {
+        return fundTakeDao.appointPass(aid);
+    }
+
+    @Override
+    public int appointReject(Integer aid) {
+        return fundTakeDao.appointReject(aid);
+    }
 }
