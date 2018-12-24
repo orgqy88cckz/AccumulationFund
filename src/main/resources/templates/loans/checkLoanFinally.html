@@ -21,7 +21,16 @@
     <el-row>
         <el-form :inline="true" :model="searchForm" class="demo-form-inline">
             <el-form-item label="贷款状态">
-                <el-input v-model="searchForm.STATUS" placeholder="贷款状态"></el-input>
+                <template>
+                    <el-select v-model="searchForm.STATUS">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
             </el-form-item>
             <el-form-item label="贷款人姓名">
                 <el-input v-model="searchForm.PNAME" placeholder="贷款人姓名"></el-input>
@@ -341,6 +350,19 @@
     var tableView = new Vue({
         el: '#tableView',
         data: {
+            options:[{
+                value: '',
+                label: '全状态'
+            }, {
+                value: '2',
+                label: '初审通过'
+            }, {
+                value: '4',
+                label: '终审通过'
+            }, {
+                value: '5',
+                label: '终审驳回'
+            }],
             //列表数据
             tableData: [],
             show:false,

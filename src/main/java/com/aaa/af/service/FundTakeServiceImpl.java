@@ -62,8 +62,11 @@ public class FundTakeServiceImpl implements FundTakeService{
 
     @Override
     public int takePass(Map map) {
-        fundTakeDao.takeSubmitMoney(map);
-        return fundTakeDao.takePass(map);
+        int i = fundTakeDao.takeSubmitMoney(map);
+        if(i>0){
+            return fundTakeDao.takePass(map);
+        }
+        return 0;
     }
 
     @Override

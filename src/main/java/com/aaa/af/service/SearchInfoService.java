@@ -76,4 +76,10 @@ public interface SearchInfoService {
      */
     int checkPassFinally(Map map);
 
+    /**
+     * 贷款页面验证查询
+     * @return
+     */
+    int unique(String value);
+
 }

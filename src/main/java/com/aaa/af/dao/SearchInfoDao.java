@@ -117,7 +117,7 @@ public interface SearchInfoDao {
      */
     @Select("<script>select rownum rn,pid,LOAN_ID,GRZH,PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,CTIME,STATUS from(\n" +
             " select rownum rn,pid,LOAN_ID,GRZH,PNAME,LOAN_MONEY,LOAN_PERIODS,LOAN_RATE,LOAN_BANK,LOAN_REPAY,to_char(CTIME,'yyyy-MM-dd') as CTIME,STATUS from TB_LOAN_CHECK\n" +
-            " where STATUS='2' or status='4' or status='5' and rownum &lt; #{end} \n" +
+            " where (STATUS='2' or status='4' or status='5') and rownum &lt; #{end} \n" +
             "<if test=\"PNAME!=null and PNAME!=''\"> and PNAME like '%'||#{PNAME}||'%'</if>" +
             "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if>" +
             " ) a where  STATUS='2' or status='4' or status='5' and a.rn &gt; #{start} </script>")
@@ -128,8 +128,8 @@ public interface SearchInfoDao {
      * 查询贷款终审列表总数量
      * @return
      */
-    @Select("<script>select count(*) from TB_LOAN_CHECK where STATUS='2' or status='4' or status='5' \n" +
-            " <where>\n" +
+    @Select("<script>select count(*) from TB_LOAN_CHECK \n" +
+            " <where> (STATUS='2' or status='4' or status='5') \n" +
             "<if test=\"PNAME!=null and PNAME!=''\"> and PNAME like '%'||#{PNAME}||'%'</if>" +
             "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if></where></script>")
     int getPageCountFinally(Map map);
@@ -161,4 +161,10 @@ public interface SearchInfoDao {
     @Update("update TB_LOAN_CHECK set status='5' where loan_id=#{loan_id}")
     int checkRejectFinally(Integer loan_id);
 
+    /**
+     * 贷款页面验证查询
+     * @return
+     */
+    @Select("select grzh from TB_PACCOUNTUTIL where PERACCSTATE='正常'")
+    List<Map> unique();
 }
