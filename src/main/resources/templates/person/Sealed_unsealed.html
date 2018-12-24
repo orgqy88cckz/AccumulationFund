@@ -117,6 +117,7 @@
             </el-form-item>
             <el-form-item label="账户状态">
                 <el-input v-model="FeditForm.PERACCSTATE" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="FeditForm.AUDIT_STATE" auto-complete="off" disabled></el-input><!--隐藏数据是封存还是启封或者销户-->
             </el-form-item>
             <el-form-item label="封存理由">
                 <el-input v-model="FeditForm.REASON" auto-complete="off"></el-input>
@@ -148,8 +149,9 @@
             </el-form-item>
             <el-form-item label="账户状态">
                 <el-input v-model="XeditForm.PERACCSTATE" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="XeditForm.AUDIT_STATE" auto-complete="off" disabled></el-input><!--隐藏数据是封存还是启封或者销户-->
             </el-form-item>
-            <el-form-item label="封存理由">
+            <el-form-item label="销户理由">
                 <el-input v-model="XeditForm.REASON" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
@@ -180,8 +182,9 @@
             </el-form-item>
             <el-form-item label="账户状态">
                 <el-input v-model="QeditForm.PERACCSTATE" auto-complete="off" disabled></el-input>
+                <el-input type="hidden" v-model="QeditForm.AUDIT_STATE" auto-complete="off" disabled></el-input><!--隐藏数据是封存还是启封或者销户-->
             </el-form-item>
-            <el-form-item label="封存理由">
+            <el-form-item label="启封理由">
                 <el-input v-model="QeditForm.REASON" auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
@@ -251,7 +254,8 @@
                 TB_PSEX:'',
                 TB_PROFESSION:'',
                 TB_PIPHONE:'',
-                TB_IDNUMBER:''
+                TB_IDNUMBER:'',
+                AUDIT_STATE:''
             },
             //编辑界面数据
             QeditForm: {
@@ -264,7 +268,8 @@
                 TB_PSEX:'',
                 TB_PROFESSION:'',
                 TB_PIPHONE:'',
-                TB_IDNUMBER:''
+                TB_IDNUMBER:'',
+                AUDIT_STATE:''
             },
             //编辑界面数据
             XeditForm: {
@@ -277,7 +282,8 @@
                 TB_PSEX:'',
                 TB_PROFESSION:'',
                 TB_PIPHONE:'',
-                TB_IDNUMBER:''
+                TB_IDNUMBER:'',
+                AUDIT_STATE:''
             },
         },
         created: function () {
@@ -378,6 +384,7 @@
                 var formData =this.FeditForm;
                 var goUrl="/af/merge/submit";
                 this.FeditForm.PERACCSTATE='封存申请';
+                this.FeditForm.AUDIT_STATE='封存';
                 axios.post(goUrl,formData).then(function(response){
                     if(response.data>0){
                         _self.FeditFormVisible = false;
@@ -405,14 +412,14 @@
 //                        });
 //                        _self.QeditFormVisible = false;
 //                    }
+
                     if(response.data.grzh==1){//判断按照GRZH查询封存 销户 启封 是否重复操作
                         _self.$message({
                             message:'请勿重复操作!',
                             type: 'error'
                         });
                         _self.QeditFormVisible = false;
-                    }
-                    if(response.data.grzh!=1 && response.data.daikan!=1){
+                    }else{
                         _self.QeditFormVisible = true;
                         _self.QeditForm = Object.assign({}, row);
                     }
@@ -425,6 +432,7 @@
                 var formData =this.QeditForm;
                 var goUrl="/af/merge/submit";
                 this.QeditForm.PERACCSTATE='启封申请';
+                this.QeditForm.AUDIT_STATE='正常';
                 axios.post(goUrl,formData).then(function(response){
                     if(response.data>0){
                         _self.QeditFormVisible = false;
@@ -472,6 +480,7 @@
                 var formData =this.XeditForm;
                 var goUrl="/af/merge/submit";
                 this.XeditForm.PERACCSTATE='销户申请';
+                this.XeditForm.AUDIT_STATE='正常';
                 axios.post(goUrl,formData).then(function(response){
                     if(response.data>0){
                         _self.XeditFormVisible = false;

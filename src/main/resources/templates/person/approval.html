@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看审批</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../css/elementui.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!-- 引入组件库 -->
+    <script src="../js/elementui.js"></script>
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <style type="text/css">
+        #tableView{margin-left: 155px;float: left;}
+    </style>
+
+</head>
+<body>
+<div id="tableView">
+    <h2>{{ message }}</h2>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    prop="ID"
+                    label="序列"
+                    width="60">
+            </el-table-column>
+            <el-table-column
+                    prop="ACCRADITATION_NAME"
+                    label="工作流程名称"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="ACCRADITATION_DESCRIBE"
+                    label="工作流程描述"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="ACCRADITATION_FLUX"
+                    label="工作流量"
+                    width="60"  >
+            </el-table-column>
+            <el-table-column
+                    label="操作"
+                    width="100">
+                <template scope="scope">
+                    <el-button  v-if="scope.row.ID==1" :plain="true" type="success" size="small" icon="edit" @click="fcClick(scope.row)">查看</el-button>
+                    <el-button  v-if="scope.row.ID==2" :plain="true" type="success" size="small" icon="edit" @click="qfClick(scope.row)">查看</el-button>
+                    <el-button  v-if="scope.row.ID==3" :plain="true" type="success" size="small" icon="delete" @click="xhClick(scope.row)">查看</el-button>
+                    <el-button  v-if="scope.row.ID==4" :plain="true" type="success" size="small" icon="delete" @click="GClick2(scope.row)">查看</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+<!--*********************---------人员转移弹出层 --------------------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="人员转移" :visible.sync="ReditFormVisible" :close-on-click-modal="false" width="60%">
+        <el-row>
+            <el-table
+                    :data="RtableData"
+                    v-loading.body="loading"
+                    border
+                    @selection-change="selectionChange"
+                    style="width: 100%">
+                <el-table-column
+                        prop="TRANSFER_OUT_UNIT"
+                        label="转出单位"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="TRANSFER_INTO_UNIT"
+                        label="转入单位"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="AUDITOR"
+                        label="转移申请人"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="PERSON_ACCOUNT"
+                        label="个人账户"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="TRANSFER_REASON"
+                        label="转移原因"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="OPERATOR"
+                        label="操作人"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="SUBMIT_TIME"
+                        label="提交时间"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="AUDIT_STATE"
+                        label="审核状态"
+                        width="80">
+                </el-table-column>
+            </el-table>
+        </el-row>
+        <el-row style="margin-top: 20px" type="flex" justify="end">
+            <el-col :span="18" >
+                <el-pagination
+                        style="float: right"
+                        @size-change="RpageSizeChange"
+                        @current-change="RcurrentPageChange"
+                        :current-page="RcurrentPage"
+                        :page-sizes="[10, 20, 30, 50]"
+                        :page-size="RpageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="Rtotal">
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </el-dialog>
+    <!--*********************-----封存 启封 销户弹出层---------------------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="封存 启封 销户" :visible.sync="FeditFormVisible" :close-on-click-modal="false" width="70%">
+        <el-row>
+            <el-table
+                    :data="FtableData"
+                    v-loading.body="loading"
+                    border
+                    @selection-change="selectionChange"
+                    style="width: 100%">
+                <el-table-column
+                        prop="UNSEAL_NAME"
+                        label="姓名"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="UNSEAL_UNIT"
+                        label="所在单位"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="UNSEAL_SEX"
+                        label="性别"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="UNIT_POST"
+                        label="工作职位"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="UNSEAL_NUMBER"
+                        label="身份证号"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="UNSEAL_ACCOUNT"
+                        label="个人账户"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="REASON"
+                        label="封启原因"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="OPERATOR"
+                        label="创建人"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="CREATE_TIME"
+                        label="创建时间"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="AUDIT_STATE"
+                        label="业务类型"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="AUDIT_NAME"
+                        label="审核状态"
+                        width="80">
+                </el-table-column>
+            </el-table>
+        </el-row>
+        <el-row style="margin-top: 20px" type="flex" justify="end">
+            <el-col :span="18" >
+                <el-pagination
+                        style="float: right"
+                        @size-change="FpageSizeChange"
+                        @current-change="FcurrentPageChange"
+                        :current-page="FcurrentPage"
+                        :page-sizes="[10, 20, 30, 50]"
+                        :page-size="FpageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="Ftotal">
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </el-dialog>
+
+    <!--*********************------个人贷款弹出层--------------------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="个人贷款" :visible.sync="GeditFormVisible" :close-on-click-modal="false" width="70%">
+        <el-row>
+            <el-table
+                    :data="GtableData"
+                    v-loading.body="loading"
+                    border
+                    @selection-change="selectionChange"
+                    style="width: 100%">
+                <el-table-column
+                        prop="GRZH"
+                        label="个人账户"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="PNAME"
+                        label="姓名"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="TB_IDNUMBER"
+                        label="证件号"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="DAIKAN"
+                        label="业务类型"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="CTIME"
+                        label="申请时间"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="LOAN_MONEY"
+                        label="贷款金额"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="LOAN_PERIODS"
+                        label="贷款期数"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="LOAN_RATE"
+                        label="贷款利率"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="LOAN_BANK"
+                        label="贷款银行"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="STATUS"
+                        label="贷款状态"
+                        :formatter="formatterColumn"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="REJECTREASON"
+                        label="驳回原因"
+                        width="80">
+                </el-table-column>
+            </el-table>
+        </el-row>
+        <el-row style="margin-top: 20px" type="flex" justify="end">
+            <el-col :span="18" >
+                <el-pagination
+                        style="float: right"
+                        @size-change="GpageSizeChange"
+                        @current-change="GcurrentPageChange"
+                        :current-page="GcurrentPage"
+                        :page-sizes="[10, 20, 30, 50]"
+                        :page-size="GpageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="Gtotal">
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </el-dialog>
+    <!--*********************-----------------公积金提取---------------------------------------------------------------------------------------------*************************-->
+    <el-dialog title="公积金提取" :visible.sync="GJeditFormVisible" :close-on-click-modal="false" width="60%">
+        <el-row>
+            <el-table
+                    :data="GJtableData"
+                    v-loading.body="loading"
+                    border
+                    @selection-change="selectionChange"
+                    style="width: 100%">
+                <el-table-column
+                        prop="APPL_ACCOUNT"
+                        label="提取人账号"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="APPL_NAME"
+                        label="姓名"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="COMP_NAME"
+                        label="提取人单位"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="APPLICATION_TYPE"
+                        label="提取类型"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="APPLICATION_WAY"
+                        label="提取方式"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="EXTRACT_REASON"
+                        label="提取原因"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="EXTRACT_MONEY"
+                        label="提取金额"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="APPL_TIME"
+                        label="提取时间"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="APPL_STATE"
+                        label="审核状态"
+                        :formatter="formatterColumn2"
+                        width="80">
+                </el-table-column>
+            </el-table>
+        </el-row>
+        <el-row style="margin-top: 20px" type="flex" justify="end">
+            <el-col :span="18" >
+                <el-pagination
+                        style="float: right"
+                        @size-change="GJpageSizeChange"
+                        @current-change="GJcurrentPageChange"
+                        :current-page="GJcurrentPage"
+                        :page-sizes="[10, 20, 30, 50]"
+                        :page-size="GJpageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="GJtotal">
+                </el-pagination>
+            </el-col>
+        </el-row>
+    </el-dialog>
+    <!--*********************--------------------------------------------------------------------------------------------------------------*************************-->
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+</div>
+<script>
+    var tableView=new Vue({
+        el: '#tableView',
+        data: {
+            show:false,
+            message: '查看审批',
+            //部门select
+            options: [],
+            //列表数据
+            tableData: [],
+            //人员转移列表数据
+            RtableData: [],
+            //封，启，销户列表数据
+            FtableData: [],
+            //个人贷款列表数据
+            GtableData: [],
+            //公积金提取列表数据
+            GJtableData: [],
+            /****************************************/
+
+
+            //显示加载中样式
+            loading: false,
+            //搜索表单
+            searchForm: {
+                id: ''
+            },
+            //多选值
+            multipleSelection: [],
+            //当前页
+            currentPage: 1,
+            //分页大小
+            pageSize: 10,
+            //总记录数
+            total: 800,
+
+            //当前页---人员转移
+            RcurrentPage: 1,
+            //分页大小
+            RpageSize: 10,
+            //总记录数
+            Rtotal: 800,
+
+            //当前页---封启销户
+            FcurrentPage: 1,
+            //分页大小
+            FpageSize: 10,
+            //总记录数
+            Ftotal: 800,
+
+            //当前页---个人贷款
+            GcurrentPage: 1,
+            //分页大小
+            GpageSize: 10,
+            //总记录数
+            Gtotal: 800,
+
+            //当前页---公积金提取
+            GJcurrentPage: 1,
+            //分页大小
+            GJpageSize: 10,
+            //总记录数
+            GJtotal: 800,
+
+            //删除的弹出框
+            deleteVisible: false,
+            //编辑界面是否显示
+            ReditFormVisible: false,
+            FeditFormVisible: false,
+            GeditFormVisible: false,
+            GJeditFormVisible: false,
+            editLoading: false,
+            goUrl: '',
+        },
+        created: function () {
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            var start = (this.currentPage - 1) * this.pageSize;
+            var end = this.currentPage * this.pageSize + 1;
+            axios.post('/af/approval/page', {'start': start, 'end': end}).then(function (response) {
+                self.total = response.data.total;
+                self.tableData = response.data.pageData;
+            });
+            //人员转移所使用的分页-----------------------------------------------------------------------------------------------
+            var start = (this.RcurrentPage - 1) * this.RpageSize;
+            var end = this.RcurrentPage * this.RpageSize + 1;
+            axios.post('/af/approval/pageR', {'start': start, 'end': end}).then(function (response) {
+                self.Rtotal = response.data.total;
+                self.RtableData = response.data.pageData;
+            });
+            //封启销户查询列表-----------------------------------------------------------------------------------------------
+
+            var start = (this.FcurrentPage - 1) * this.FpageSize;
+            var end = this.FcurrentPage * this.FpageSize + 1;
+            axios.post('/af/approval/pageF', {'start': start, 'end': end}).then(function (response) {
+                self.Ftotal = response.data.total;
+                self.FtableData = response.data.pageData;
+            });
+            //个人贷款查询列表-----------------------------------------------------------------------------------------------
+
+            var start = (this.GcurrentPage - 1) * this.GpageSize;
+            var end = this.GcurrentPage * this.GpageSize + 1;
+            axios.post('/af/approval/pageG', {'start': start, 'end': end}).then(function (response) {
+                self.Gtotal = response.data.total;
+                self.GtableData = response.data.pageData;
+            });
+            //公积金提取查询列表-----------------------------------------------------------------------------------------------
+
+            var start = (this.GJcurrentPage - 1) * this.GJpageSize;
+            var end = this.GJcurrentPage * this.GJpageSize + 1;
+            axios.post('/af/approval/pageGJ', {'start': start, 'end': end}).then(function (response) {
+                self.GJtotal = response.data.total;
+                self.GJtableData = response.data.pageData;
+            });
+            /****************************************/
+
+
+        },
+        methods: {
+            //状态改成汉字---个人贷款
+            formatterColumn(row) {
+                switch(row.STATUS){
+                    case '1':
+                        return '待审核';
+                        break;
+                    case '2':
+                        return '初审通过';
+                        break;
+                    case '3':
+                        return '初审驳回';
+                        break;
+                    case '4':
+                        return '终审通过';
+                        break;
+                    case '5':
+                        return '终审驳回';
+                        break;
+                    default:
+                        return '未知';
+                }
+            },
+            //状态改成汉字--公积金提取
+            formatterColumn2(row) {
+                switch(row.APPL_STATE){
+                    case 1:
+                        return '待审核';
+                        break;
+                    case 2:
+                        return '通过';
+                        break;
+                    case 3:
+                        return '驳回';
+                        break;
+                    default:
+                        return '未知';
+                }
+            },
+
+            //表格重新加载数据
+            loadingData: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.currentPage - 1) * this.pageSize;
+                var end = this.currentPage * this.pageSize + 1;
+                var searchForm = {
+                    'start': start,
+                    'end': end,
+                    'tb_pname': this.searchForm.id
+                };
+                axios.post('/af/approval/page', searchForm).then(function (response) {
+                    _self.total = response.data.total;
+                    _self.tableData = response.data.pageData;
+                });
+                console.log(_self.currentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+            //表格重新加载数据-------------------------------------------------------------------------人员转移
+            RloadingData: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.RcurrentPage - 1) * this.RpageSize;
+                var end = this.RcurrentPage * this.RpageSize + 1;
+                //人员转移所使用的分页-----------------------------------------
+                axios.post('/af/approval/pageR', {'start': start, 'end': end}).then(function (response) {
+                    self.Rtotal= response.data.total;
+                    self.RtableData= response.data.pageData;
+                });
+                 console.log(_self.RcurrentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+            //表格重新加载数据-------------------------------------------------------------------------销户，封，启
+           FloadingData: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.FcurrentPage - 1) * this.FpageSize;
+                var end = this.FcurrentPage * this.FpageSize + 1;
+                //封，启，销户所使用的分页-----------------------------------------
+                axios.post('/af/approval/pageF', {'start': start, 'end': end}).then(function (response) {
+                    self.Ftotal= response.data.total;
+                    self.FtableData= response.data.pageData;
+                });
+                console.log(_self.FcurrentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+            //表格重新加载数据-------------------------------------------------------------------------个人贷款
+            GloadingData: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.GcurrentPage - 1) * this.GpageSize;
+                var end = this.GcurrentPage * this.GpageSize + 1;
+                //封，启，销户所使用的分页-----------------------------------------
+                axios.post('/af/approval/pageG', {'start': start, 'end': end}).then(function (response) {
+                    self.Gtotal= response.data.total;
+                    self.GtableData= response.data.pageData;
+                });
+                console.log(_self.GcurrentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+            //表格重新加载数据-------------------------------------------------------------------------公积金提取
+            GJloadingData: function () {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var start = (this.GJcurrentPage - 1) * this.GJpageSize;
+                var end = this.GJcurrentPage * this.GJpageSize + 1;
+                //封，启，销户所使用的分页-----------------------------------------
+                axios.post('/af/approval/pageGJ', {'start': start, 'end': end}).then(function (response) {
+                    self.GJtotal= response.data.total;
+                    self.GJtableData= response.data.pageData;
+                });
+                console.log(_self.GJcurrentPage);
+                setTimeout(function () {
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                }, 300);
+            },
+
+
+
+            /***********************************************************/
+            //表格查询事件
+            searchClick: function () {
+                var self = this;
+                self.loadingData();//重新加载数据
+            },
+            //分页大小修改事件
+            pageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange: function (val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //人员转移分页大小修改事件
+            RpageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.RpageSize = val;
+                var _self = this;
+                _self.RloadingData();//重新加载数据
+            },
+            //人员转移当前页修改事件
+            RcurrentPageChange: function (val) {
+                this.RcurrentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.RloadingData();//重新加载数据
+            },
+            //封，启，销户分页大小修改事件
+            FpageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.FpageSize = val;
+                var _self = this;
+                _self.FloadingData();//重新加载数据
+            },
+            //封，启，销户当前页修改事件
+            FcurrentPageChange: function (val) {
+                this.FcurrentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.FloadingData();//重新加载数据
+            },
+
+            //个人贷款分页大小修改事件
+            GpageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.FpageSize = val;
+                var _self = this;
+                _self.GloadingData();//重新加载数据
+            },
+            //个人贷款当前页修改事件
+            GcurrentPageChange: function (val) {
+                this.FcurrentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.GloadingData();//重新加载数据
+            },
+
+            //公积金提取分页大小修改事件
+            GJpageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
+                this.GJpageSize = val;
+                var _self = this;
+                _self.GJloadingData();//重新加载数据
+            },
+            //公积金提取当前页修改事件
+            GJcurrentPageChange: function (val) {
+                this.GJcurrentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.GJloadingData();//重新加载数据
+            },
+            /****************************************/
+
+
+
+
+            //表格勾选事件
+            selectionChange:function(val) {
+                this.multipleSelection = val;
+                console.info(val);
+            },
+
+            //表格点击事件
+            fcClick:function(row) {
+                var _self=this;
+                _self.ReditFormVisible = true;
+            },
+            qfClick:function(row) {
+                var _self=this;
+                _self.FeditFormVisible = true;
+//                _self.FloadingData();//重新加载数据
+            },
+            xhClick:function(row) {
+                var _self=this;
+                _self.GeditFormVisible = true;
+            },
+            GClick2:function(row) {
+                var _self=this;
+                _self.GJeditFormVisible = true;
+            },
+
+
+
+        }
+    });
+</script>
+</body>
+</html>
