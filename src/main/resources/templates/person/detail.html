@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>人员转移审核表</title>
+    <title>明细查询</title>
     <!-- 引入样式 -->
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.min.js"></script>
-    <!--&lt;!&ndash; 引入样式 &ndash;&gt;-->
-    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
-    <!--&lt;!&ndash; 引入组件库 &ndash;&gt;-->
-    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
-    <script src="../js/elementui.js"></script>
+    <!-- 引入样式 -->
     <link rel="stylesheet" href="../css/elementui.css">
+    <!-- 引入组件库 -->
+    <script src="../js/elementui.js"></script>
     <style type="text/css">
         #tableView{margin-left: 155px;float: left;}
     </style>
+
 </head>
 <body>
 <div id="tableView">
@@ -44,82 +43,52 @@
                     width="55">
             </el-table-column>
             <el-table-column
-                    prop="TRANSFER_OUT_UNIT"
-                    label="转出单位"
-                    width="200">
+                    prop="GRZH"
+                    label="个人账号"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="TB_PNAME"
+                    label="员工姓名"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="UNAME"
-                    label="转入单位"
-                    width="200">
-            </el-table-column>
-            <el-table-column
-                    prop="AUDITOR"
-                    label="申请人"
+                    label="所在单位"
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="PERSON_ACCOUNT"
-                    label="个人账户"
+                    prop="UNITMONPAYSUM"
+                    label="单位缴纳"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="PERMONPAYSUM"
+                    label="个人缴纳"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="YDRAWAMT"
+                    label="总共缴纳"
                     width="150">
             </el-table-column>
             <el-table-column
-                    prop="TRANSFER_REASON"
-                    label="转移原因"
-                    width="150">
-            </el-table-column>
-            <el-table-column
-                    prop="OPERATOR"
-                    label="操作人"
-                    width="60">
-            </el-table-column>
-            <el-table-column v-if="show"
-                    prop="STATE"
-                    label="账户状态"
-                    width="60">
-            </el-table-column>
-            <el-table-column v-if="show"
-                    prop="BALANCE"
-                    label="个人账号余额"
-                    width="60">
-            </el-table-column>
-            <el-table-column v-if="show"
-                    prop="IDNUMBER"
-                    label="身份证号"
-                    width="100">
-            </el-table-column>
-            <el-table-column v-if="show"
-                     prop="TRANSFER_ID"
-                     label="ID"
-                     width="100">
-            </el-table-column>
-            <!--<el-table-column v-if="show"-->
-                     <!--prop="BASENUMMBER"-->
-                     <!--label="个人缴存基数"-->
-                     <!--width="100">-->
-            <!--</el-table-column>-->
-
-            <el-table-column
-                    prop="SUBMIT_TIME"
-                    label="提交时间"
+                    prop="LASTNAYDATE"
+                    label="业务日期"
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="AUDIT_STATE"
-                    label="状态"
+                    prop="PAOP"
+                    label="创建人"
                     width="100">
             </el-table-column>
             <el-table-column
-                    label="操作"
-                    width="160">
-                <template scope="scope">
-                    <el-button :plain="true" type="success" size="small" icon="edit" @click="yesClick(scope.row)">通过</el-button>
-                    <el-button :plain="true" type="danger" size="small" icon="delete" @click="noClick(scope.row)">驳回</el-button>
-                </template>
+                    prop="OPENDATE"
+                    label="创建日期"
+                    width="100">
             </el-table-column>
         </el-table>
     </el-row>
-
     <!--列表底部工具条和分页符-->
     <el-row style="margin-top: 20px" type="flex" justify="end">
         <el-col :span="18" >
@@ -141,7 +110,7 @@
         el: '#tableView',
         data: {
             show:false,
-            message: '人员转移审核',
+            message: '明细查询',
             //部门select
             options: [],
             //列表数据
@@ -162,9 +131,6 @@
             total: 800,
             //删除的弹出框
             deleteVisible: false,
-            //编辑界面是否显示
-            editFormVisible: false,
-            editLoading: false,
             goUrl: ''
         },
         created: function () {
@@ -172,7 +138,7 @@
             var self = this;
             var start = (this.currentPage - 1) * this.pageSize;
             var end = this.currentPage * this.pageSize + 1;
-            axios.post('/af/transferAudit/page', {'start': start, 'end': end}).then(function (response) {
+            axios.post('/af/merge/page2', {'start': start, 'end': end}).then(function (response) {
                 self.total = response.data.total;
                 self.tableData = response.data.pageData;
             });
@@ -195,9 +161,9 @@
                 var searchForm = {
                     'start': start,
                     'end': end,
-                    'pname': this.searchForm.id
+                    'tb_pname': this.searchForm.id
                 };
-                axios.post('/af/transferAudit/page', searchForm).then(function (response) {
+                axios.post('/af/merge/page2', searchForm).then(function (response) {
                     _self.total = response.data.total;
                     _self.tableData = response.data.pageData;
                 });
@@ -227,68 +193,10 @@
                 _self.loadingData();//重新加载数据
             },
             //表格勾选事件
-            selectionChange: function (val) {
+            selectionChange:function(val) {
                 this.multipleSelection = val;
                 console.info(val);
             },
-            //表格驳回事件
-            noClick:function(row) {
-                var _self = this;
-                this.$confirm('确认驳回' + row.TRANSFER_ID +'吗?', '提示', {
-                    type: 'warning'
-                }).then(function(){
-//                    alert(11111);
-//                    alert(JSON.stringify(row));
-                    row.AUDIT_STATE='驳回';
-                    var url="/af/transferAudit/reject";
-                    axios.post(url,row).then(function (response) {
-//                        alert(JSON.stringify(row));
-                        if(response.data>0){
-                            _self.$message({
-                                message:'成功',
-                                type: 'success'
-                            });
-                        }else {
-                            _self.$message({
-                                message:'失败',
-                                type: 'error'
-                            });
-                        }
-                        _self.loadingData();//重新加载数据
-                    });
-                }).catch(function(e){
-                    if(e != "cancel")
-                        console.log("出现错误：" + e);
-                });
-            },
-            //表格通过事件
-            yesClick:function(row) {
-                var _self = this;
-                this.$confirm('确认通过吗?', '提示', {
-                    type: 'warning'
-                }).then(function(){
-                    row.AUDIT_STATE='通过';
-                    var  url="/af/transferAudit/pass";
-                    axios.post(url,row).then(function (response) {
-                        //alert(response.data);
-                        if(response.data>0){
-                            _self.$message({
-                                message:'成功',
-                                type: 'success'
-                            });
-                        }else {
-                            _self.$message({
-                                message:'失败',
-                                type: 'error'
-                            });
-                        }
-                        _self.loadingData();//重新加载数据
-                    });
-                }).catch(function(e){
-                    if(e != "cancel")
-                        console.log("出现错误：" + e);
-                });
-            }
         }
     });
 </script>

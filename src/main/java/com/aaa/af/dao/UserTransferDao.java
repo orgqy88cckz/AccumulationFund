@@ -24,7 +24,7 @@ public interface UserTransferDao {
     @Select("<script>select tb_pname,tb_idnumber,tb_pid,grzh,dalance,peraccstate from" +
             "(select rownum rn,a.tb_pname,a.tb_idnumber,a.tb_pid,b.grzh,b.dalance,b.peraccstate" +
             " from tb_person_info a left join tb_paccountutil b on a.tb_pid=b.pid" +
-            " where rownum &lt; #{end}   " +
+            " where b.peraccstate='正常' and rownum &lt; #{end}   " +
             "<if test=\"tb_idnumber!=null and tb_idnumber!=''\"> and tb_idnumber=#{tb_idnumber}</if>" +
             "<if test=\"tb_pname!=null and tb_pname!=''\"> and tb_pname like '%'||#{tb_pname}||'%'</if>" +
             " )c where c.rn &gt; #{start} </script>")
@@ -36,6 +36,7 @@ public interface UserTransferDao {
      */
     @Select("<script> select count(*) from tb_person_info a left join tb_paccountutil b on a.tb_pid=b.pid" +
             " <where>" +
+            " b.peraccstate='正常' "+
             "<if test=\"tb_idnumber!=null and tb_idnumber!=''\"> and tb_idnumber=#{tb_idnumber}</if>" +
             "<if test=\"tb_pname!=null and tb_pname!=''\"> and tb_pname like '%'||#{tb_pname}||'%'</if>" +
             " </where></script>")
@@ -70,7 +71,7 @@ public interface UserTransferDao {
      * 显示到提交审核处
      * @return
      */
-    @Select("select a.id,b.aid,b.styh from tb_unit a left join tb_unitaccount b" +
+    @Select("select a.id,b.aid,b.styh,a.uname from tb_unit a left join tb_unitaccount b" +
             " on a.id=b.aid where a.id=#{ID}")
     Map getUintById(Integer id);
     /**

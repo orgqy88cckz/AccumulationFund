@@ -105,20 +105,20 @@
                 <el-input type="hidden" v-model="editForm.GRZH" auto-complete="off" disabled></el-input><!--身份证号-->
             </el-form-item>
             <!--<el-form-item label="转入单位名称">-->
-                <!--<el-input v-model="editForm.RUNAME" auto-complete="off"></el-input>-->
-                <el-form-item label="转入单位名称">
-                    <template>
-                        <el-select v-model="editForm.RUNAME" @change="selectUitl" placeholder="请选择">
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.ID"
-                                    :label="item.UNAME"
-                                    :value="item.ID">
-                            </el-option>
-                        </el-select>
-                    </template>
-                    <el-input type="hidden" v-model="editForm.BASENUMMBER" auto-complete="off" disabled></el-input><!--身份证号-->
-                </el-form-item>
+            <!--<el-input v-model="editForm.RUNAME" auto-complete="off"></el-input>-->
+            <el-form-item label="转入单位名称">
+                <template>
+                    <el-select v-model="editForm.RUNAME" @change="selectUitl" placeholder="请选择">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.ID"
+                                :label="item.UNAME"
+                                :value="item.ID">
+                        </el-option>
+                    </el-select>
+                </template>
+                <el-input type="hidden" v-model="editForm.BASENUMMBER" auto-complete="off" disabled></el-input><!--身份证号-->
+            </el-form-item>
             <!--</el-form-item>-->
             <el-form-item label="转入受托银行名称">
                 <el-input v-model="editForm.R" auto-complete="off" disabled></el-input>
@@ -346,7 +346,7 @@
             //表格编辑事件
             editClick:function(row) {
                 //清空原有数据
-                this. editForm={
+                this.editForm={
                     TB_IDNUMBER:'',
                     GRZH:0,
                     TB_PNAME:'',
@@ -360,46 +360,68 @@
                     SUBMIT_TIME: '',
                     TRANSFER_REASON: ''
                 }
-               // alert(JSON.stringify(row));
-                        this.goUrl="/af/userTransfer/transfer/"+row.TB_PNAME;
-                        this.editFormVisible = true;
-                        var gourl=this.goUrl;
-                        var self = this;
+                // alert(JSON.stringify(row));
+                this.goUrl="/af/userTransfer/transfer/"+row.TB_PNAME;
+                this.editFormVisible = true;
+                var gourl=this.goUrl;
+                var self = this;
                 //获得当前时间，即只能是今天的时间
-                        var date = new Date();
-                        var seperator1 = "-";
-                        var year = date.getFullYear();
-                        var month = date.getMonth() + 1;
-                        var strDate = date.getDate();
-                        if (month >= 1 && month <= 9) {
-                            month = "0" + month;
-                        }
-                        if (strDate >= 0 && strDate <= 9) {
-                            strDate = "0" + strDate;
-                        }
-                        var currentdate = year + seperator1 + month + seperator1 + strDate;
-                   //获得当前时间结束
-                       // var tb_id=row.TB_PID;//表中已存在********************先不采用
-                        var tb_idnumber=row.TB_IDNUMBER;//表中已存在
-                        var GRZH=row.GRZH;//表中已存在，个人账号
-                        var TB_PNAME=row.TB_PNAME;//表中已存在
-                       // var BASENUMMBER=row.BASENUMMBER;
-                        var DALANCE=row.DALANCE;//表中已存在，个人公积金余额
-                        var PERACCSTATE=row.PERACCSTATE;//表中已存在，个人账号状态PERACCSTATE
-                        axios.get(gourl).then(function (response) {
-                            /****                         **/
-                            self.editForm.TB_IDNUMBER= tb_idnumber;
-                            self.editForm.GRZH= GRZH;
-                            self.editForm.TB_PNAME= TB_PNAME;
-                            self.editForm.DALANCE= DALANCE;
-                            self.editForm.PERACCSTATE= PERACCSTATE;
-                            //self.editForm.BASENUMMBER= BASENUMMBER;
-                            self.editForm.BASENUMMBER=response.data.BASENUMMBER;
-                            self.editForm.UNAME= response.data.UNAME;
-                            self.editForm.STYH=response.data.STYH;
-                            self.editForm.SUBMIT_TIME=currentdate;
-                       //     alert(JSON.stringify(response.data));
+                var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate;
+                //获得当前时间结束
+                // var tb_id=row.TB_PID;//表中已存在********************先不采用
+                var tb_idnumber=row.TB_IDNUMBER;//表中已存在
+                var GRZH=row.GRZH;//表中已存在，个人账号
+                var TB_PNAME=row.TB_PNAME;//表中已存在
+                // var BASENUMMBER=row.BASENUMMBER;
+                var DALANCE=row.DALANCE;//表中已存在，个人公积金余额
+                var PERACCSTATE=row.PERACCSTATE;//表中已存在，个人账号状态PERACCSTATE
+                axios.get(gourl).then(function (response) {
+                    /****                         **/
+                    self.editForm.TB_IDNUMBER= tb_idnumber;
+                    self.editForm.GRZH= GRZH;
+                    self.editForm.TB_PNAME= TB_PNAME;
+                    self.editForm.DALANCE= DALANCE;
+                    self.editForm.PERACCSTATE= PERACCSTATE;
+                    //self.editForm.BASENUMMBER= BASENUMMBER;
+                    self.editForm.BASENUMMBER=response.data.BASENUMMBER;
+                    self.editForm.UNAME= response.data.UNAME;
+                    self.editForm.STYH=response.data.STYH;
+                    self.editForm.SUBMIT_TIME=currentdate;
+                    //     alert(JSON.stringify(response.data));
                 });
+
+
+//                var url2='/af/userTransfer/ceshi/'+this.editForm.RUNAME;
+//                axios.post(url2).then(function(response) {
+//                    alert(222);
+//                    alert(JSON.stringify(response.data));
+//                    //同一家公司
+//                    if (response.data !=null&&response.data!='') {//
+//                        alert(111);
+//                        self.$message({
+//                            message: '同一家公司',
+//                            type: 'error'
+//                        });
+//                        //清空
+//                        self.editForm = {
+//                            RUNAME: '',
+//                            R: '',
+//                        };
+//                    }
+//                });
+
+
             },
             //保存点击事件----提交审核
             editSubmit:function(){
@@ -407,36 +429,92 @@
                 _self.loading = true;
                 var formData =this.editForm;
                 //这里可以添加验证？不能重复提交申请
-              //  alert(JSON.stringify(this.editForm.TB_IDNUMBER));
+//                  alert(JSON.stringify(this.editForm.RUNAME));
                 var url="/af/userTransfer/submitVerify/"+this.editForm.TB_IDNUMBER;
                 var goUrl="/af/userTransfer/submit";
-                axios.post(url).then(function(response){
-//                    alert(JSON.stringify(response.data));
-//                    alert(response.data.r)
-                    if(response.data.r==1){//如果查询到该人员在待转移审核表里，不可以申请
+                //虽然判断了，但还是保存的表里面
+                var url2='/af/userTransfer/ceshi/'+this.editForm.RUNAME;
+                axios.post(url2).then(function(response) {
+                    //同一家公司
+                    if (response.data.UNAME ==_self.editForm.UNAME) {//
                         _self.$message({
-                            message:'请勿重复操作',
+                            message: '不能为同一家公司',
                             type: 'error'
                         });
+                        //清空
+                        _self.editForm = {
+                            TB_IDNUMBER:'',
+                            GRZH:0,
+                            TB_PNAME:'',
+                            BASENUMMBER:0,
+                            DALANCE:0,
+                            PERACCSTATE:'',
+                            UNAME: '',
+                            STYH: '',
+                            RUNAME: '',
+                            R: '',
+                            SUBMIT_TIME: '',
+                            TRANSFER_REASON: ''
+                        };
                         _self.editFormVisible = false;
-                        _self.loadingData();//重新加载数据
-                        _self.loadingData2();//重新加载待转移人员
                     }else{
-                        axios.post(goUrl,formData).then(function(response){
-                            if(response.data>0){
-                                _self.editFormVisible = false;
-                            }else{
+                        axios.post(url).then(function(response){
+                            if(response.data.r==1){//如果查询到该人员在待转移审核表里，不可以申请
                                 _self.$message({
-                                    message:'操作失败',
+                                    message:'请勿重复操作',
                                     type: 'error'
                                 });
+                                _self.editFormVisible = false;
+                                _self.loadingData();//重新加载数据
+                                _self.loadingData2();//重新加载待转移人员
+                            }else{
+                                axios.post(goUrl,formData).then(function(response){
+                                    if(response.data>0){
+                                        _self.editFormVisible = false;
+                                    }else{
+                                        _self.$message({
+                                            message:'操作失败',
+                                            type: 'error'
+                                        });
+                                    }
+                                    _self.loadingData();//重新加载数据
+                                    _self.loadingData2();//重新加载待转移人员
+                                });
                             }
-                            _self.loadingData();//重新加载数据
-                            _self.loadingData2();//重新加载待转移人员
                         });
+
                     }
                 });
-                this.loadingData2();//重新加载待转移人员
+
+//                axios.post(url).then(function(response){
+////                    alert(JSON.stringify(response.data));
+////                    alert(response.data.r)
+//                    if(response.data.r==1){//如果查询到该人员在待转移审核表里，不可以申请
+//                        _self.$message({
+//                            message:'请勿重复操作',
+//                            type: 'error'
+//                        });
+//                        _self.editFormVisible = false;
+//                        _self.loadingData();//重新加载数据
+//                        _self.loadingData2();//重新加载待转移人员
+//                    }else{
+//                        axios.post(goUrl,formData).then(function(response){
+//                            if(response.data>0){
+//                                _self.editFormVisible = false;
+//                            }else{
+//                                _self.$message({
+//                                    message:'操作失败',
+//                                    type: 'error'
+//                                });
+//                            }
+//                            _self.loadingData();//重新加载数据
+//                            _self.loadingData2();//重新加载待转移人员
+//                        });
+//                    }
+//                });
+
+
+               this.loadingData2();//重新加载待转移人员
                 console.info(this.editForm);
             },
             /*******************待转移人员******************************************************************************************************************************************/

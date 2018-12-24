@@ -85,6 +85,13 @@ public class UserTransferController {
         Map uintById = userTransferService.getUintById(id);
         return uintById;
     }
+    @ResponseBody
+    @RequestMapping("/ceshi/{RUNAME}")
+    public Object Trustee2(@PathVariable("RUNAME") Integer id) {
+        Map uintById = userTransferService.getUintById(id);
+        System.out.println(uintById+"sdpfjsd是");
+        return uintById;
+    }
     /**
      * 添加
      * @param map
@@ -119,13 +126,13 @@ public class UserTransferController {
     @ResponseBody
     @RequestMapping("/submitVerify/{TB_IDNUMBER}")
     public Object submitVerify(@PathVariable("TB_IDNUMBER") String idnumber){
-       // System.out.println(idnumber+"**********************");
+        // System.out.println(idnumber+"**********************");
         Map map = userTransferService.submitVerify(idnumber);
-       // System.out.println(map+"是");
+        // System.out.println(map+"是");
         Map mapParam=new HashMap();
         if(map==null){//为空，没有查到数据
-           //  System.out.println("返回");
-             mapParam.put("r",0);
+            //  System.out.println("返回");
+            mapParam.put("r",0);
         }else{
             mapParam.put("r",1);
         }

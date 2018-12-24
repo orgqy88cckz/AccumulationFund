@@ -41,4 +41,16 @@ public interface MergeService {
      * @return
      */
     int add(Map map);
+    /**
+     * 带参分页查询--明细查询
+     * @param map
+     * @return
+     */
+    List<Map> getPageByParam2(Map map);
+    /**
+     * 查询分页总数量
+     * @param map
+     * @return
+     */
+    int getPageCount2(Map map);
 }
