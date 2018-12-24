@@ -3,6 +3,7 @@ package com.aaa.af.service;
 import com.aaa.af.dao.InformationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,5 +77,27 @@ public class InformationServiceImpl implements InformationService {
             map.put("INFORMTYPE",6);
         }
         return informationDao.update(map);
+    }
+
+    @Override
+    public String checkPerson(Map map, Model model) {
+        int i = informationDao.getPersonAccount(map);
+        if(i==0){
+            model.addAttribute("msg","用户名不存在");
+            return "gerenLogin";
+        }else if(i>0){
+            List<Map> personPassword = informationDao.getPersonPassword(map);
+            Object grmm = personPassword.get(0).get("GRMM");
+            Object password = map.get("password");
+            if(password.equals(grmm)){
+                model.addAttribute("username",map.get("username"));
+                return "yingyeting/geren";
+            }else{
+                model.addAttribute("msg","密码输入错误");
+                return "gerenLogin";
+            }
+        }else{
+            return "";
+        }
     }
 }

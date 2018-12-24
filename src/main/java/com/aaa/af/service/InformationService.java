@@ -1,5 +1,7 @@
 package com.aaa.af.service;
 
+import org.springframework.ui.Model;
+
 import java.util.List;
 import java.util.Map;
 
@@ -49,4 +51,11 @@ public interface InformationService {
      * @return
      */
     int update(Map map);
+
+    /**
+     * 个人账户是否存在
+     * @param map
+     * @return
+     */
+    String checkPerson(Map map, Model model);
 }

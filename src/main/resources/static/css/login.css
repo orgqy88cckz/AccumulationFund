@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+.login{}
+.login .login-head{width:960px;margin:20px auto;height: 70px;}
+.login .login-head .login-head-a{text-align: center;float: left;}
+.login .login-head .login-head-a img{}
+.login .login-head .login-head-a p{font-size: 20px;margin: 0;}
+.login .login-head .login-head-b{border-left: 1px solid #666666;float: left;height: 75px;line-height: 75px;margin-left: 20px;padding-left: 30px;width: 300px;font-size: 25px;}
+.login .login-head .login-head-c{float: right;height: 75px;line-height: 75px;margin-left: 20px;padding-left: 30px;width: 100px;font-size: 25px;}
+.login .login-con{text-align: center;background-color: #efefef;height:450px;}
+.login .login-con .login-a{background: url("/af/img/index30.jpg")/*tpa=http://www.17sucai.com/preview/388478/2016-04-22/login1/img/pay-bg-3.jpg*/no-repeat;width:1000px;margin: 0 auto;text-align: left;padding-top: 0px;min-height: 450px;}
+.login .login-con .login-a form{}
+.login .login-con .login-a .login-b{float: right;width: 344px;height: 387px;border: solid 2px #e6e5e5;margin-right: 60px;margin-top: 20px;background: #fff;}
+.login .login-con .login-a .login-b .login-b-a{background-color: #E3E3E3;height: 46px;line-height: 46px;font-size: 16px;font-weight: bold;padding-left: 15px;}
+.login .login-con .login-a .login-b .login-b-b{padding-top: 20px;height: 255px;}
+.login .login-con .login-a .login-b .login-b-b ul li{height: 65px;_height: 60px;list-style-type: none;font-family: "微软雅黑","宋体",Arial;font-size: 14px;}
+.login .login-con .login-a .login-b .login-b-b ul li label{display: inline-block;font-size: 16px;color: #666666;}
+.login .login-con .login-a .login-b .login-b-b ul li input{width: 180px;color: rgb(153, 153, 153);height: 32px;line-height: 32px;border: solid 1px #d3d3d3;font-size: 14px;}
+.login .login-con .login-a .login-b .login-b-b ul li h1{font-weight: normal;color: #ff0000;background: url("icon.png")/*tpa=http://www.17sucai.com/preview/388478/2016-04-22/login1/img/icon.png*/no-repeat 95px -28px;font-size: 12px;padding-left: 120px;padding-top: 6px;margin: 3px 0px 0px -30px;}
+.login .login-con .login-a .login-b .login-b-b ul li #checkCode{height: 32px;line-height: 32px;width: 60px;}
+.login .login-con .login-a .login-b .login-b-b ul li img{vertical-align: middle;width: 76px;height: 33px;}
+.login .login-con .login-a .login-b .login-b-b ul li a{color: #447bd6;font-family: "微软雅黑","宋体",Arial;font-size: 12px;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x{padding-left: 65px;padding-top: 0px;height: 65px;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-a{width: 100px;height: 50px;float: left;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-a .x{background-position: right -208px;background-image: url("/af/img/btn-type2.png")/*tpa=http://www.17sucai.com/preview/388478/2016-04-22/login1/img/btn-type2.png*/;background-repeat: no-repeat;height: 37px;float: left;width: 3px;}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-a input{width:80px;float: left;border: none;background-position: 0 -120px;background-image: url("/af/img/btn-type2.png")/*tpa=http://www.17sucai.com/preview/388478/2016-04-22/login1/img/btn-type2.png*/;background-repeat: no-repeat;height: 37px;line-height: 37px;color: #fff;font-size: 14px;font-weight: bold;
+}
+.login .login-con .login-a .login-b .login-b-b ul .login-x .login-x-b{}
+.login .login-con .login-a .login-b .login-b-c{text-align: center;padding-top: 10px;border-top: solid 1px #f0f0f0;}
+.login .login-con .login-a .login-b .login-b-c a{color: #447bd6;font-family: "微软雅黑","宋体",Arial;font-size: 12px;}
+.login .login-con .login-a .login-b .login-b-c a:hover{color: #f3ab3a;}
+.login .login-foot{ text-align: center;font-size: 14px;color: #666666;margin-top: 50px;}
+
+.code{      
+background-image:url("w1.jpg")/*tpa=http://www.17sucai.com/preview/388478/2016-04-22/login1/css/w1.jpg*/;      
+font-family:Arial;      
+font-style:italic;      
+color:Red;      
+border:0;      
+padding:2px 3px;      
+letter-spacing:3px;      
+font-weight:bolder;      
+}  
+#input1{width: 50px;}   

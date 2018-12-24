@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<div style="width:800px">
+    <ul th:each="list : ${list}">
+        <li>用户名:&nbsp;&nbsp;<span th:text="${list.TB_PNAME}"></span></li><hr>
+
+        <li> 性别 :&nbsp;&nbsp;<span th:text="${list.TB_PSEX}"></span></li><hr>
+
+        <li> 个人账号：&nbsp;&nbsp;<span th:text="${list.GRZH}"></span></li><hr>
+
+        <li> 手机号:&nbsp;&nbsp;<span th:text="${list.TB_PIPHONE}"></span></li><hr>
+
+        <li>职业:&nbsp;&nbsp;<span th:text="${list.TB_PROFESSION}"></span></li><hr>
+
+        <li >公积金余额:&nbsp;&nbsp;<span th:text="${list.DALANCE}"></span>元</li><hr>
+
+        <li>地址：&nbsp;&nbsp;<span th:text="${list.TB_PNAME}"></span></li><hr>
+
+        <li>学历：&nbsp;&nbsp;<span th:text="${list.TB_PEDUCATION}"></span></li><hr>
+        </ul>
+</div>
+</body>
+</html>
