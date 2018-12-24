@@ -12,14 +12,6 @@ import java.util.Map;
  * createTime:2018-12-16 20:01
  */
 public interface MergeDao {
-/**
- * select grzh,ubitnrop,indinrop,basenummber,dalance,peraccstate,uname,tb_pname,lastnaydate,opendate from
- (select a.GRZH,a.UBITNROP,a.INDINROP,
- a.BASENUMMBER,a.DALANCE,a.PERACCSTATE,
- c.uname,b.tb_pName,a.LASTNAYDATE,a.openDate
- from tb_paccountutil a left join tb_person_info b on a.pid= b.tb_pid
- left join tb_unit c on a.uaid=c.id)
- */
     /**
      * 带参分页查询to_char(submit_time,'yyyy-mm-dd') as
      * @param map
@@ -74,17 +66,42 @@ public interface MergeDao {
      * @param map
      * @return
      */
-    /**
-     * insert into tb_unseal_audit(unseal_name,unseal_unit,
-     unseal_sex,unit_post,unseal_phone,unseal_number,born_date,unseal_account,
-     reason,operator,create_time,audit_state,state)
-     values(?,?,?,?,?,?,?,?,?,?,?,?,?)
-     */
     @Insert("insert into tb_unseal_audit(unseal_id,unseal_name,unseal_unit,unseal_sex,unit_post," +
             "unseal_phone,unseal_number,unseal_account," +
-            "reason,operator,create_time,state,audit_name)" +
+            "reason,operator,create_time,state,audit_state,audit_name)" +
             " values(seq_unseal_audit.nextval,#{TB_PNAME},#{UNAME},#{TB_PSEX}," +
             "#{TB_PROFESSION},#{TB_PIPHONE},#{TB_IDNUMBER},#{GRZH},#{REASON},'wqy'," +
-            "sysdate,#{PERACCSTATE},'待审核')")
+            "sysdate,#{PERACCSTATE},#{AUDIT_STATE},'待审核')")
     int add(Map map);
+
+    /**
+     * 明细查询分页
+     * 带参分页查询to_char(submit_time,'yyyy-mm-dd') as
+     * @param map
+     * @return
+     */
+    @Select("<script>select grzh,unitmonpaysum,permonpaysum,ydrawamt," +
+            "to_char(lastnaydate,'yyyy-mm-dd') as lastnaydate,paop,uname,tb_pname," +
+            "to_char(opendate,'yyyy-mm-dd') as opendate from" +
+            " (select rownum rn,a.grzh,a.unitmonpaysum,a.permonpaysum,a.ydrawamt," +
+            "a.lastnaydate,a.paop,c.uname,b.tb_pname,a.opendate from tb_paccountutil a" +
+            " left join tb_person_info b on a.pid=b.tb_pid" +
+            " left join tb_unit c on a.uaid=c.id" +
+            " where rownum &lt; #{end}   " +
+            "<if test=\"tb_pname!=null and tb_pname!=''\"> and tb_pname like '%'||#{tb_pname}||'%'</if>" +
+            " )d where d.rn &gt; #{start} </script>")
+    List<Map> getPageByParam2(Map map);
+    /**
+     * 明细查询
+     * 查询分页总数量
+     * @param map
+     * @return
+     */
+    @Select("<script> select count(*) from tb_paccountutil a" +
+            " left join tb_person_info b on a.pid=b.tb_pid" +
+            " left join tb_unit c on a.uaid=c.id" +
+            " <where>" +
+            "<if test=\"tb_pname!=null and tb_pname!=''\"> and tb_pname=#{tb_pname}</if>" +
+            " </where></script>")
+    int getPageCount2(Map map);
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * className:UserTransfer
- * discription:封存 销户 启封
+ * discription:封存 销户 启封     明细查询
  * author:wqy
  * createTime:2018-12-11 14:23
  */
@@ -30,6 +30,15 @@ public class MergeController {
     @RequestMapping("/toList")
     public String toList(){
         return "person/Sealed_unsealed";
+    }
+    /**
+     * 跳转列表页面
+     * 明细查询
+     * @return
+     */
+    @RequestMapping("/toList2")
+    public String toList2(){
+        return "person/detail";
     }
     /**
      * 分页------待转移人员
@@ -58,11 +67,11 @@ public class MergeController {
         Map maps=new HashMap();
         if(loansVerification!=null&&loansVerification.size()>0){ //判断按照GRZH查询贷款人 如有贷款人 进去 把这条信息传到前台 前台进行判断
             maps.put("daikan",1);
-        }else{
-            if(verification!=null&&verification.size()>0){ //判断按照GRZH查询封存 销户 启封 是否重复操作 查询是否有这条信息 在判断
-                maps.put("grzh",1);
-            }
         }
+        if(verification!=null&&verification.size()>0){ //判断按照GRZH查询封存 销户 启封 是否重复操作 查询是否有这条信息 在判断
+            maps.put("grzh",1);
+        }
+
         return maps;
     }
 
@@ -74,8 +83,20 @@ public class MergeController {
     @ResponseBody
     @RequestMapping("/submit")
     public Object submit(@RequestBody Map map){
-
         return mergeService.add(map);
+    }
+    /**
+     * 分页------明细查询
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/page2")
+    public Object list2(@RequestBody Map map){
+        Map map1=new HashMap();
+        map1.put("pageData",mergeService.getPageByParam2(map));
+        map1.put("total",mergeService.getPageCount2(map));
+        return map1;
     }
 
 }

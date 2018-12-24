@@ -2,35 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>人员转移审核表</title>
+    <title>封存&启封审核表</title>
     <!-- 引入样式 -->
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.min.js"></script>
-    <!--&lt;!&ndash; 引入样式 &ndash;&gt;-->
-    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
-    <!--&lt;!&ndash; 引入组件库 &ndash;&gt;-->
-    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
     <script src="../js/elementui.js"></script>
     <link rel="stylesheet" href="../css/elementui.css">
     <style type="text/css">
-        #tableView{margin-left: 155px;float: left;}
+        #tableView{margin-left: 0px;float: left;}
     </style>
 </head>
 <body>
 <div id="tableView">
     <h2>{{ message }}</h2>
     <!--列表顶部搜索和工具条-->
-    <el-row>
-        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-            <el-form-item label="姓名">
-                <el-input v-model="searchForm.id" placeholder="姓名"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
-                <el-button type="success" icon="plus" @click="toFlush">搜索框刷新</el-button>
-            </el-form-item>
-        </el-form>
-    </el-row>
     <!--列表-->
     <el-row>
         <el-table
@@ -44,69 +29,63 @@
                     width="55">
             </el-table-column>
             <el-table-column
-                    prop="TRANSFER_OUT_UNIT"
-                    label="转出单位"
-                    width="200">
-            </el-table-column>
-            <el-table-column
-                    prop="UNAME"
-                    label="转入单位"
-                    width="200">
-            </el-table-column>
-            <el-table-column
-                    prop="AUDITOR"
-                    label="申请人"
+                    prop="UNSEAL_NAME"
+                    label="姓名"
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="PERSON_ACCOUNT"
-                    label="个人账户"
+                    prop="UNSEAL_UNIT"
+                    label="所在单位"
                     width="150">
             </el-table-column>
             <el-table-column
-                    prop="TRANSFER_REASON"
-                    label="转移原因"
+                    prop="UNSEAL_SEX"
+                    label="性别"
+                    width="80">
+            </el-table-column>
+            <el-table-column
+                    prop="UNIT_POST"
+                    label="工作职位"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="UNSEAL_PHONE"
+                    label="电话号码"
                     width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="UNSEAL_NUMBER"
+                    label="身份证号"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="UNSEAL_ACCOUNT"
+                    label="个人账户"
+                    width="100">
+            </el-table-column>
+            <el-table-column
+                    prop="REASON"
+                    label="封启原因"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="STATE"
+                    label="申请操作"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="OPERATOR"
                     label="操作人"
                     width="60">
             </el-table-column>
-            <el-table-column v-if="show"
-                    prop="STATE"
-                    label="账户状态"
-                    width="60">
-            </el-table-column>
-            <el-table-column v-if="show"
-                    prop="BALANCE"
-                    label="个人账号余额"
-                    width="60">
-            </el-table-column>
-            <el-table-column v-if="show"
-                    prop="IDNUMBER"
-                    label="身份证号"
-                    width="100">
-            </el-table-column>
-            <el-table-column v-if="show"
-                     prop="TRANSFER_ID"
-                     label="ID"
-                     width="100">
-            </el-table-column>
-            <!--<el-table-column v-if="show"-->
-                     <!--prop="BASENUMMBER"-->
-                     <!--label="个人缴存基数"-->
-                     <!--width="100">-->
-            <!--</el-table-column>-->
-
             <el-table-column
-                    prop="SUBMIT_TIME"
-                    label="提交时间"
+                    prop="CREATE_TIME"
+                    label="创建时间"
                     width="100">
             </el-table-column>
             <el-table-column
-                    prop="AUDIT_STATE"
-                    label="状态"
+                    prop="AUDIT_NAME"
+                    label="审核状态"
                     width="100">
             </el-table-column>
             <el-table-column
@@ -140,8 +119,7 @@
     var tableView=new Vue({
         el: '#tableView',
         data: {
-            show:false,
-            message: '人员转移审核',
+            message: '销户审核表',
             //部门select
             options: [],
             //列表数据
@@ -172,7 +150,7 @@
             var self = this;
             var start = (this.currentPage - 1) * this.pageSize;
             var end = this.currentPage * this.pageSize + 1;
-            axios.post('/af/transferAudit/page', {'start': start, 'end': end}).then(function (response) {
+            axios.post('/af/sealed/page2', {'start': start, 'end': end}).then(function (response) {
                 self.total = response.data.total;
                 self.tableData = response.data.pageData;
             });
@@ -195,9 +173,9 @@
                 var searchForm = {
                     'start': start,
                     'end': end,
-                    'pname': this.searchForm.id
+                    'unseal_name': this.searchForm.id
                 };
-                axios.post('/af/transferAudit/page', searchForm).then(function (response) {
+                axios.post('/af/sealed/page2', searchForm).then(function (response) {
                     _self.total = response.data.total;
                     _self.tableData = response.data.pageData;
                 });
@@ -234,13 +212,13 @@
             //表格驳回事件
             noClick:function(row) {
                 var _self = this;
-                this.$confirm('确认驳回' + row.TRANSFER_ID +'吗?', '提示', {
+                this.$confirm('确认驳回吗?', '提示', {
                     type: 'warning'
                 }).then(function(){
 //                    alert(11111);
 //                    alert(JSON.stringify(row));
-                    row.AUDIT_STATE='驳回';
-                    var url="/af/transferAudit/reject";
+                    row.AUDIT_NAME='驳回';
+                    var url="/af/sealed/reject";
                     axios.post(url,row).then(function (response) {
 //                        alert(JSON.stringify(row));
                         if(response.data>0){
@@ -263,15 +241,17 @@
             },
             //表格通过事件
             yesClick:function(row) {
+//                alert(JSON.stringify(row));
                 var _self = this;
                 this.$confirm('确认通过吗?', '提示', {
                     type: 'warning'
                 }).then(function(){
-                    row.AUDIT_STATE='通过';
-                    var  url="/af/transferAudit/pass";
+                    row.AUDIT_NAME='通过';
+                    var  url="/af/sealed/pass";
                     axios.post(url,row).then(function (response) {
-                        //alert(response.data);
+//                        alert(22222);
                         if(response.data>0){
+//                            alert(555555);
                             _self.$message({
                                 message:'成功',
                                 type: 'success'

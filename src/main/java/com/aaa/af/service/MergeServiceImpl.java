@@ -44,4 +44,14 @@ public class MergeServiceImpl implements MergeService {
         return mergeDao.add(map);
     }
 
+    @Override
+    public List<Map> getPageByParam2(Map map) {
+        return mergeDao.getPageByParam2(map);
+    }
+
+    @Override
+    public int getPageCount2(Map map) {
+        return mergeDao.getPageCount2(map);
+    }
+
 }
