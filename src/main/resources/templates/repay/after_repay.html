@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>逾期还款</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{ message }}</h2>
+</div>
+
+<div id="tableView">
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                @selection-change="selectionChange"
+                style="width: 100%">
+            <el-table-column
+                    prop="ID"
+                    v-if="false"
+                    label="个人账号"
+                    width="140">
+            </el-table-column>
+            <el-table-column
+                    prop="GRZH"
+                    label="个人账号"
+                    width="140">
+            </el-table-column>
+            <el-table-column
+                    prop="PNAME"
+                    label="姓名"
+                    width="140">
+            </el-table-column>
+
+            <el-table-column
+                    prop="LOAN_MONEY"
+                    label="贷款金额(元)"
+                    width="140">
+            </el-table-column>
+            <el-table-column
+                    prop="LOAN_PERIODS"
+                    label="贷款期数"
+                    width="140">
+            </el-table-column>
+
+            <el-table-column
+                    prop="REPAYED_MONEY"
+                    label="已还(元)"
+                    width="140">
+            </el-table-column>
+            <el-table-column
+                    prop="OVER_PERIODS"
+                    label="剩余期数"
+                    width="140">
+            </el-table-column>
+            <el-table-column
+                    prop="OVER_MONEY"
+                    label="剩余金额"
+                    width="140">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template scope="scope">
+                    <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">查看详情</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-row>
+
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: left"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+
+    <!--编辑界面-->
+    <el-dialog title="还款详情" :visible.sync="editFormVisible" :close-on-click-modal="false">
+        <el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm">
+            <h4>贷款信息</h4>
+            <el-col :span="6">
+                <el-form-item label="个人账号:" prop="GRZH">
+                    <el-input v-model="editForm.GRZH" auto-complete="off" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="贷款总额:">
+                    <el-input v-model="editForm.LOAN_MONEY" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="放贷日期:">
+                    <el-input v-model="editForm.CTIME" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="贷款期数:">
+                    <el-input type="text" v-model="editForm.LOAN_PERIODS" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="还款方式:">
+                    <el-input type="text" v-model="editForm.LOAN_REPAY" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="贷款利率:">
+                    <el-input type="text" v-model="editForm.LOAN_RATE" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+            <el-form-item label="还款银行:">
+                <el-input type="text" v-model="editForm.REPAY_BANK" style="width:150px" :disabled="true"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="6">
+            <el-form-item label="还款账户:">
+                <el-input type="text" v-model="editForm.REPAY_ACCOUNT" style="width:150px" :disabled="true"></el-input>
+            </el-form-item>
+            </el-col>
+
+            <h4>待还款信息</h4>
+            <el-col :span="6">
+                <el-form-item label="应还本金:" prop="REPAY_MONEY">
+                    <el-input v-model="editForm.REPAY_MONEY" auto-complete="off" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="应还利息:">
+                    <el-input v-model="editForm.REPAY_INTERESTS" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="已还本金:">
+                    <el-input v-model="editForm.REPAYED_MONEY" style="width:150px" :disabled="true"></el-input>                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="已还利息:">
+                    <el-input type="text" v-model="editForm.REPAYED_INTERESTS" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="剩余本金:">
+                    <el-input type="text" v-model="editForm.OVER_MONEY" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="剩余利息:">
+                    <el-input type="text" v-model="editForm.OVER_INTERESTS" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="剩余期数:">
+                    <el-input type="text" v-model="editForm.OVER_PERIODS" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="逾期时间">
+                    <el-input type="text" v-model="editForm.OVER_PERIODS" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <!--<h4 >本期应还信息</h4>-->
+            <el-col :span="6">
+                <el-form-item label="还款状态" >
+                    <el-input v-model="editForm.STATE" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item color="red" label="滞纳金:">
+                    <el-input type="text" v-model="editForm.OVER_PAYMENT" style="width:150px" :disabled="true"></el-input>
+                </el-form-item>
+            </el-col>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click.native="editSubmit" :loading="editLoading">确认还款</el-button>
+            <el-button type="success" @click.native="editFormVisible = false">取消</el-button>
+
+        </div>
+    </el-dialog>
+
+    <!--个人还款记录-->
+    <el-dialog title="个人还款详情" :visible.sync="Visible" :close-on-click-modal="false">
+        <!--列表-->
+        <el-row>
+            <el-table
+                    :data="personData"
+                    v-loading.body="loading"
+                    border
+                    @selection-change="selectionChange"
+                    style="width: 100%">
+                <el-table-column
+                        prop="GRZH"
+                        label="个人账号"
+                        width="140">
+                </el-table-column>
+                <el-table-column
+                        prop="PNAME"
+                        label="姓名"
+                        width="140">
+                </el-table-column>
+                <el-table-column
+                        prop="REPAYED_MONTH_MONEY"
+                        label="月还本金"
+                        width="140">
+                </el-table-column>
+                <el-table-column
+                        prop="REPAYED_MONTH_INTEREST"
+                        label="月还利息"
+                        width="140">
+                </el-table-column>
+                <el-table-column
+                        prop="REPAYED_DATE"
+                        label="最近还款日期"
+                        width="140">
+                </el-table-column>
+            </el-table>
+        </el-row>
+    </el-dialog>
+
+
+</div>
+
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '还款业务'
+        }
+    });
+
+    var tableView = new Vue({
+        el: '#tableView',
+        data: {
+            //列表数据
+            tableData: [],
+            personData:[],
+            //显示加载中样式
+            loading:false,
+            //搜索表单
+            searchForm: {
+                pid: '',
+                pname: '',
+                deptNo: ''
+            },
+            //多选值
+            multipleSelection: [],
+            //当前页
+            currentPage:1,
+            //分页大小
+            pageSize:10,
+            //总记录数
+            total:800,
+            //删除的弹出框
+            deleteVisible:false,
+            //
+            Visible: false,
+            //编辑界面是否显示
+            editFormVisible: false,
+            editLoading: false,
+            goUrl:'',
+            account:'',
+            editFormRules: {
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' }
+                ]
+            },//表格勾选事件
+            selectionChange:function(val) {
+                for(var i=0;i<val.length;i++) {
+                    var row = val[i];
+                }
+                this.multipleSelection = val;
+                console.info(val);
+            },
+            //分期还款界面数据
+            editForm: {
+                ID:0,
+                PID: 0,
+                PNAME: '',
+                GRZH: '',
+                LOAN_MONEY: 0,
+                LOAN_PERIODS: '',
+                CTIME:'',
+                LOAN_RATE:'',
+                REPAY_BANK:'',
+                REPAY_ACCOUNT:'',
+                LOAN_REPAY:'',
+                REPAY_MONEY:0,
+                REPAY_INTERESTS:0,
+                REPAYED_MONEY:0,
+                REPAYED_INTERESTS:0,
+                OVER_MONEY:0,
+                OVER_INTERESTS:0,
+                OVER_PERIODS:'',
+                MONTH_RETURN:0,
+                STATE:'',
+                REPAY_MONTH_ALLMONEY:0,
+                REPAYED_MONTH_MONEY:0,
+                REPAYED_MONTH_INTEREST:0,
+                OVER_PAYMENT:0
+
+            },
+            //界面数据
+            show: {
+                PNAME: '',
+                GRZH: '',
+                REPAYED_MONTH_MONEY:0,
+                REPAYED_MONTH_INTEREST:0,
+
+            },
+        },
+        created:function(){
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            axios.post('/af/after/page',{'pageNo':this.currentPage,'pageSize':this.pageSize}).then(function(response){
+
+                self.total=response.data.total;
+                self.tableData = response.data.pageData;
+                alert(JSON.stringify(response.data.pageData));
+            })
+        },
+        methods:{
+            //表格重新加载数据
+            loadingData:function() {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+
+                var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'repayId':this.searchForm.id,'pName':this.searchForm.name,'pId':this.searchForm.deptNo};
+
+                axios.post('/af/after/page',searchForm).then(function(response){
+
+                    _self.total=response.data.total;
+                    _self.tableData = response.data.pageData;
+
+                })
+                console.log(_self.currentPage);
+                setTimeout(function(){
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                },300);
+            },
+
+            //还款事件
+            editClick:function(row) {
+                //alert(this.editForm.OVER_PERIODS);
+                this.goUrl="/af/after/update";
+                this.editFormVisible = true;
+                this.editForm = Object.assign({}, row);
+                var self = this;
+                this.periods=this.editForm.OVER_PERIODS;
+                axios.post(this.goUrl,{'over_periods':this.periods}).then(function (response) {
+                 //  alert(over_periods);
+
+                })
+
+            },
+            //个人还款记录
+            person:function() {
+                alert(this.editForm.GRZH);
+                this.goUrl='/af/repay/record';
+                this.Visible = true;
+                var self = this;
+                this.account=this.editForm.GRZH;
+                axios.post(this.goUrl,{'grzh':this.account}).then(function (response) {
+                    //alert(JSON.stringify(response.data.repayData));
+                    self.personData = response.data.repayData;
+                   // alert(self.personData);
+                })
+
+            },
+            //新建事件
+            addClick:function() {
+                //alert(111);
+                this.goUrl="/user/add";
+                var _self = this;
+                //清空原有数据
+                this.editForm= {
+                    EMPNO: 0,
+                    ENAME: '',
+                    JOB: '',
+                    SAL: 0,
+                    HIREDATE: ''
+                }
+                //显示隐藏的form表单
+                this.editFormVisible = true;
+                _self.loadingData();//重新加载数据
+            },
+            //表格查询事件
+            searchClick:function() {
+                var self = this;
+
+                self.loadingData();//重新加载数据
+            },
+            //分页大小修改事件
+            pageSizeChange:function(val) {
+                console.log('每页 ' + val +' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange:function(val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //确认还款事件
+            editSubmit:function(){
+                var _self = this;
+                _self.loading = true;
+                var formData =this.editForm;
+                alert(JSON.stringify(formData));
+                var goUrl=this.goUrl
+                axios.post(goUrl,formData).then(function(response){
+                    if(response.data>0){
+                        _self.editFormVisible = false;
+                    }else{
+                        _self.$message({
+                            message:'操作失败',
+                            type: 'error'
+                        });
+                    }
+                    _self.loadingData();//重新加载数据
+                })
+                console.info(this.editForm);
+            }
+        }
+
+    })
+</script>
+
+</body>
+</html>
