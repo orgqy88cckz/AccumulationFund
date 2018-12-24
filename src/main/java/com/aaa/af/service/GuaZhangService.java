@@ -12,9 +12,24 @@ import java.util.Map;
  */
 public interface GuaZhangService {
 
+    /**
+     * 查询分页数据
+     * @param map
+     * @return
+     */
     List<Map> getPageByParm(Map map);
 
+    /**
+     * 查询分页数量
+     * @param map
+     * @return
+     */
     int getPageCount(Map map);
 
+    /**
+     * 更新
+     * @param map
+     * @return
+     */
     int update(Map map);
 }

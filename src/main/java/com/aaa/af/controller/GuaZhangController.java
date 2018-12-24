@@ -21,6 +21,9 @@ import java.util.Map;
 @RequestMapping("/guazhang")
 public class GuaZhangController {
 
+    /**
+     * 依赖注入
+     */
     @Autowired
     private GuaZhangService guaZhangService;
 
@@ -33,6 +36,11 @@ public class GuaZhangController {
         return "company/guazhang";
     }
 
+    /**
+     * 查询分页数据
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/page")
     public Object select(@RequestBody Map map){
@@ -42,6 +50,11 @@ public class GuaZhangController {
         return hashMap;
     }
 
+    /**
+     * 更新
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/update")
     public Object update(@RequestBody Map map){

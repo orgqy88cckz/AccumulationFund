@@ -25,7 +25,7 @@ public class BiLiController {
     private BiLiService biLiService;
 
     /**
-     * 转到挂账页面
+     * 转到比例页面
      * @return
      */
     @RequestMapping("/toBiLi")
@@ -33,6 +33,11 @@ public class BiLiController {
         return "company/bili";
     }
 
+    /**
+     * 分页
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/page")
     public Object select(@RequestBody Map map){
@@ -42,6 +47,11 @@ public class BiLiController {
         return hashMap;
     }
 
+    /**
+     * 更改
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/update")
     public Object update(@RequestBody Map map){

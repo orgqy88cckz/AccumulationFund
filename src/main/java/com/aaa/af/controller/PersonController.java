@@ -21,6 +21,9 @@ import java.util.Map;
 @RequestMapping("/person")
 public class PersonController {
 
+    /**
+     * 依赖注入
+     */
     @Autowired
     private PersonService personService;
 

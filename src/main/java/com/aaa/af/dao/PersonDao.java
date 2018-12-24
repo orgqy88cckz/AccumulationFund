@@ -15,6 +15,11 @@ import java.util.Map;
  */
 public interface PersonDao {
 
+    /**
+     * 根据id查询数据
+     * @param id
+     * @return
+     */
     @Select(" select a.aid,a.UDEPOSITRATIO,a.UPERSONRATIO,a.YWBLR,a.DWZH,b.UNAME from" +
             " tb_unitaccount a left join tb_unit b on a.aid=b.id  where dwzh= #{id}")
     Map getById(String id);
@@ -40,10 +45,19 @@ public interface PersonDao {
             "#{TB_BNAME},#{TB_ACCOUNT},'20180116',#{JCJS}*#{dwbl}/100,#{JCJS}*#{grbl}/100,#{JCJS}*#{grbl}/100+#{JCJS}*#{dwbl}/100,to_char(tb_paccountutil_ids.nextval,'fm0000000'),#{AID})")
     int add1(Map map);
 
+    /**
+     *个人注册成功时更改公司人数
+     * @param map
+     * @return
+     */
     @Update("update TB_UNITACCOUNT set UDEPOSITEDPNUM = (select count(*) from tb_person_info where unit_id = #{gszh}) where dwzh = #{gszh}")
     int update(Map map);
 
-
+    /**
+     * 个人注册成功时更改公司的缴纳金额
+     * @param map
+     * @return
+     */
     @Update("update tb_unitaccount set UAOWEMONERY = (select sum(YDRAWAMT) from TB_PACCOUNTUTIL where uaid = #{AID}) WHERE ID = #{AID}")
     int update1(Map map);
 }

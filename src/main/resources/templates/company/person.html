@@ -238,6 +238,11 @@
                 named :[{required: true, message: '请输入', trigger: 'blur'}],
                 sex :[{required: true, message: '请输入', trigger: 'blur'}]
             },
+            keyup:function(){
+                alert("666666666")
+                this.searchForm2.UAOWEMONERY = this.searchForm2.UAOWEMONERY*this.searchForm2.UAOWEMONTHS;
+
+            },
         },
         methods: {
             //表格重新加载数据
