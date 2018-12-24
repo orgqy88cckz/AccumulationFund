@@ -12,9 +12,6 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <body>
-<div id="app">
-    <h2>{{ message }}</h2>
-</div>
 
 <div id="tableView">
     <h3>全部人员列表</h3>
@@ -86,7 +83,7 @@
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="LASTNAYDATE"
+                    prop="LDATE"
                     label="最后汇缴月"
                     align="center"
                     width="200">
@@ -170,18 +167,30 @@
                     <el-row :gutter="20">
                         <el-col :span="10"><div class="grid-content bg-purple">
                             <el-form-item label="提取类型">
-                                <el-select v-model="editForm.TAKE_TYPE" style="width: 200px;">
-                                    <el-option value="部分提取">部分提取</el-option>
-                                    <el-option value="销户提取">销户提取</el-option>
-                                </el-select>
+                                <template>
+                                    <el-select v-model="editForm.TAKE_TYPE" style="width: 200px;">
+                                        <el-option
+                                                v-for="item in options"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
                             </el-form-item>
                         </div></el-col>
                         <el-col :span="10"><div class="grid-content bg-purple">
                             <el-form-item label="提取方式">
-                                <el-select v-model="editForm.TAKE_METHOD" style="width: 200px;">
-                                    <el-option value="现金">现金</el-option>
-                                    <el-option value="银行">银行</el-option>
-                                </el-select>
+                                <template>
+                                    <el-select v-model="editForm.TAKE_METHOD" style="width: 200px;">
+                                        <el-option
+                                                v-for="item in options1"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
                             </el-form-item>
                         </div></el-col>
                     </el-row>
@@ -221,10 +230,16 @@
                     <el-row :gutter="20">
                         <el-col :span="10"><div class="grid-content bg-purple">
                             <el-form-item label="提取原因">
-                                <el-select v-model="editForm.TAKE_REASON" style="width: 300px;">
-                                    <el-option value="房屋超出家庭工资收入的规定">房屋超出家庭工资收入的规定</el-option>
-                                    <el-option value="建造，翻修，大修住房">建造，翻修，大修住房</el-option>
-                                </el-select>
+                                <template>
+                                    <el-select v-model="editForm.TAKE_REASON" style="width: 300px;"  placeholder="请选择">
+                                        <el-option
+                                                v-for="item in options2"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
                             </el-form-item>
                         </div></el-col>
                     </el-row>
@@ -291,16 +306,37 @@
 
 
 <script type="text/javascript">
-    var app = new Vue({
-        el: '#app',
-        data: {
-            message: '公积金部分提取'
-        }
-    });
 
     var tableView = new Vue({
         el: '#tableView',
         data: {
+            options:[
+                {
+                    value: '部分提取',
+                    label: '部分提取'
+                }, {
+                    value: '销户提取',
+                    label: '销户提取'
+                }
+            ],
+            options1:[
+                {
+                    value: '现金',
+                    label: '现金'
+                }, {
+                    value: '银行',
+                    label: '银行'
+                }
+            ],
+            options2:[
+                {
+                    value: '房屋超出家庭工资收入的规定',
+                    label: '房屋超出家庭工资收入的规定'
+                }, {
+                    value: '建造，翻修，大修住房',
+                    label: '建造，翻修，大修住房'
+                }
+            ],
             active:1,
             //列表数据
             tableData: [],
@@ -336,15 +372,15 @@
                  TB_IDNUMBER: '',
                  UNAME: '',
                  DWXZ: '',
-                 TAKE_TYPE: '',
-                 TAKE_METHOD: '',
+                 TAKE_TYPE: '部分提取',
+                 TAKE_METHOD: '现金',
                  DALANCE: '',
                  TB_PNAME: '',
                  GET_ACCOUNT: '',
                  ENTRUST_NAME: '',
                  ENTRUST_CARDNUM: '',
 
-                 TAKE_REASON: '',
+                 TAKE_REASON: '房屋超出家庭工资收入的规定',
                  RENT_ADDRESS: '',
                  RENT_NUMBER: '',
                  RENT_TYPE: '',
@@ -380,7 +416,7 @@
                 var start =(this.currentPage-1)*this.pageSize;
                 var end =this.currentPage*this.pageSize+1;
                 var searchForm={'start':start,'end':end,'APPL_NAME':this.searchForm.APPL_NAME};
-                axios.post('/af/fundTake/selectFundCheck',searchForm).then(function(response){
+                axios.post('/af/fundTake/selectFundPart',searchForm).then(function(response){
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
                 })
@@ -423,17 +459,6 @@
                         type: 'error'
                     });
                 }
-               /* this.active=1;
-                //alert(row.STATUS);
-                var self=this;
-                alert(row.PID);
-                this.goUrl="/af/fundTake/selectFormInfo/"+row.PID;
-                axios.post(this.goUrl).then(function (response) {
-                    alert(JSON.stringify(response.data));
-                    self.editForm= response.data;
-                })
-                this.editFormVisible = true;
-                //this.editForm = Object.assign({}, row);*/
             },
             //表格查询事件
             searchClick:function() {

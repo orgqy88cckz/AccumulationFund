@@ -31,15 +31,21 @@ public class SearchInfoServiceImpl implements SearchInfoService{
     @Override
     public int checkReject(Map map) {
         //驳回添加到TB_LOAN_CHECK表中
-        searchInfoDao.checkReject(map);
-        //驳回更新TB_LOAN表中
-        return searchInfoDao.checkRejectUpdate(Integer.valueOf(map.get("LOAN_ID")+""));
+        int i = searchInfoDao.checkReject(map);
+        if(i>0){
+            //驳回更新TB_LOAN表中
+            return searchInfoDao.checkRejectUpdate(Integer.valueOf(map.get("LOAN_ID")+""));
+        }
+        return 0;
     }
 
     @Override
     public int checkPass(Map map) {
-        searchInfoDao.checkPassUpdate(Integer.valueOf(map.get("LOAN_ID")+""));
-        return searchInfoDao.checkPass(map);
+        int loan_id = searchInfoDao.checkPassUpdate(Integer.valueOf(map.get("LOAN_ID") + ""));
+        if(loan_id>0){
+            return searchInfoDao.checkPass(map);
+        }
+        return 0;
     }
 
     @Override
@@ -81,12 +87,35 @@ public class SearchInfoServiceImpl implements SearchInfoService{
 
     @Override
     public int checkPassFinally(Map map) {
-        searchInfoDao.checkFinallyUpdate(Integer.valueOf(map.get("LOAN_ID")+""));
-        return searchInfoDao.checkPassFinally(map);
+        int loan_id = searchInfoDao.checkFinallyUpdate(Integer.valueOf(map.get("LOAN_ID") + ""));
+        if(loan_id>0){
+            return searchInfoDao.checkPassFinally(map);
+        }
+        return 0;
     }
 
     @Override
     public int checkRejectFinally(Map map) {
         return searchInfoDao.checkRejectFinally(Integer.valueOf(map.get("LOAN_ID")+""));
+    }
+
+    /**
+     * 个人账号验证
+     * @param value
+     * @return
+     */
+    @Override
+    public int unique(String value) {
+        List<Map> unique = searchInfoDao.unique();
+        if(unique!=null&&unique.size()>0){
+            for (Map map : unique) {
+               /* System.out.println(value+"*****************");
+                System.out.println(map.get("GRZH")+""+"&&&&&&&&&&&&&&&&&");*/
+                if((map.get("GRZH")+"").equals(value)){
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 }

@@ -22,9 +22,9 @@ public interface FundTakeDao {
      * @return
      */
     @Select("<script>select rownum rn,a.* from (\n" +
-            "select  rownum rn,t.*,p.* from TB_PACCOUNTUTIL t left join\n" +
+            "select  rownum rn,t.*,p.*,to_char(t.LASTNAYDATE,'yyyy-MM-dd') as ldate from TB_PACCOUNTUTIL t left join\n" +
             " TB_PERSON_INFO p on p.tb_pid=t.pid  where rownum &lt; #{end} " +
-            "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
+            "<if test=\"APPL_NAME!=null and APPL_NAME!=''\"> and TB_PNAME like '%'||#{APPL_NAME}||'%'</if>" +
             ") a where a.rn &gt; #{start}</script>")
     List<Map> selectFundPart(Map map);
 
@@ -35,7 +35,7 @@ public interface FundTakeDao {
      */
     @Select("<script>select count(*) from TB_PACCOUNTUTIL t left join " +
             "TB_PERSON_INFO p on p.tb_pid=t.pid  <where>" +
-            "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
+            "<if test=\"APPL_NAME!=null and APPL_NAME!=''\"> and TB_PNAME like '%'||#{APPL_NAME}||'%'</if>" +
             "</where></script>")
     int selectFundCount(Map map);
 

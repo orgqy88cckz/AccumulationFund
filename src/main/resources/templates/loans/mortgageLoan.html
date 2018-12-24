@@ -567,13 +567,13 @@
                 PERACCSTATE:'',
                 DALANCE:'',
                 loanAmount:'',
-                loanPeriods:'',
+                loanPeriods:'12',
                 loanRate:'',
-                trustBank:'',
-                paymentMethod:'',
+                trustBank:'中国工商银行',
+                paymentMethod:'等额本金',
                 payee:'',
                 paymentDay:'放款日起',
-                openBank:'',
+                openBank:'中国工商银行',
                 paymentAccount:'',
                 paymentName:'',
                 spouseName:'',
@@ -581,10 +581,24 @@
                 spouseType:'身份证',
                 spouseNum:''
             },
+            let:validate = (rule, value, callback) => {
+                //后台方法
+                var url="/af/loan/unique/"+value;
+                axios.post(url).then(function (res) {
+                    if ( res.data >0) {
+                        callback()
+                    } else {
+                        callback('账号有误请重新输入')
+                    }
+                })
+            },
             rules: {
                 GRZH: [
                     { required: true, message: '个人账号不能为空', trigger: 'blur' },
-                    { min: 1, max: 7, message: '账号有误请重新输入', trigger: 'blur' }
+                    { validator:validate, trigger: 'blur' }
+                ],
+                GRZH1: [
+                    { required: true,validator:validate, trigger: 'blur' }
                 ]},
             form2:{
                 GRZH1:'',
@@ -599,8 +613,9 @@
                 DALANCE:'',
                 LASTNAYDATE:''
             },
+
             form3:{
-                houseType:'',
+                houseType:'商品房',
                 houseAddress:'',
                 houseArea:'',
                 HIdNum:'',
@@ -615,7 +630,7 @@
                 DYName:'',
                 DYIdNum:'',
                 DYAddress:'',
-                DYStatus:'',
+                DYStatus:'正常',
                 DYMoney:''
             },
             options:[{

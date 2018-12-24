@@ -168,4 +168,14 @@ public class LoanController {
         return searchInfoService.checkRejectFinally(map);
     }
 
+
+    /**
+     * 贷款页面验证查询
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("unique/{value}")
+    public Object unique(@PathVariable("value") String value){
+        return searchInfoService.unique(value);
+    }
 }
