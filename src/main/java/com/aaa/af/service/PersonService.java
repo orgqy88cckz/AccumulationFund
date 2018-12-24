@@ -12,6 +12,11 @@ import java.util.Map;
  */
 public interface PersonService {
 
+    /**
+     * 根据id查询数据
+     * @param id
+     * @return
+     */
     Map getById(String id);
 
     /**

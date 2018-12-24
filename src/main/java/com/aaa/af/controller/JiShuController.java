@@ -26,7 +26,7 @@ public class JiShuController {
     private JiShuService jiShuService;
 
     /**
-     * 转到挂账页面
+     * 转到基数页面
      * @return
      */
     @RequestMapping("/toJiShu")
@@ -34,6 +34,11 @@ public class JiShuController {
         return "company/jishu";
     }
 
+    /**
+     * 公司分页
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/page")
     public Object page(@RequestBody Map map){
@@ -43,12 +48,11 @@ public class JiShuController {
         return hashMap;
     }
 
-    @ResponseBody
-    @RequestMapping("/update")
-    public Object update(@RequestBody Map map){
-        return jiShuService.update(map);
-    }
-
+    /**
+     * 公司员工分页
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/page1")
     public Object page1(@RequestBody Map map){
@@ -58,12 +62,22 @@ public class JiShuController {
         return map2;
     }
 
+    /**
+     * 根据个人账号 查询个人信息
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/select/{row}")
     public Object getSelect(@PathVariable("row") String map){
         return jiShuService.getSelect(map);
     }
 
+    /**
+     * 更改数据库信息
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("update1")
     public Object update1(@RequestBody Map map){

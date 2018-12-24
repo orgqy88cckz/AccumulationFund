@@ -13,10 +13,11 @@ import java.util.Map;
  * @Author: ZhangZhaohan
  * @Date: 2018/12/19 10:08
  */
-public interface HuiJiaoDao {
+public interface BuJiaoDao {
 
     /**
-     * 查询分页数据
+     * 查询公司分页数据
+     *
      * @param map
      * @return
      */
@@ -30,7 +31,8 @@ public interface HuiJiaoDao {
     List<Map> getPageByParm(Map map);
 
     /**
-     * 查询分页总数量
+     * 查询公司分页数量
+     *
      * @param map
      * @return
      */
@@ -41,16 +43,18 @@ public interface HuiJiaoDao {
 
     /**
      * 根据公司账号查询数据
+     *
      * @param map
      * @return
      */
-    @Select("select AID,DWZH,UNAME,to_char(sysdate,'yyyy-mm-dd') as UAPAYENDDATE,UAOWEMONTHS,UDEPOSITRATIO,UASTATE,\n" +
+    @Select("select AID,DWZH,UNAME,to_char(sysdate,'yyyy-mm-dd') as UAPAYENDDATE,((extract (year from sysdate)-substr(#{UAOWEMONTHS},0,4))*12+extract(month from sysdate))- substr(#{UAOWEMONTHS},6,2) as UAOWEMONTHS,UDEPOSITRATIO,UASTATE,\n" +
             "UPERSONRATIO,UAREMAIN,UDEPOSITEDPNUM,UAOWEMONERY from tb_unitaccount a\n" +
             "left join tb_unit b on a.ID = b.ID where DWZH = #{DWZH}")
-    Map getSelect(String map);
+    Map getSelect(Map map);
 
     /**
      * 汇缴成功时提交汇缴日期
+     *
      * @param map
      * @return
      */
@@ -59,6 +63,7 @@ public interface HuiJiaoDao {
 
     /**
      * 汇缴成功时单位余额当减少
+     *
      * @param map
      * @return
      */
@@ -67,6 +72,7 @@ public interface HuiJiaoDao {
 
     /**
      * 汇缴成功时更改个人汇缴日期
+     *
      * @param map
      * @return
      */
@@ -74,7 +80,8 @@ public interface HuiJiaoDao {
     int update2(Map map);
 
     /**
-     * 查询
+     * 查询账户表中的数据
+     *
      * @param map
      * @return
      */
@@ -82,10 +89,20 @@ public interface HuiJiaoDao {
     List<Map> select1(Map map);
 
     /**
-     * 更新个人账户余额
+     * 根据个人账号更新账户余额
+     *
      * @param map
      * @return
      */
     @Update("update tb_paccountutil set DALANCE = (DALANCE + #{YDRAWAMT}) where GRZH = #{GRZH}")
     int update3(Map map);
+
+    /**
+     * 查询监听键盘事件所需要的数据
+     *
+     * @param id
+     * @return
+     */
+    @Select("select UAOWEMONERY from tb_unitaccount where DWZH = #{id}")
+    Map getById(String id);
 }

@@ -23,11 +23,12 @@ import java.util.Map;
 @RequestMapping("/huijiao")
 public class HuiJiaoController {
 
+    //依赖注入
     @Autowired
     private HuiJiaoService huiJiaoService;
 
     /**
-     * 转到挂账页面
+     * 转到汇缴页面
      * @return
      */
     @RequestMapping("/toHuiJiao")
@@ -35,6 +36,11 @@ public class HuiJiaoController {
         return "company/huijiao";
     }
 
+    /**
+     * 分页方法
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/page")
     public Object select(@RequestBody Map map){
@@ -44,12 +50,22 @@ public class HuiJiaoController {
         return hashMap;
     }
 
+    /**
+     * 根据个人账号查询信息
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/select/{DWZH}")
     public Object getSelect(@PathVariable("DWZH") String map){
         return huiJiaoService.getSelect(map);
     }
 
+    /**
+     * 更新
+     * @param map
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/update")
     public Object update(@RequestBody Map map){

@@ -1,5 +1,7 @@
 package com.aaa.af.service;
 
+import org.apache.ibatis.annotations.Select;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,20 +12,10 @@ import java.util.Map;
  * @Author: ZhangZhaohan
  * @Date: 2018/12/19 10:10
  */
-public interface HuiJiaoService {
+public interface BuJiaoService {
 
-    /**
-     * 查询分页数据
-     * @param map
-     * @return
-     */
     List<Map> getPageByParm(Map map);
 
-    /**
-     * 查询分页总数量
-     * @param map
-     * @return
-     */
     int getPageCount(Map map);
 
     /**
@@ -31,12 +23,15 @@ public interface HuiJiaoService {
      * @param map
      * @return
      */
-    Map getSelect(String map);
+    Map getSelect(Map map);
+
+
+    Map update(Map map);
 
     /**
-     * 更新
-     * @param map
+     * 查询监听键盘事件所需要的数据
+     * @param id
      * @return
      */
-    Map update(Map map);
+    Map getById(String id);
 }
