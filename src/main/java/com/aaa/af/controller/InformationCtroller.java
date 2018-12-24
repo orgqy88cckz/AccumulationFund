@@ -4,10 +4,7 @@ import com.aaa.af.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -33,6 +30,14 @@ public class InformationCtroller {
     @RequestMapping("/toHome")
     public String homePage(){
         return "shouye";
+    }
+    /**
+     * 跳转个人登录
+     * @return
+     */
+    @RequestMapping("/toPerson")
+    public String personPage(){
+        return "gerenLogin";
     }
     /**
      * 查询前台信息
@@ -137,5 +142,12 @@ public class InformationCtroller {
     @RequestMapping("/update")
     public Object update(@RequestBody Map map){
         return informationService.update(map);
+    }
+    /**
+     * 登录
+     */
+    @RequestMapping("/loginPerson")
+    public String login(@RequestParam Map map,Model model){
+        return informationService.checkPerson(map,model);
     }
 }

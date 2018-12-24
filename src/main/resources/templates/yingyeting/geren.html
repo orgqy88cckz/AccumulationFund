@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页面</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="/af/js/vue.js"></script>
+    <script type="text/javascript" src="/af/js/axios.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<style>
+    .el-header {
+        background-color: #f0f0f0;
+        color: black;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        color: #333;
+    }
+
+</style>
+<body>
+<div id="app">
+    <el-header style="height: 100px;">
+        <span style="text-align: center;float:left;font-size:30px">AAA住房公积金网上营业厅</span>
+        <span style="text-align: center;float:right;font-size:18px"><a href="/af/home/toPerson">注销</a></span>
+    </el-header>
+    <input type="hidden" th:value="${username}" id="user">
+    <marquee  direction="right"  behavior="alternate"  scrollamount="15"  scrolldelay="10"  loop="2"    height="22"  bgcolor="ABCDEF" >
+        <font  face="隶书"  color="#0066FF"  size="5">欢迎光临！！!</font>
+    </marquee>
+    <el-container style="height: 850px; border: 1px solid #eee;">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
+            <el-col :span="24">
+                <el-menu
+                        default-active="2"
+                        class="el-menu-vertical-demo"
+                        background-color="#545c64"
+                        text-color="#fff"
+                        active-text-color="#ffd04b"
+                        >
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-location"></i>
+                            <span slot="title">个人主页</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="1-1" @click="editClick">个人信息</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">资金管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1">缴纳记录</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-document"></i>
+                            <span slot="title">贷款管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1">我的贷款</el-menu-item>
+                            <el-menu-item index="3-2">偿还贷款</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                </el-menu>
+            </el-col>
+        </el-aside>
+        <el-main>
+            <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab">
+            <el-tab-pane
+                    v-for="(item, index) in editableTabs2"
+                    :key="item.name"
+                    :label="item.title"
+                    :name="item.name"
+            >
+                <div class="iframe-container">
+                    <span v-html = "item.content"></span>
+                </div>
+            </el-tab-pane>
+            </el-tabs>
+        </el-main>
+    </el-container>
+</div>
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data: {
+            defaultProps: {
+                children: 'children',
+                label: 'lable'
+            },
+            icon:'el-icon-menu',
+            editableTabsValue2: '2',
+            editableTabs2:[{title: '首页',
+                name: '2',
+                content: "<iframe src='https://www.baidu.com' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:710px;\"> </iframe>"
+            }],
+            tabIndex: 2
+        },
+        /*created: function () {
+            var self = this;
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            axios.post('/af/tree/list').then(function (response) {
+                self.dataTree = response.data;
+                //self.tags=response.data.label;
+
+            })
+        },*/
+        methods: {
+            editClick:function(){
+                var user=$("#user").val();
+                var url ="http://localhost:8888/af/yingyeting/gerenzhuye?grzh="+user;
+                var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab(content);
+                }
+            },
+            addTab: function (content) {
+                this.editableTabs2.push({
+                    title: "个人信息",
+                    name:"个人信息",
+                    content: content
+                });
+                this.editableTabsValue2="个人信息";
+            },
+            removeTab: function (targetName) {
+                let tabs = this.editableTabs2;
+                let activeName = this.editableTabsValue2;
+                if (activeName === targetName) {
+                    tabs.forEach((tab, index) => {
+                        if (tab.name === targetName) {
+                        let nextTab = tabs[index + 1] || tabs[index - 1];
+                        if (nextTab) {
+                            activeName = nextTab.name;
+                        }
+                    }
+                });
+                }
+                this.editableTabsValue2 = activeName;
+                this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
+            }
+        }
+    })
+</script>
+</body>
+</html>

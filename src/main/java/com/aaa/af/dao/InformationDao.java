@@ -74,4 +74,20 @@ public interface InformationDao {
      */
     @Update("update tb_inform set TITLE=#{TITLE},DETAILS=#{DETAILS},INFORMTYPE=#{INFORMTYPE},INFORMSTATUS=#{INFORMSTATUS},INFORTIME=to_date(#{INFORTIME},'yyyy-MM-dd') where ID=#{ID}")
     int update(Map map);
+
+    /**
+     * 查看账户是否存在
+     * @param map
+     * @return
+     */
+    @Select("select count(*) from tb_paccountutil where grzh=#{username}")
+    int getPersonAccount(Map map);
+
+    /**
+     * 获取个人密码
+     * @param map
+     * @return
+     */
+    @Select("select grmm from tb_paccountutil where grzh=#{username}")
+    List<Map> getPersonPassword(Map map);
 }
