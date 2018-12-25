@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>封存&启封审核表</title>
+    <title>销户审核表</title>
     <!-- 引入样式 -->
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.min.js"></script>
@@ -31,65 +31,78 @@
             <el-table-column
                     prop="UNSEAL_NAME"
                     label="姓名"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_UNIT"
                     label="所在单位"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_SEX"
                     label="性别"
+                    align="center"
                     width="80">
             </el-table-column>
             <el-table-column
                     prop="UNIT_POST"
                     label="工作职位"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_PHONE"
                     label="电话号码"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_NUMBER"
                     label="身份证号"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_ACCOUNT"
                     label="个人账户"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="REASON"
-                    label="封启原因"
+                    label="原因"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="STATE"
                     label="申请操作"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="OPERATOR"
                     label="操作人"
-                    width="60">
+                    align="center"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="CREATE_TIME"
                     label="创建时间"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="AUDIT_NAME"
                     label="审核状态"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     label="操作"
+                    align="center"
                     width="160">
                 <template scope="scope">
                     <el-button :plain="true" type="success" size="small" icon="edit" @click="yesClick(scope.row)">通过</el-button>

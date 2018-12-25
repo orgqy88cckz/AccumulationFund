@@ -13,7 +13,7 @@
     <script src="../js/elementui.js"></script>
     <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
     <style type="text/css">
-        #tableView{margin-left: 155px;float: left;}
+        #tableView{margin-left: 0px;float: left;}
     </style>
 
 </head>
@@ -35,26 +35,31 @@
             <el-table-column
                     prop="ID"
                     label="序列"
-                    width="60">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="ACCRADITATION_NAME"
                     label="工作流程名称"
-                    width="150">
+                    align="center"
+                    width="300">
             </el-table-column>
             <el-table-column
                     prop="ACCRADITATION_DESCRIBE"
                     label="工作流程描述"
-                    width="150">
+                    align="center"
+                    width="300">
             </el-table-column>
             <el-table-column
                     prop="ACCRADITATION_FLUX"
                     label="工作流量"
-                    width="60"  >
+                    align="center"
+                    width="150"  >
             </el-table-column>
             <el-table-column
                     label="操作"
-                    width="100">
+                    align="center"
+                    width="150">
                 <template scope="scope">
                     <el-button  v-if="scope.row.ID==1" :plain="true" type="success" size="small" icon="edit" @click="fcClick(scope.row)">查看</el-button>
                     <el-button  v-if="scope.row.ID==2" :plain="true" type="success" size="small" icon="edit" @click="qfClick(scope.row)">查看</el-button>
@@ -76,41 +81,49 @@
                 <el-table-column
                         prop="TRANSFER_OUT_UNIT"
                         label="转出单位"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="TRANSFER_INTO_UNIT"
                         label="转入单位"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="AUDITOR"
                         label="转移申请人"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="PERSON_ACCOUNT"
                         label="个人账户"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="TRANSFER_REASON"
                         label="转移原因"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="OPERATOR"
                         label="操作人"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="SUBMIT_TIME"
                         label="提交时间"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="AUDIT_STATE"
                         label="审核状态"
+                        align="center"
                         width="80">
                 </el-table-column>
             </el-table>
@@ -142,56 +155,67 @@
                 <el-table-column
                         prop="UNSEAL_NAME"
                         label="姓名"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="UNSEAL_UNIT"
                         label="所在单位"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="UNSEAL_SEX"
                         label="性别"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="UNIT_POST"
                         label="工作职位"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="UNSEAL_NUMBER"
                         label="身份证号"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="UNSEAL_ACCOUNT"
                         label="个人账户"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="REASON"
                         label="封启原因"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="OPERATOR"
                         label="创建人"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="CREATE_TIME"
                         label="创建时间"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="AUDIT_STATE"
                         label="业务类型"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="AUDIT_NAME"
                         label="审核状态"
+                        align="center"
                         width="80">
                 </el-table-column>
             </el-table>
@@ -224,57 +248,68 @@
                 <el-table-column
                         prop="GRZH"
                         label="个人账户"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="PNAME"
                         label="姓名"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="TB_IDNUMBER"
                         label="证件号"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="DAIKAN"
                         label="业务类型"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="CTIME"
                         label="申请时间"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="LOAN_MONEY"
                         label="贷款金额"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="LOAN_PERIODS"
                         label="贷款期数"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="LOAN_RATE"
                         label="贷款利率"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="LOAN_BANK"
                         label="贷款银行"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="STATUS"
                         label="贷款状态"
+                        align="center"
                         :formatter="formatterColumn"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="REJECTREASON"
                         label="驳回原因"
+                        align="center"
                         width="80">
                 </el-table-column>
             </el-table>
@@ -306,46 +341,55 @@
                 <el-table-column
                         prop="APPL_ACCOUNT"
                         label="提取人账号"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="APPL_NAME"
                         label="姓名"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="COMP_NAME"
                         label="提取人单位"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="APPLICATION_TYPE"
                         label="提取类型"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="APPLICATION_WAY"
                         label="提取方式"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="EXTRACT_REASON"
                         label="提取原因"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="EXTRACT_MONEY"
                         label="提取金额"
+                        align="center"
                         width="100">
                 </el-table-column>
                 <el-table-column
                         prop="APPL_TIME"
                         label="提取时间"
+                        align="center"
                         width="80">
                 </el-table-column>
                 <el-table-column
                         prop="APPL_STATE"
                         label="审核状态"
+                        align="center"
                         :formatter="formatterColumn2"
                         width="80">
                 </el-table-column>
@@ -690,13 +734,13 @@
             //个人贷款分页大小修改事件
             GpageSizeChange: function (val) {
                 console.log('每页 ' + val + ' 条');
-                this.FpageSize = val;
+                this.GpageSize = val;
                 var _self = this;
                 _self.GloadingData();//重新加载数据
             },
             //个人贷款当前页修改事件
             GcurrentPageChange: function (val) {
-                this.FcurrentPage = val;
+                this.GcurrentPage = val;
                 console.log('当前页: ' + val);
                 var _self = this;
                 _self.GloadingData();//重新加载数据
