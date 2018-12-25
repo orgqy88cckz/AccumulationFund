@@ -177,32 +177,32 @@
         </el-col>
     </el-row>
     <!--编辑界面-->
-    <el-dialog title="个人详细信息" :visible.sync="editFormVisible" :close-on-click-modal="false">
+    <el-dialog title="个人详细信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="1000px">
         <el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm">
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="账户:">
                         <el-input v-model="editForm.PACCID" auto-complete="off" style="width:180px" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="公司名称:">
                         <el-input v-model="editForm.UNAME" style="width:180px" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="职工姓名:">
                         <el-input v-model="editForm.TB_PNAME" style="width:180px"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="职工电话:">
                         <el-input type="text" v-model="editForm.TB_PIPHONE" style="width:180px"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="职工性别">
                         <el-select style="width:180px" v-model="editForm.TB_PSEX" placeholder="请选择">
                             <el-option label="男" value="男"></el-option>
@@ -210,7 +210,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="证件类型">
                         <el-select style="width:180px" v-model="editForm.TB_IDCARD" placeholder="请选择">
                             <el-option label="身份证" value="身份证"></el-option>
@@ -220,12 +220,12 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="证件号码:">
                         <el-input type="text" v-model="editForm.TB_IDNUMBER" style="width:180px"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="职工学历:">
                         <el-select style="width:180px" v-model="editForm.TB_PEDUCATION" placeholder="请选择">
                             <el-option label="小学" value="小学"></el-option>
@@ -240,41 +240,41 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="职工职位:">
                         <el-input type="text" v-model="editForm.TB_PROFESSION" style="width:180px"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="单位比例:">
                         <el-input type="text" v-model="editForm.UBITNROP" style="width:180px" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="个人比例:">
                         <el-input type="text" v-model="editForm.INDINROP" style="width:180px" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="电子信箱:">
                         <el-input type="text" v-model="editForm.TB_PEMAIL" style="width:180px"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="家庭住址:">
                         <el-input type="text" v-model="editForm.TB_PADDRESS" style="width:180px"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="出生年月:">
                         <el-date-picker style="width:180px" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="editForm.TB_PDATE"></el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="婚姻状态:">
                         <el-select style="width:180px" v-model="editForm.TB_PMARRIAGE" placeholder="请选择">
                             <el-option label="未婚" value="未婚"></el-option>
@@ -285,12 +285,12 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="缴存基数:">
                         <el-input type="text" v-model="editForm.BASENUMMBER" style="width:180px" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="开户银行:">
                         <el-select style="width:180px" v-model="editForm.TB_BNAME" placeholder="请选择">
                             <el-option label="中国工商银行" value="中国工商银行"></el-option>
@@ -303,7 +303,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <el-form-item label="银行账户:">
                         <el-input type="text" v-model="editForm.TB_ACCOUNT" style="width:180px"></el-input>
                     </el-form-item>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<span th:text="${msg}"></span>
+<div style="width:800px" id="app">
+    <form action="zhifu">
+    <table th:each="list : ${list}" style="width: 800px">
+        <th>偿还贷款<hr></th>
+        <tr>
+            <td>个人账号</td>
+            <td><input id="t1" th:value="${list.GRZH}"/></td>
+            <td>本期应缴金额</td>
+            <td><input name="jine" th:value="${list.REPAY_MONTH_ALLMONEY}"/></td>
+        </tr>
+        <tr><td></td><td><input type="submit" value="充值"></td></tr>
+    </table>
+    </form>
+</div>
+</body>
+</html>

@@ -23,7 +23,7 @@ var password = $("#password").val();
 var checkCode = $("#input1").val();	
 if(mobile==""||mobile==null||mobile=="商户号或注册邮箱"){
 //	$('#mobile-tip').append("<span class='formtips onError' style='color:red'>请输入商户号或注册邮箱</span>");
-$("#m-tip").html("请输入商户号或注册邮箱");
+$("#m-tip").html("请输入账号");
 	return false;
 }
 else{	
