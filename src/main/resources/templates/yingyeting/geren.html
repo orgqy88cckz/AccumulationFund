@@ -23,7 +23,6 @@
     .el-aside {
         color: #333;
     }
-
 </style>
 <body>
 <div id="app">
@@ -35,7 +34,7 @@
     <marquee  direction="right"  behavior="alternate"  scrollamount="15"  scrolldelay="10"  loop="2"    height="22"  bgcolor="ABCDEF" >
         <font  face="隶书"  color="#0066FF"  size="5">欢迎光临！！!</font>
     </marquee>
-    <el-container style="height: 850px; border: 1px solid #eee;">
+    <el-container style="height: 600px; border: 1px solid #eee;">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
             <el-col :span="24">
                 <el-menu
@@ -51,7 +50,7 @@
                             <span slot="title">个人主页</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1" @click="editClick">个人信息</el-menu-item>
+                            <el-menu-item index="1-1" @click="editClick1">个人信息</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
@@ -69,8 +68,8 @@
                             <span slot="title">贷款管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="3-1">我的贷款</el-menu-item>
-                            <el-menu-item index="3-2">偿还贷款</el-menu-item>
+                            <el-menu-item index="3-1" @click="editClick2">我的贷款</el-menu-item>
+                            <el-menu-item index="3-2" @click="editClick3">偿还贷款</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
@@ -83,6 +82,7 @@
                     :key="item.name"
                     :label="item.title"
                     :name="item.name"
+                    style="height:520px"
             >
                 <div class="iframe-container">
                     <span v-html = "item.content"></span>
@@ -91,6 +91,7 @@
             </el-tabs>
         </el-main>
     </el-container>
+    <div style="width:100%;color: #b5b5b5;"><img src="/af/img/haha.bmp"></div>
 </div>
 <script>
     var vm=new Vue({
@@ -108,31 +109,54 @@
             }],
             tabIndex: 2
         },
-        /*created: function () {
-            var self = this;
-            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
-            axios.post('/af/tree/list').then(function (response) {
-                self.dataTree = response.data;
-                //self.tags=response.data.label;
-
-            })
-        },*/
         methods: {
-            editClick:function(){
+            editClick1:function(){
                 var user=$("#user").val();
                 var url ="http://localhost:8888/af/yingyeting/gerenzhuye?grzh="+user;
                 var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
                 if(url!=null&&url!='null'&&url!='') {
-                    this.addTab(content);
+                    this.addTab1(content);
                 }
             },
-            addTab: function (content) {
+            addTab1: function (content) {
                 this.editableTabs2.push({
                     title: "个人信息",
                     name:"个人信息",
                     content: content
                 });
                 this.editableTabsValue2="个人信息";
+            },
+            editClick2:function(){
+                var user=$("#user").val();
+                var url ="http://localhost:8888/af/yingyeting/daikuan?grzh="+user;
+                var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab2(content);
+                }
+            },
+            addTab2: function (content) {
+                this.editableTabs2.push({
+                    title: "我的贷款",
+                    name:"我的贷款",
+                    content: content
+                });
+                this.editableTabsValue2="我的贷款";
+            },
+            editClick3:function(){
+                var user=$("#user").val();
+                var url ="http://localhost:8888/af/yingyeting/changhuan?grzh="+user;
+                var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab3(content);
+                }
+            },
+            addTab3: function (content) {
+                this.editableTabs2.push({
+                    title: "偿还贷款",
+                    name:"偿还贷款",
+                    content: content
+                });
+                this.editableTabsValue2="偿还贷款";
             },
             removeTab: function (targetName) {
                 let tabs = this.editableTabs2;

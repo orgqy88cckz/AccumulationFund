@@ -36,9 +36,6 @@
                                 <label >验证码：</label><input type="text" id="input1" />
                                 <input type="text" id="checkCode" class="code" style="width: 55px" /> <a href="#" onClick="createCode()">看不清楚</a>
                                 <h1 id="c-tip"></h1>
-                                <!--输入错误时的输入框样式<input type="text" name="textfield" id="textfield" class="receSum-error" />-->
-                                <!--当输入的手机号码发生错误时，出现如下提示信息
-                                <p class="error-tips-1 spanRed">在此处显示错误的信息提示——如：对不起，您输入的手机号码格式有误，请重新输入！</p>-->
                             </li>
                             <li class="login-x">
                                 <div class="login-x-a"><input type="submit" name="登录"value="登录"id="Button1" onClick="validate();" /><div class="x"></div></div>
@@ -58,12 +55,6 @@
     var msg=$("#msg").val();
     if(msg!=null&&msg!=''){
         alert(msg);
-    }
-    function validate() {
-        var password_input = document.getElementById('password');
-        var password_md5 = document.getElementById('password_md5');
-        password_md5.value =  md5(password_input.value);
-        return true;
     }
 </script>
 </body>
