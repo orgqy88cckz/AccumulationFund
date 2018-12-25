@@ -46,7 +46,7 @@ public class UnsealAuditServiceImpl implements UnsealAuditService{
 
     @Override
     public int unitsMoney(String grzh) {
-        return unsealAuditDao.unitsUpdateMoney(grzh);
+        return unsealAuditDao.unitsMoney(grzh);
     }
 
     @Override

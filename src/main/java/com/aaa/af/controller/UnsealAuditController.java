@@ -86,12 +86,12 @@ public class UnsealAuditController {
         if(i==1){
             unsealAuditService.unsealAuditUpdate(map.get("AUDIT_NAME")+"",
                     map.get("BOHUI")+"",map.get("UNSEAL_ACCOUNT")+"");//修改审核表的状态及相关信息AUDIT_NAME--驳回，通过
-            unsealAuditService.unitsUpdate(map.get("UNSEAL_NAME")+"");//为了修改公司缴存人数
+            unsealAuditService.unitsUpdate(map.get("UNSEAL_UNIT")+"");//为了修改公司缴存人数UNSEAL_UNIT--公司名称
             String state=map.get("STATE")+"";//?????----------------------应该对应哪一个？
-            if(state=="封存申请" || state=="销户申请"){
-                unsealAuditService.unitsUpdateMoney(map.get("UNSEAL_ACCOUNT")+"");//修改公司缴存总额
+            if(state.equals("封存申请") || state.equals("销户申请")){
+                unsealAuditService.unitsUpdateMoney(map.get("UNSEAL_ACCOUNT")+"");//修改公司缴存总额UNSEAL_ACCOUNT
             }
-            if(state=="启封申请"){
+            if(state.equals("启封申请")){
                 unsealAuditService.unitsMoney(map.get("UNSEAL_ACCOUNT")+"");//启封时
             }
         }
