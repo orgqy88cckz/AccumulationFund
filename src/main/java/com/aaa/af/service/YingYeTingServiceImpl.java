@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,4 +35,13 @@ public class YingYeTingServiceImpl implements YingYeTingService{
         model.addAttribute("money",money);
         return null;
     }
+
+    @Override
+    public Object getJiaona(Map map) {
+        Map resulMap=new HashMap();
+        resulMap.put("pageData",yingYeTingDao.getJiaona(map));
+        resulMap.put("total",yingYeTingDao.getPageCount(map));
+        return resulMap;
+    }
+
 }

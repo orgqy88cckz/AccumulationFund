@@ -59,7 +59,7 @@
                             <span slot="title">资金管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1">缴纳记录</el-menu-item>
+                            <el-menu-item index="2-1" @click="editClick4">缴纳记录</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="3">
@@ -157,6 +157,22 @@
                     content: content
                 });
                 this.editableTabsValue2="偿还贷款";
+            },
+            editClick4:function(){
+                var user=$("#user").val();
+                var url ="http://localhost:8888/af/yingyeting/?grzh="+user;
+                var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab4(content);
+                }
+            },
+            addTab4: function (content) {
+                this.editableTabs2.push({
+                    title: "缴纳记录",
+                    name:"缴纳记录",
+                    content: content
+                });
+                this.editableTabsValue2="缴纳记录";
             },
             removeTab: function (targetName) {
                 let tabs = this.editableTabs2;

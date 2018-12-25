@@ -30,4 +30,10 @@ public interface YingYeTingService {
      * @return
      */
     Void zhifu(Map map, Model model);
+
+    /**
+     * 获取缴纳记录
+     * @return
+     */
+    Object getJiaona(Map map);
 }
