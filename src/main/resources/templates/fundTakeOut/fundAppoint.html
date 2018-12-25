@@ -121,8 +121,8 @@
 
     <!--编辑界面-->
 
-    <el-dialog title="提取申请" :visible.sync="editFormVisible" :close-on-click-modal="false" width="1200px">
-        <el-form  :model="editForm" ref="editForm" label-width="150px" size="mini">
+    <el-dialog title="提取申请" :visible.sync="editFormVisible" :close-on-click-modal="false" width="1200px" top="10px">
+        <el-form  :model="editForm" ref="editForm" label-width="160px" size="middle">
             <el-row :gutter="20">
                 <el-col :span="7"><div class="grid-content bg-purple">
                     <el-form-item>
@@ -211,23 +211,23 @@
                 <el-col :span="7"><div class="grid-content bg-purple">
                     <el-form-item label="约定提取日期">
                         <el-select v-model="editForm.APPOINT_DATE" style="width: 200px;">
-                            <el-option value="15">15</el-option>
-                            <el-option value="20">20</el-option>
-                            <el-option value="25">25</el-option>
-                            <el-option value="30">30</el-option>
+                            <el-option value="15" label="15"></el-option>
+                            <el-option value="20" label="20"></el-option>
+                            <el-option value="25" label="25"></el-option>
+                            <el-option value="30" label="30"></el-option>
                         </el-select>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="7"><div class="grid-content bg-purple">
-                    <el-form-item label="每月还款金额(必填)">
+                    <el-form-item label="每月还款金额(必填)" prop="MONTH_REPAY" :rules="[{ required: true, message: '每月还款金额不能为空',trigger: 'blur'}]">
                         <el-input v-model="editForm.MONTH_REPAY" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="7"><div class="grid-content bg-purple">
                     <el-form-item label="约定期数" style="color: red;">
                         <el-select v-model="editForm.APPOINT_PERIODS" style="width: 200px;">
-                            <el-option value="12">12</el-option>
-                            <el-option value="24">24</el-option>
+                            <el-option value="12" label="12"></el-option>
+                            <el-option value="24" label="24"></el-option>
                         </el-select>
                     </el-form-item>
                 </div></el-col>
@@ -236,15 +236,15 @@
                 <el-col :span="7"><div class="grid-content bg-purple">
                     <el-form-item label="贷款类型">
                         <el-select v-model="editForm.LOAN_TYPE" style="width: 200px;">
-                            <el-option value="公积金贷款">公积金贷款</el-option>
-                            <el-option value="商业贷款">商业贷款</el-option>
+                            <el-option value="公积金贷款" label="公积金贷款"></el-option>
+                            <el-option value="商业贷款" label="商业贷款"></el-option>
                         </el-select>
                     </el-form-item>
                 </div></el-col>
             </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button type="success" @click.native="editPass" :loading="editLoading">提交</el-button>
+            <el-button type="success" @click.native="editPass('editForm')" :loading="editLoading">提交</el-button>
             <el-button @click.native="editFormVisible = false">取消</el-button>
         </div>
     </el-dialog>
@@ -298,10 +298,10 @@
                  LOAN_REPAY: '',
                  LOAN_RATE: '',
                  LOAN_ID: '',
-                 APPOINT_DATE: '',
+                 APPOINT_DATE: '15',
                  MONTH_REPAY: '',
-                 APPOINT_PERIODS: '',
-                 LOAN_TYPE: ''
+                 APPOINT_PERIODS: '12',
+                 LOAN_TYPE: '公积金贷款'
             },
         },
         created:function(){
@@ -343,6 +343,7 @@
                     var url1="/af/fundTake/panduan/"+row.GRZH;
                     axios.post(url1).then(function (response) {
                         if(response.data==0){
+                            //alert(111111)
                             var url="/af/fundTake/appointAppl/"+row.GRZH;
                             axios.post(url).then(function (response) {
                                 alert(JSON.stringify(response.data));
@@ -350,6 +351,7 @@
                             })
                             self.editFormVisible = true;
                         }else {
+                            //alert(222222)
                             self.$message({
                                 message:  '已经提交申请不能重复提交!!!',
                                 type: 'error'
@@ -383,32 +385,41 @@
                 _self.loadingData();//重新加载数据
             },
             //弹框提交事件
-            editPass:function(){
-                var _self = this;
-                if(this.editForm.MONTH_REPAY*this.editForm.APPOINT_PERIODS<=this.editForm.DALANCE){
-                   // alert(11111111111111);
-                    _self.loading = true;
-                    var formData =this.editForm;
-                    alert(JSON.stringify(formData));
-                    var url="/af/fundTake/appointSubmit";
-                    axios.post(url,formData).then(function(response){
-                        if(response.data>0){
-                            _self.editFormVisible = false;
-                        }else{
+            editPass:function(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var _self = this;
+                        if(this.editForm.MONTH_REPAY*this.editForm.APPOINT_PERIODS<=this.editForm.DALANCE){
+                            // alert(11111111111111);
+                            _self.loading = true;
+                            var formData =this.editForm;
+                            alert(JSON.stringify(formData));
+                            var url="/af/fundTake/appointSubmit";
+                            axios.post(url,formData).then(function(response){
+                                if(response.data>0){
+                                    _self.editFormVisible = false;
+                                }else{
+                                    _self.$message({
+                                        message:  '操作失败',
+                                        type: 'error'
+                                    });
+                                }
+                                _self.loadingData();//重新加载数据
+                            })
+                            console.info(this.editForm);
+                        }else {
                             _self.$message({
-                                message:  '操作失败',
+                                message:  '余额不足，请减少每月提取金额',
                                 type: 'error'
                             });
                         }
-                        _self.loadingData();//重新加载数据
-                    })
-                    console.info(this.editForm);
-                }else {
-                    _self.$message({
-                        message:  '余额不足，请减少每月提取金额',
-                        type: 'error'
-                    });
-                }
+                    } else {
+                        this.$message({
+                            message:  '信息填写不完整',
+                            type: 'error'
+                        });
+                    }
+                });
             }
         }
     })

@@ -81,5 +81,12 @@ public interface SearchInfoService {
      * @return
      */
     int unique(String value);
+    /**
+     * 验证个人账号查询
+     * @param GRZH
+     * @return
+     */
+    Map yanzheng(String GRZH);
+
 
 }
