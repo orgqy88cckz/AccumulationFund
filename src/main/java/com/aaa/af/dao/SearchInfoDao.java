@@ -135,16 +135,28 @@ public interface SearchInfoDao {
     int getPageCountFinally(Map map);
 
     /**
-     *贷款终审通过添加数据到还款表中
+     *贷款终审通过添加数据到还款表中(等额本金)
      * @return
      */
     @Insert("insert into TB_REPAY(ID,REPAYID,PID,PNAME,GRZH,LOAN_MONEY,LOAN_PERIODS,CTIME,LOAN_RATE,REPAY_BANK,REPAY_ACCOUNT," +
-            "LOAN_REPAY,REPAY_MONEY,REPAY_INTERESTS,OVER_MONEY,OVER_INTERESTS,OVER_PERIODS,REPAYED_MONTH_MONEY,REPAYED_MONTH_INTEREST,REPAY_MONTH_ALLMONEY," +
-            "MONTH_RETURN,STATE,REPAYED_DATE) values(seq_repayid.nextval,extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(seq_repayid.nextval,'fm00')," +
-            "#{PID},#{TB_PNAME},#{GRZH},#{LOAN_MONEY},#{LOAN_PERIODS},sysdate,#{LOAN_RATE},#{REPAY_BANK},#{REPAY_ACCOUNT},#{LOAN_REPAY},#{LOAN_MONEY},#{LOAN_MONEY}*#{LOAN_RATE}/100,#{LOAN_MONEY}," +
-            "#{LOAN_MONEY}*#{LOAN_RATE}/100,#{LOAN_PERIODS},#{LOAN_MONEY}/#{LOAN_PERIODS},(#{LOAN_MONEY}*#{LOAN_RATE}/100)/#{LOAN_PERIODS},#{LOAN_MONEY}/#{LOAN_PERIODS}+(#{LOAN_MONEY}*#{LOAN_RATE}/100)/#{LOAN_PERIODS},#{LOAN_MONEY}/#{LOAN_PERIODS}+(#{LOAN_MONEY}*#{LOAN_RATE}/100)/#{LOAN_PERIODS}," +
-            "'待还款',sysdate)")
+            " LOAN_REPAY,REPAY_MONEY,REPAY_INTERESTS,OVER_MONEY,OVER_INTERESTS,OVER_PERIODS,REPAYED_MONTH_MONEY,REPAYED_MONTH_INTEREST," +
+            "  MONTH_RETURN,STATE,REPAYED_DATE) values(seq_repayid.nextval,extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(seq_repayid.nextval,'fm00')," +
+            "   #{PID},#{TB_PNAME},#{GRZH},#{LOAN_MONEY},#{LOAN_PERIODS},sysdate,#{LOAN_RATE},#{REPAY_BANK},#{REPAY_ACCOUNT},#{LOAN_REPAY},#{LOAN_MONEY},#{repay_interests1},#{LOAN_MONEY}," +
+            "  #{repay_interests1},#{LOAN_PERIODS},#{repayed_month_money1},#{repayed_month_interest1},#{month_return1}," +
+            " '待还款',sysdate)")
     int checkPassFinally(Map map);
+
+    /**
+     *贷款终审通过添加数据到还款表中(等额本息)
+     * @return
+     */
+    @Insert("insert into TB_REPAY(ID,REPAYID,PID,PNAME,GRZH,LOAN_MONEY,LOAN_PERIODS,CTIME,LOAN_RATE,REPAY_BANK,REPAY_ACCOUNT," +
+            "LOAN_REPAY,REPAY_MONEY,REPAY_INTERESTS,OVER_MONEY,OVER_INTERESTS,OVER_PERIODS,REPAYED_MONTH_MONEY,REPAYED_MONTH_INTEREST," +
+            "MONTH_RETURN,STATE,REPAYED_DATE) values(seq_repayid.nextval,extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(seq_repayid.nextval,'fm00')," +
+            "#{PID},#{TB_PNAME},#{GRZH},#{LOAN_MONEY},#{LOAN_PERIODS},sysdate,#{LOAN_RATE},#{REPAY_BANK},#{REPAY_ACCOUNT},#{LOAN_REPAY},#{LOAN_MONEY},#{repay_interests1},#{LOAN_MONEY}," +
+            "#{repay_interests1},#{LOAN_PERIODS},#{repayed_month_money1},#{repayed_month_interest1},#{month_return1}," +
+            "'待还款',sysdate)")
+    int dengebenxi(Map map);
 
     /**
      * 贷款终审通过更新贷款审核表中的数据
@@ -167,4 +179,12 @@ public interface SearchInfoDao {
      */
     @Select("select grzh from TB_PACCOUNTUTIL where PERACCSTATE='正常'")
     List<Map> unique();
+
+    /**
+     * 验证个人账号查询
+     * @param GRZH
+     * @return
+     */
+    @Select("select * from TB_PACCOUNTUTIL where GRZH=#{GRZH}")
+    Map yanzheng(String GRZH);
 }

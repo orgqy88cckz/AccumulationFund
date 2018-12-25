@@ -131,7 +131,7 @@ public interface FundTakeDao {
      * @return
      */
     @Select("<script>select rownum rn,TB_PNAME,pid,GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,LASTNAYDATE from (\n" +
-            "select  rownum rn,TB_PNAME,t.pid,t.GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,LASTNAYDATE from TB_LOAN t \n" +
+            "select  rownum rn,TB_PNAME,t.pid,t.GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,to_char(LASTNAYDATE,'yyyy-MM-dd') as LASTNAYDATE from TB_LOAN t \n" +
             "left join TB_PERSON_INFO p on t.pid=p.tb_pid left join TB_PACCOUNTUTIL l on l.pid=t.pid  where rownum &lt; #{end} " +
             "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
             ") a where a.rn &gt; #{start}</script>")

@@ -178,4 +178,15 @@ public class LoanController {
     public Object unique(@PathVariable("value") String value){
         return searchInfoService.unique(value);
     }
+
+    /**
+     * 验证个人账号查询
+     * @param GRZH
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("yanzheng/{GRZH}")
+    public Object yanzheng(@PathVariable("GRZH") String GRZH){
+        return searchInfoService.yanzheng(GRZH);
+    }
 }
