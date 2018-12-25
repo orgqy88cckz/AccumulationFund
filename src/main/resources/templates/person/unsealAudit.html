@@ -16,17 +16,6 @@
 <div id="tableView">
     <h2>{{ message }}</h2>
     <!--列表顶部搜索和工具条-->
-    <!--<el-row>-->
-        <!--<el-form :inline="true" :model="searchForm" class="demo-form-inline">-->
-            <!--<el-form-item label="姓名">-->
-                <!--<el-input v-model="searchForm.id" placeholder="姓名"></el-input>-->
-            <!--</el-form-item>-->
-            <!--<el-form-item>-->
-                <!--<el-button type="primary" icon="search" @click="searchClick">查询</el-button>-->
-                <!--<el-button type="success" icon="plus" @click="toFlush">搜索框刷新</el-button>-->
-            <!--</el-form-item>-->
-        <!--</el-form>-->
-    <!--</el-row>-->
     <!--列表-->
     <el-row>
         <el-table
@@ -41,67 +30,80 @@
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_NAME"
+                    align="center"
                     label="姓名"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_UNIT"
                     label="所在单位"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_SEX"
                     label="性别"
-                    width="80">
+                    align="center"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="UNIT_POST"
                     label="工作职位"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_PHONE"
                     label="电话号码"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_NUMBER"
                     label="身份证号"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="UNSEAL_ACCOUNT"
                     label="个人账户"
-                    width="100">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="REASON"
                     label="封启原因"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="STATE"
                     label="申请操作"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="OPERATOR"
                     label="操作人"
-                    width="60">
+                    align="center"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="CREATE_TIME"
                     label="创建时间"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="AUDIT_NAME"
                     label="审核状态"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     label="操作"
-                    width="160">
+                    align="center"
+                    width="150">
                 <template scope="scope">
                     <el-button :plain="true" type="success" size="small" icon="edit" @click="yesClick(scope.row)">通过</el-button>
                     <el-button :plain="true" type="danger" size="small" icon="delete" @click="noClick(scope.row)">驳回</el-button>

@@ -13,7 +13,7 @@
     <script src="../js/elementui.js"></script>
     <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
     <style type="text/css">
-        #tableView{margin-left: 155px;float: left;}
+        #tableView{margin-left: 0px;float: left;}
     </style>
 
 </head>
@@ -47,12 +47,14 @@
             <el-table-column
                     prop="GRZH"
                     label="个人账号"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="TB_PNAME"
                     label="姓名"
-                    width="100">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UBITNROP"
@@ -62,31 +64,37 @@
             <el-table-column
                     prop="INDINROP"
                     label="个人缴存比例(百分制)"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="BASENUMMBER"
                     label="缴存基数"
+                    align="center"
                     width="150">
             </el-table-column>
             <el-table-column
                     prop="DALANCE"
                     label="个人公积金余额"
+                    align="center"
                     width="100">
             </el-table-column>
             <el-table-column
                     prop="PERACCSTATE"
                     label="个人账户状态"
-                    width="60"  >
+                    align="center"
+                    width="100"  >
             </el-table-column>
             <el-table-column
                     prop="LASTNAYDATE"
                     label="最后汇缴月"
-                    width="60">
+                    align="center"
+                    width="200">
             </el-table-column>
             <el-table-column
                     label="操作"
-                    width="160">
+                    align="center"
+                    width="200">
                 <template scope="scope">
                     <el-button  v-if="scope.row.PERACCSTATE=='正常'" :plain="true" type="success" size="small" icon="edit" @click="fcClick(scope.row)">封存</el-button>
                     <el-button  v-if="scope.row.PERACCSTATE=='封存'" :plain="true" type="success" size="small" icon="edit" @click="qfClick(scope.row)">启封</el-button>
