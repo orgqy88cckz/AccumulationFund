@@ -73,4 +73,19 @@ public class YingYeTing {
         yingYeTingService.zhifu(map,model);
         return "yingyeting/zhifu";
     }
+    /**
+     * 跳转缴纳记录
+     * @return
+     */
+    @RequestMapping("/toJiaona")
+    public String toJiaona(Model model,@RequestParam Map map){
+        String grzh = (String) map.get("grzh");
+        model.addAttribute("grzh",grzh);
+        return "yingyeting/jiaona";
+    }
+    @ResponseBody
+    @RequestMapping("/jiaonajilu")
+    public Object getJiaona(@RequestBody Map map){
+        return yingYeTingService.getJiaona(map);
+    }
 }
