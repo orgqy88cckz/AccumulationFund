@@ -59,12 +59,13 @@ public class BuJiaoServiceImpl implements BuJiaoService {
         String uaowemonths = map.get("UAOWEMONTHS") + "";
         //遍历插入信息
         List<Map> maps = buJiaoDao.select1(map);
-        System.out.println(maps);
-
         for (Map mapa : maps) {
             mapa.put("uaowemonths",uaowemonths);
             buJiaoDao.update3(mapa);
             buJiaoDao.insert1(mapa);
+            System.out.println((mapa.get("DALANCE")+""));
+            System.out.println((mapa.get("PERMONPAYSUM")+""));
+            System.out.println(mapa.get(uaowemonths));
         }
         return hashMap;
     }
