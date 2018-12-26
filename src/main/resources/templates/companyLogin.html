@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
+    <script src="/af/js/login-xin.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/login-xin.js"></script>
+    <link href="/af/css/login.css" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body onLoad="createCode();">
+<div class="login">
+    <div class="login-head">
+        <div class="login-head-b">
+            AAA住房公积金平台登录
+        </div>
+        <div class="login-head-c"><a href="/af/home/toHome">返回首页</a></div>
+        <input type="hidden" th:value="${msg}" id='msg'>
+    </div>
+    <div class="login-con">
+        <div class="login-a">
+            <form id="loginForm" method="post" action="loginCompany"onsubmit="return validate()">
+                <div class="login-b">
+                    <div class="login-b-a">用户登陆</div>
+                    <div class="login-b-b">
+                        <ul>
+                            <li>
+                                <label for="userName">公司编号：</label><input type="text" id="mobile" name="username"/>
+                                <h1 id="m-tip"></h1>
+                            </li>
+                            <li>
+                                <label for="password">密 &nbsp;&nbsp;码：</label><input type="password" id="password" name="password"/>
+                                <h1 id="p-tip"></h1>
+                            </li>
+                            <li>
+                                <label >验证码：</label><input type="text" id="input1" />
+                                <input type="text" id="checkCode" class="code" style="width: 55px" /> <a href="#" onClick="createCode()">看不清楚</a>
+                                <h1 id="c-tip"></h1>
+                                <!--输入错误时的输入框样式<input type="text" name="textfield" id="textfield" class="receSum-error" />-->
+                                <!--当输入的手机号码发生错误时，出现如下提示信息
+                                <p class="error-tips-1 spanRed">在此处显示错误的信息提示——如：对不起，您输入的手机号码格式有误，请重新输入！</p>-->
+                            </li>
+                            <li class="login-x">
+                                <div class="login-x-a"><input type="submit" name="登录"value="登录"id="Button1" onClick="validate();" /><div class="x"></div></div>
+                                <div class="login-x-a"><input type="submit" name="注册"value="注册"onclick="pay_query();"/><div class="x"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="login-foot">
+        WODE网络科技有限公司©2018 豫ICP备12040171号
+    </div>
+</div>
+<script>
+    var msg=$("#msg").val();
+    if(msg!=null&&msg!=''){
+        alert(msg);
+    }
+    function validate() {
+        var password_input = document.getElementById('password');
+        var password_md5 = document.getElementById('password_md5');
+        password_md5.value =  md5(password_input.value);
+        return true;
+    }
+</script>
+</body>
+</html>

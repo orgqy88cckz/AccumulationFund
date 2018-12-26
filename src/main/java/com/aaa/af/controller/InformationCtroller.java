@@ -1,5 +1,6 @@
 package com.aaa.af.controller;
 
+import com.aaa.af.service.CompanyInfoService;
 import com.aaa.af.service.InformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class InformationCtroller {
     @Autowired
     private InformationService informationService;
+    @Autowired
+    private CompanyInfoService companyInfoService;
 
     /**
      * 跳转首页
@@ -38,6 +41,14 @@ public class InformationCtroller {
     @RequestMapping("/toPerson")
     public String personPage(){
         return "gerenLogin";
+    }
+    /**
+     * 跳转单位登录
+     * @return
+     */
+    @RequestMapping("/toCompany")
+    public String companyPage(){
+        return "companyLogin";
     }
     /**
      * 查询前台信息
@@ -149,5 +160,13 @@ public class InformationCtroller {
     @RequestMapping("/loginPerson")
     public String login(@RequestParam Map map,Model model){
         return informationService.checkPerson(map,model);
+    }
+    /**
+     * 登录
+     */
+    @RequestMapping("/loginCompany")
+    public String logins(@RequestParam Map map,Model model){
+        System.out.println(map);
+        return companyInfoService.checkCompany(map,model) ;
     }
 }

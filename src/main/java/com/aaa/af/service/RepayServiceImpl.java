@@ -34,13 +34,23 @@ public class RepayServiceImpl implements RepayService {
     }
 
     /**
-     * 分期还款
+     * 等额本息
      * @param map
      * @return
      */
     @Override
     public int update(Map map) {
         return repayDao.update(map);
+    }
+
+    /**
+     * 等额本金
+     * @param map
+     * @return
+     */
+    @Override
+    public int updateMoney(Map map) {
+        return repayDao.updateMoney(map);
     }
 
     /**
