@@ -23,7 +23,7 @@ public interface GuaZhangDao {
     @Select("<script>select  rownum rn,DWZH,UNAME,UDEPOSITRATIO,UPERSONRATIO,UDEPOSITEDPNUM,UAREMAIN,\n" +
             "UAOWEMONERY,UASTATE,UAPAYENDDATE from \n" +
             "(select rownum rn, DWZH,UNAME,UDEPOSITRATIO,UPERSONRATIO,UDEPOSITEDPNUM,UAREMAIN,\n" +
-            "UAOWEMONERY,UASTATE,UAPAYENDDATE from tb_unitaccount a left join tb_unit b on a.AID=b.ID\n" +
+            "UAOWEMONERY,UASTATE,to_char(UAPAYENDDATE,'yyyy-mm-dd') as UAPAYENDDATE from tb_unitaccount a left join tb_unit b on a.AID=b.ID\n" +
             "where rownum &lt; #{end}   " +
             "<if test=\"UNAME!=null and UNAME!=''\"> and UNAME like '%'||#{UNAME}||'%'</if>" +
             " ) c where c.rn &gt; #{start} </script>")

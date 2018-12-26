@@ -187,10 +187,8 @@
             var end =this.currentPage*this.pageSize+1;
             axios.post('/af/guazhang/page',{'start':start,'end':end}).then(function(response){
                 // console.log(response.data);
-               //alert(response.data.total);
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                // alert(JSON.stringify(response.data.pageData));
                // self.multipleSelection=response.data.data;
             })
         },
@@ -203,10 +201,8 @@
                 var start =(this.currentPage-1)*this.pageSize;
                 var end =this.currentPage*this.pageSize+1;
                 var searchForm={'start':start,'end':end,'UNAME':this.searchForm.UNAME};
-             //   alert(JSON.stringify(searchForm));
                 axios.post('/af/guazhang/page',searchForm).then(function(response){
                     // console.log(response.data);
-                    // alert(222);
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
                     //_self.multipleSelection=response.data.data;
@@ -225,7 +221,6 @@
             },
             //新建事件
             addClick:function() {
-                //alert(111);
                 var _self = this;
                 //清空原有数据
                 this.editForm= {
@@ -242,20 +237,6 @@
             //表格查询事件
             searchClick:function() {
                 var self = this;
-               /* var start =(this.currentPage-1)*this.pageSize;
-                var end =this.currentPage*this.pageSize+1;
-                //var searchForm =this.searchForm;
-
-                var searchForm={'start':start,'end':end,'id':this.id,'name':this.name,'deptNo':this.deptNo};
-                alert(searchForm);
-                //formData.push({'start':start}).push({'end':end})
-                axios.post('/emp/list',searchForm).then(function(response){
-                    // console.log(response.data);
-                    //alert(response.data.total);
-                    self.total=response.data.total;
-                    self.tableData = response.data.data;
-                    // self.multipleSelection=response.data.data;
-                })*/
                 self.loadingData();//重新加载数据
             },
             //表格勾选事件
@@ -285,14 +266,8 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                //alert(formData);
                 var goUrl=this.goUrl;
-                //alert(goUrl);
-                //alert(JSON.stringify(formData));
                 axios.post(goUrl,formData).then(function(response){
-                    // console.log(response.data);
-                    // alert(222);
-                    // self.total=response.data.total;
                      if(response.data>0){
                          _self.editFormVisible = false;
                          _self.loadingData();//重新加载数据

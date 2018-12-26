@@ -24,7 +24,7 @@ public interface BiLiDao {
     @Select("<script>select rownum rn,AID,DWZH,UNAME,UDEPOSITRATIO,UPERSONRATIO,UDEPOSITEDPNUM,UAREMAIN,\n" +
             "UAOWEMONERY,UASTATE,UAPAYENDDATE from \n" +
             "(select rownum rn,AID,DWZH,UNAME,UDEPOSITRATIO,UPERSONRATIO,UDEPOSITEDPNUM,UAREMAIN,\n" +
-            " UAOWEMONERY,UASTATE,UAPAYENDDATE from tb_unitaccount a left join tb_unit b on a.AID=b.ID\n" +
+            " UAOWEMONERY,UASTATE,to_char(UAPAYENDDATE,'yyyy-mm-dd') as UAPAYENDDATE from tb_unitaccount a left join tb_unit b on a.AID=b.ID\n" +
             "where rownum &lt; #{end}   " +
             "<if test=\"UNAME!=null and UNAME!=''\"> and UNAME like '%'||#{UNAME}||'%'</if>" +
             " ) c where c.rn &gt; #{start} </script>")
@@ -45,7 +45,7 @@ public interface BiLiDao {
      * @param map
      * @return
      */
-    @Update("update tb_unitaccount set UPERSONRATIO = #{UPERSONRATIO},UDEPOSITRATIO = #{UDEPOSITRATIO} where  AID = #{AID}")
+    @Update("update tb_unitaccount set UPERSONRATIO = #{UPERSONRATIO},UDEPOSITRATIO = #{UDEPOSITRATIO} where  AID = #{AID} ")
     int update(Map map);
 
     /**
@@ -53,7 +53,7 @@ public interface BiLiDao {
      * @param map
      * @return
      */
-    @Update("update TB_PACCOUNTUTIL set UBITNROP=#{UDEPOSITRATIO},INDINROP=#{UPERSONRATIO} where UAID=#{AID}")
+    @Update("update TB_PACCOUNTUTIL set UBITNROP=#{UDEPOSITRATIO},INDINROP=#{UPERSONRATIO} where UAID=#{AID} and PERACCSTATE='正常'")
     int update1(Map map);
 
     /**
@@ -61,7 +61,7 @@ public interface BiLiDao {
      * @param map
      * @return
      */
-    @Select("select PACCID,UAID,BASENUMMBER,UBITNROP,INDINROP from TB_PACCOUNTUTIL where UAID=#{AID}")
+    @Select("select PACCID,UAID,BASENUMMBER,UBITNROP,INDINROP,PERACCSTATE from TB_PACCOUNTUTIL where UAID=#{AID}")
     List<Map> page1(Map map);
 
     /**
@@ -69,7 +69,7 @@ public interface BiLiDao {
      * @param map
      * @return
      */
-    @Update("update TB_PACCOUNTUTIL set UNITMONPAYSUM=#{gongsi},PERMONPAYSUM=#{geren} where PACCID=#{id}")
+    @Update("update TB_PACCOUNTUTIL set UNITMONPAYSUM=#{gongsi},PERMONPAYSUM=#{geren} where PACCID=#{id} and PERACCSTATE='正常'")
     int update2(Map map);
 
     /**
@@ -77,7 +77,7 @@ public interface BiLiDao {
      * @param map
      * @return
      */
-    @Update("update tb_paccountutil set YDRAWAMT = (#{gongsi} + #{geren}) where PACCID = #{id}")
+    @Update("update tb_paccountutil set YDRAWAMT = (#{gongsi} + #{geren}) where PACCID = #{id} and PERACCSTATE = '正常'")
     int update3(Map map);
 
     /**
