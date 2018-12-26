@@ -219,6 +219,7 @@ public interface FundTakeDao {
     @Update("update TB_APPOINT_CHECK set SHZT=2 where aid=#{aid}")
     int appointPass(Integer aid);
 
+
     /**
      *约定审核驳回事件
      * @param aid
