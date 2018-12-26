@@ -15,23 +15,24 @@
 <div id="app">
     <h2>{{ message }}</h2>
 </div>
-<!--列表顶部搜索和工具条-->
-<el-row>
-    <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-        <el-form-item label="个人账户">
-            <el-input v-model="searchForm.GRZH" placeholder="个人账户"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-            <el-input v-model="searchForm.PNAME" placeholder="还款人姓名"></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
-        </el-form-item>
-    </el-form>
-</el-row>
 
 
 <div id="tableView">
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+            <el-form-item label="个人账户">
+                <el-input v-model="searchForm.GRZH" placeholder="个人账户"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+                <el-input v-model="searchForm.PNAME" placeholder="还款人姓名"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+
     <!--列表-->
     <center>
     <el-row>

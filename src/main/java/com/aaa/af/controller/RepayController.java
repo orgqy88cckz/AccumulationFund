@@ -71,7 +71,12 @@ public class RepayController {
     @ResponseBody
     @RequestMapping("/update")
     public Object update(@RequestBody Map map){
-        repayService.update(map);
+        String money = map.get("LOAN_REPAY")+"";
+        if (money.equals("等额本息")){
+            repayService.update(map);
+        }else if (money.equals("等额本金")){
+            repayService.updateMoney(map);
+        }
         repayService.updState(map);
          String peroids = map.get("OVER_PERIODS")+"";
          if (peroids.equals("1")){

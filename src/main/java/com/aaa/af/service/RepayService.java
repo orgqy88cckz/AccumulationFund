@@ -27,12 +27,18 @@ public interface RepayService {
     List<Map> getListById(int id);
 
     /**
-     * 更新还款后数据
+     * 等额本息
      * @param map
      * @return
      */
     int update (Map map);
 
+    /**
+     * 等额本金
+     * @param map
+     * @return
+     */
+    int updateMoney(Map map);
     /**
      * 分期还款后添加还款信息到个人还款记录
      * @param map

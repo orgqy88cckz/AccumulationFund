@@ -37,12 +37,27 @@ public interface RepayDao {
     List<Map> getListById(int id);
 
     /**
-     * 更新还款后数据
+     * 等额本息
      * @param map
      * @return
      */
-    @Update("<script>update tb_repay set repayed_date = sysdate,(repayed_periods)=(repayed_periods+1),(over_periods)=(over_periods - 1),(over_money) = (over_money - repayed_month_money),(over_interests) =round(over_interests - repayed_month_interest,0 ),(repayed_money) = (repayed_money + REPAYED_MONTH_MONEY),(repayed_interests) = (repayed_interests + REPAYED_MONTH_INTEREST) where id = #{ID}</script>")
+    @Update("<script>update tb_repay set repayed_date = sysdate,repayed_periods=(repayed_periods+1),over_periods=(over_periods - 1)," +
+            "repayed_month_money=month_return-(loan_money - (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))))*(loan_rate / loan_periods /100),repayed_month_interest=(loan_money - (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100)))) * (loan_rate / loan_periods /100),"+
+            "over_money = (loan_money - (repayed_money + month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))),over_interests =(repay_interests - (repayed_interests + (loan_money - repayed_money) *(loan_rate / loan_periods / 100)))," +
+            "repayed_money = (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))),repayed_interests = (repayed_interests + (loan_money - repayed_money) * (loan_rate / loan_periods /100)) where loan_repay = '等额本息' and id = #{ID}</script>")
     int update (Map map);
+
+    /**
+     * 等额本金
+     * @param map
+     * @return
+     */
+    @Update("update tb_repay set repayed_date = sysdate,repayed_periods=(repayed_periods+1),over_periods=(over_periods - 1)," +
+            "repayed_month_interest = (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / loan_periods / 100),"+
+            "repayed_money = (repayed_money+repayed_month_money),repayed_interests = (repayed_interests + (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / loan_periods / 100)),"+
+            "over_money = (loan_money - ((repayed_money+repayed_month_money))),over_interests = (repay_interests - (repayed_interests + (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / loan_periods / 100)))"+
+            " where loan_repay = '等额本金' and id = #{ID}")
+    int updateMoney(Map map);
 
     /**
      * 分期还款后添加还款信息到个人还款记录

@@ -356,7 +356,7 @@
         created:function(){
             //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
             var self = this;
-            axios.post('/af/loan/page',{'pageNo':this.currentPage,'pageSize':this.pageSize}).then(function(response){
+            axios.post('/af/loan_record/page',{'pageNo':this.currentPage,'pageSize':this.pageSize}).then(function(response){
 
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
@@ -372,7 +372,7 @@
 
                 var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'repayId':this.searchForm.id,'pName':this.searchForm.name,'pId':this.searchForm.deptNo};
 
-                axios.post('/af/loan/page',searchForm).then(function(response){
+                axios.post('/af/loan_record/page',searchForm).then(function(response){
 
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
@@ -388,7 +388,7 @@
             //还款事件
             editClick:function(row) {
                 //alert(this.editForm.OVER_PERIODS);
-                this.goUrl="/af/loan/update";
+                this.goUrl="/af/loan_record/update";
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
                 var self = this;

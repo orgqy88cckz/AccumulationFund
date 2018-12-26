@@ -406,7 +406,7 @@
 
             //还款事件
             editClick:function(row) {
-                //alert(this.editForm.OVER_PERIODS);
+                alert(this.editForm.OVER_PERIODS);
                 this.goUrl="/af/repay/update";
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
@@ -414,9 +414,7 @@
                 this.periods=this.editForm.OVER_PERIODS;
                 axios.post(this.goUrl,{'over_periods':this.periods}).then(function (response) {
                  //  alert(over_periods);
-
                 })
-
             },
             //个人还款记录
             person:function() {
@@ -476,7 +474,7 @@
                 var formData =this.editForm;
                 //alert(JSON.stringify(formData));
                 var goUrl=this.goUrl
-                alert(_self.editForm.OVER_PERIODS=0)
+                alert(_self.editForm.OVER_PERIODS)
                 if(_self.editForm.OVER_PERIODS!=0) {
                     axios.post(goUrl, formData).then(function (response) {
 
