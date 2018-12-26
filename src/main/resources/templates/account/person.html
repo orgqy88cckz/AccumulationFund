@@ -42,7 +42,7 @@
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="PACCID"
+                    prop="GRZH"
                     label="账号"
                     width="200">
             </el-table-column>
@@ -182,7 +182,7 @@
             <el-row :gutter="20">
                 <el-col :span="8">
                     <el-form-item label="账户:">
-                        <el-input v-model="editForm.PACCID" auto-complete="off" style="width:180px" :disabled="true"></el-input>
+                        <el-input v-model="editForm.GRZH" auto-complete="off" style="width:180px" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -356,6 +356,7 @@
             },
             //编辑界面数据
             editForm: {
+                GRZH:'',
                 TB_PID:'',
                 PACCID:'',
                 UNAME:'',
