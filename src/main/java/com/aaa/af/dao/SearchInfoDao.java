@@ -1,11 +1,9 @@
 package com.aaa.af.dao;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Map;
 
@@ -120,7 +118,7 @@ public interface SearchInfoDao {
             " where (STATUS='2' or status='4' or status='5') and rownum &lt; #{end} \n" +
             "<if test=\"PNAME!=null and PNAME!=''\"> and PNAME like '%'||#{PNAME}||'%'</if>" +
             "<if test=\"STATUS!=null and STATUS!=''\"> and STATUS=#{STATUS}</if>" +
-            " ) a where  STATUS='2' or status='4' or status='5' and a.rn &gt; #{start} </script>")
+            " ) a where  (STATUS='2' or status='4' or status='5') and a.rn &gt; #{start} </script>")
     List<Map> loanCheckSelectFinally(Map map);
 
 

@@ -27,9 +27,14 @@
 </style>
 <body>
 <div id="app">
-    <el-header style="height: 100px;">Header<span>王小虎</span></el-header>
+    <el-header style="height: 100px;">
+        <center>
+            <span style="color: #eeeeee;font-size: xx-large;">AAA住房公积金管理系统</span>
+            <span style="color: gainsboro; font-size: medium;float: right;font-weight: 200;padding-top: 50px"><a href="/af/toLogin" style="color: gainsboro;">用户注销</a></span>
+        </center>
+    </el-header>
     <el-container style="height: 950px; border: 1px solid #eee;">
-        <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
+        <el-aside width="200px" style="background-color: RGB(14,17,9);">
             <el-tree :data="dataTree" :props="defaultProps" accordion @node-click="handleNodeClick "></el-tree>
         </el-aside>
 
@@ -65,7 +70,7 @@ var vm=new Vue({
         editableTabsValue2: '2',
         editableTabs2:[{title: '首页',
             name: '2',
-            content: "<iframe src='https://www.baidu.com' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:1000px;\"> </iframe>"
+            content: "<iframe src='/af/financial/toGJFX' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>"
         }],
         tabIndex: 2
     },
