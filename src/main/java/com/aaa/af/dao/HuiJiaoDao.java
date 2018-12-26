@@ -112,7 +112,7 @@ public interface HuiJiaoDao {
      * @param map
      * @return
      */
-    @Insert("insert into precord (ID,PNAME,PACCOUNT,PMONEY,PTYPE,PDATE,PCMONEY) values(precord_id.nextval,#{TB_PNAME},#{GRZH},#{DALANCE},'汇缴',#{LASTNAYDATE},#{PERMONPAYSUM})")
+    @Insert("insert into precord (ID,PNAME,PACCOUNT,PMONEY,PTYPE,PDATE,PCMONEY,PMONTH) values(precord_id.nextval,#{TB_PNAME},#{GRZH},#{DALANCE},'汇缴',#{LASTNAYDATE},#{PERMONPAYSUM},1)")
     int insert1(Map map);
 
 }
