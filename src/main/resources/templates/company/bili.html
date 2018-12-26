@@ -196,10 +196,8 @@
             var end =this.currentPage*this.pageSize+1;
             axios.post('/af/bili/page',{'start':start,'end':end}).then(function(response){
                 // console.log(response.data);
-               //alert(response.data.total);
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                // alert(JSON.stringify(response.data.pageData));
                // self.multipleSelection=response.data.data;
             })
         },
@@ -212,11 +210,9 @@
                 var start =(this.currentPage-1)*this.pageSize;
                 var end =this.currentPage*this.pageSize+1;
                 var searchForm={'start':start,'end':end,'UNAME':this.searchForm.UNAME};
-             //   alert(JSON.stringify(searchForm));
                 axios.post('/af/bili/page',searchForm).then(function(response){
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
-                    //_self.multipleSelection=response.data.data;
                 })
                 console.log(_self.currentPage);
                 setTimeout(function(){
@@ -226,7 +222,6 @@
             },
             //表格编辑事件
             editClick:function(row) {
-                alert(JSON.stringify(row));
                 this.goUrl="/af/bili/update";
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
@@ -277,12 +272,12 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                alert(JSON.stringify(formData));
                 var goUrl="/af/bili/update";
                 axios.post(goUrl,formData).then(function(response){
                      if(response.data>0){
                          _self.editFormVisible = false;
                          _self.loadingData();//重新加载数据
+                         this.$message.success("提交成功！");
                      }
                 })
                 console.info(this.editForm);

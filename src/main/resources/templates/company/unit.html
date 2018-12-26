@@ -298,13 +298,24 @@
                     </el-form-item>
                 </div>
             </el-col>
-            <el-col :span="6">
-            <div class="grid-content bg-purple">
-                <el-form-item label="*上传单位执照" prop="yyzz">
-                    <el-input v-model="form.yyzz" style="width: 200px;"></el-input>
+        </el-row>
+        <el-row :gutter="15">
+            <el-col :span="4">
+                <el-form-item label="营业执照:">
                 </el-form-item>
-            </div>
-        </el-col>
+            </el-col>
+            <el-col :span="10">
+                <el-upload
+                        v-model="form.yyzz"
+                        action="/af/account/upLoadPic"
+                        list-type="picture-card"
+                        :auto-upload="true"
+                        :limit="1"
+                        :multiple="false"
+                        :on-success="uploadSuc">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+            </el-col>
         </el-row>
         <el-form-item>
             <el-button type="primary" @click.native="addClick">保存</el-button>
@@ -394,11 +405,13 @@
                     khrq:''
                 }
             },
+            //上传成功后的方法
+            uploadSuc:function(response){
+                this.form.yyzz=response;
+            },
             addClick: function () {
                 var self = this;
                 var formData =this.form;
-                alert(formData.unitbegindate);
-                alert(formData.khrq);
                 axios.post('/af/unit/add',formData).then(function(response){
                     if(response.data!=""){
                         self.$message({

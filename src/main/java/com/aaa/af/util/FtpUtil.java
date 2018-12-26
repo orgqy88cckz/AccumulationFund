@@ -31,6 +31,7 @@ public class FtpUtil {
         // System.out.println(remoteIp+"...."+ftpUserName+","+ftpPassWord);
         InputStream local = null;
         try {
+            //ftp.enterLocalPassiveMode();
             //  System.out.println(new FileUpAndDown().remoteIp);
             //连接ftp服务器
             ftp.connect(ftpConfig.getRemoteIp(),ftpConfig.getUploadPort());
@@ -64,6 +65,7 @@ public class FtpUtil {
             //  System.out.println(file.length()+"............");
             //读取刚上传到D:/uploadpath/的文件到输入流里面
             local = new FileInputStream(file);
+            System.out.println(local+".......");
             //第一个参数是文件名，把本地文件输入流传输到远程
             ftp.storeFile(file.getName(),local);
             return newFileName;

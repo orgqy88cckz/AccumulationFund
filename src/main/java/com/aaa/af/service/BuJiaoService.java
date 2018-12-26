@@ -25,7 +25,11 @@ public interface BuJiaoService {
      */
     Map getSelect(Map map);
 
-
+    /**
+     * 更新
+     * @param map
+     * @return
+     */
     Map update(Map map);
 
     /**

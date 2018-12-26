@@ -239,7 +239,6 @@
                 sex :[{required: true, message: '请输入', trigger: 'blur'}]
             },
             keyup:function(){
-                alert("666666666")
                 this.searchForm2.UAOWEMONERY = this.searchForm2.UAOWEMONERY*this.searchForm2.UAOWEMONTHS;
 
             },
@@ -275,7 +274,6 @@
                 if (this.form.gszh!=""){
                     var url = '/af/person/getById/'+this.form.gszh;
                     axios.get(url).then(function (response) {
-                        alert(response.data.AID);
                         self.form.AID = response.data.AID;
                         self.form.gsmc = response.data.UNAME;
                         self.form.dwbl = response.data.UDEPOSITRATIO;
@@ -296,7 +294,6 @@
             addClick: function () {
                 var self = this;
                 var formData =this.form;
-                alert(JSON.stringify(formData));
                 axios.post('/af/person/add',formData).then(function(response){
                     if(response.data!=""){
                         self.$message({

@@ -45,9 +45,9 @@ public interface JiShuDao {
      * @return
      */
     @Select("<script>select rownum rn,UAID, GRZH,TB_PNAME,BASENUMMBER,INDINROP,UBITNROP,UNITMONPAYSUM,\n" +
-            "PERMONPAYSUM from \n" +
+            "PERMONPAYSUM,PERACCSTATE from \n" +
             "(select rownum rn, UAID,GRZH,TB_PNAME,BASENUMMBER,INDINROP,UBITNROP,UNITMONPAYSUM,\n" +
-            "PERMONPAYSUM from tb_paccountutil a left join tb_person_info b on a.pid = b.tb_pid \n" +
+            "PERMONPAYSUM,PERACCSTATE from tb_paccountutil a left join tb_person_info b on a.pid = b.tb_pid \n" +
             "where rownum &lt; #{end1} and unit_id = #{uid}" +
             "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
             " ) c where c.rn &gt; #{start1} </script>")
@@ -79,7 +79,7 @@ public interface JiShuDao {
      * @return
      */
     @Update("update tb_paccountutil set BASENUMMBER = #{BASENUMMBER},UNITMONPAYSUM = #{UBITNROP}*#{BASENUMMBER}/100,PERMONPAYSUM = #{INDINROP}*#{BASENUMMBER}/100" +
-            " where GRZH = #{GRZH}")
+            " where GRZH = #{GRZH} and PERACCSTATE = #{PERACCSTATE}")
     int update1(Map map);
 
     /**
@@ -87,7 +87,8 @@ public interface JiShuDao {
      * @param map
      * @return
      */
-    @Update("update tb_paccountutil set YDRAWAMT = (#{UBITNROP}*#{BASENUMMBER}/100+#{INDINROP}*#{BASENUMMBER}/100) where GRZH = #{GRZH}")
+    @Update("update tb_paccountutil set YDRAWAMT = (#{UBITNROP}*#{BASENUMMBER}/100+#{INDINROP}*#{BASENUMMBER}/100) where GRZH = #{GRZH}" +
+            "and PERACCSTATE = #{PERACCSTATE}")
     int updatea(Map map);
 
     /**
@@ -95,6 +96,7 @@ public interface JiShuDao {
      * @param map
      * @return
      */
-    @Update("update tb_unitaccount set UAOWEMONERY = (select sum(YDRAWAMT) from TB_PACCOUNTUTIL where uaid = #{UAID}) WHERE id = #{UAID}")
+    @Update("update tb_unitaccount set UAOWEMONERY = (select sum(YDRAWAMT) from TB_PACCOUNTUTIL where uaid = #{UAID} and " +
+            "PERACCSTATE = #{PERACCSTATE}) WHERE id = #{UAID}")
     int update2(Map map);
 }

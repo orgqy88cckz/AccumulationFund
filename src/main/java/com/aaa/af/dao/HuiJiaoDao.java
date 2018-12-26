@@ -1,5 +1,6 @@
 package com.aaa.af.dao;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -78,8 +79,17 @@ public interface HuiJiaoDao {
      * @param map
      * @return
      */
-    @Select("select YDRAWAMT,GRZH from tb_paccountutil")
+    @Select("select TB_PNAME,GRZH,DALANCE,LASTNAYDATE,PERMONPAYSUM,YDRAWAMT from tb_paccountutil a left join\n" +
+            "tb_person_info b on a.pid = b.tb_pid where UAID=#{AID}")
     List<Map> select1(Map map);
+
+    /**
+     * 查询
+     * @param map
+     * @return
+     */
+    @Select("select UNAME,DWZH,UAREMAIN,UAPAYENDDATE,UAOWEMONERY from tb_unitaccount a left join tb_unit b on a.AID = b.ID where DWZH = #{DWZH}")
+    List<Map> select2(Map map);
 
     /**
      * 更新个人账户余额
@@ -88,4 +98,21 @@ public interface HuiJiaoDao {
      */
     @Update("update tb_paccountutil set DALANCE = (DALANCE + #{YDRAWAMT}) where GRZH = #{GRZH}")
     int update3(Map map);
+
+    /**
+     * 向单位记录表插入数据
+     * @param map
+     * @return
+     */
+    @Insert("insert into urecord (ID,UNAME,UACCOUNT,UMONEY,UTYPE,UDATE,UCMONEY) values(urecord_id.nextval，#{UNAME},#{DWZH},#{UAREMAIN},'汇缴',#{UAPAYENDDATE},#{UAOWEMONERY})")
+    int insert(Map map);
+
+    /**
+     * 向个人记录表插入数据
+     * @param map
+     * @return
+     */
+    @Insert("insert into precord (ID,PNAME,PACCOUNT,PMONEY,PTYPE,PDATE,PCMONEY) values(precord_id.nextval,#{TB_PNAME},#{GRZH},#{DALANCE},'汇缴',#{LASTNAYDATE},#{PERMONPAYSUM})")
+    int insert1(Map map);
+
 }

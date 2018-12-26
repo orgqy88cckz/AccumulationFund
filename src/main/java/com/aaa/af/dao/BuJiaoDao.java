@@ -1,5 +1,6 @@
 package com.aaa.af.dao;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -85,8 +86,17 @@ public interface BuJiaoDao {
      * @param map
      * @return
      */
-    @Select("select YDRAWAMT,GRZH from tb_paccountutil")
+    @Select("select TB_PNAME,GRZH,DALANCE,LASTNAYDATE,PERMONPAYSUM,YDRAWAMT from tb_paccountutil a left join " +
+            "tb_person_info b on a.pid = b.tb_pid where UAID=#{AID}")
     List<Map> select1(Map map);
+
+    /**
+     * 查询
+     * @param map
+     * @return
+     */
+    @Select("select UNAME,DWZH,UAREMAIN,UAPAYENDDATE,UAOWEMONERY from tb_unitaccount a left join tb_unit b on a.AID = b.ID where DWZH = #{DWZH}")
+    List<Map> select2(Map map);
 
     /**
      * 根据个人账号更新账户余额
@@ -94,7 +104,7 @@ public interface BuJiaoDao {
      * @param map
      * @return
      */
-    @Update("update tb_paccountutil set DALANCE = (DALANCE + #{YDRAWAMT}) where GRZH = #{GRZH}")
+    @Update("update tb_paccountutil set DALANCE = (#{DALANCE} + #{YDRAWAMT}*#{uaowemonths}) where GRZH = #{GRZH} and PERACCSTATE = '正常'")
     int update3(Map map);
 
     /**
@@ -105,4 +115,20 @@ public interface BuJiaoDao {
      */
     @Select("select UAOWEMONERY from tb_unitaccount where DWZH = #{id}")
     Map getById(String id);
+
+    /**
+     * 向单位记录表插入数据
+     * @param map
+     * @return
+     */
+    @Insert("insert into urecord (ID,UNAME,UACCOUNT,UMONEY,UTYPE,UDATE,UCMONEY) values(urecord_id.nextval，#{UNAME},#{DWZH},#{UAREMAIN},'补缴',#{UAPAYENDDATE},#{UAOWEMONERY})")
+    int insert(Map map);
+
+    /**
+     * 向个人记录表插入数据
+     * @param map
+     * @return
+     */
+    @Insert("insert into precord (ID,PNAME,PACCOUNT,PMONEY,PTYPE,PDATE,PCMONEY) values(precord_id.nextval,#{TB_PNAME},#{GRZH},#{DALANCE},'补缴',#{LASTNAYDATE},#{PERMONPAYSUM})")
+    int insert1(Map map);
 }

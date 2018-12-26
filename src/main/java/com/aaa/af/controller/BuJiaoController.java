@@ -53,7 +53,6 @@ public class BuJiaoController {
     @ResponseBody
     @RequestMapping("/select")
     public Object getSelect(@RequestBody Map map) {
-        System.out.println(map + "66666666666666666666666666666666666666666666");
         return buJiaoService.getSelect(map);
     }
 
