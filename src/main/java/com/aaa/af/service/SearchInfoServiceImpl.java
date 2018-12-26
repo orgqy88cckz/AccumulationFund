@@ -100,10 +100,16 @@ public class SearchInfoServiceImpl implements SearchInfoService{
                 Double month_return1=repayed_month_money1+repayed_month_interest1;//月还金额
 //                等额本金总利息=（还款月数+1）×贷款总额×月利率÷2
                 Double repay_interests1=(loan_periods+1)*loan_money*(loan_rate/loan_periods/100)/2;//总共还的利息
-                map.put("repayed_month_money1",repayed_month_money1);
-                map.put("repayed_month_interest1",repayed_month_interest1);
-                map.put("month_return1",month_return1);
-                map.put("repay_interests1",repay_interests1);
+                DecimalFormat df = new DecimalFormat("#.00");
+                Double month_return2 = Double.valueOf(df.format(month_return1));
+                Double repayed_month_money2 = Double.valueOf(df.format(repayed_month_money1));
+                Double repayed_month_interest2 = Double.valueOf(df.format(repayed_month_interest1));
+                Double repay_interests2 =Double.valueOf( df.format(repay_interests1));
+                map.put("repayed_month_money1",repayed_month_money2);
+                map.put("repayed_month_interest1",repayed_month_interest2);
+                map.put("month_return1",month_return2);
+                map.put("repay_interests1",repay_interests2);
+                System.out.println(month_return2+"********"+repayed_month_money2+"**********"+repayed_month_interest2+"*****"+repay_interests2);
                 return searchInfoDao.checkPassFinally(map);
             }else {
                 Double loan_money = Double.valueOf(map.get("LOAN_MONEY") + "");//贷款本金

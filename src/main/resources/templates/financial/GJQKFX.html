@@ -311,12 +311,13 @@
                 for(var i=0;i<data.length;i++){
                     title.push(data[i].YUEFEN);
                     dataA.push(data[i].TIQU);
+                    dataB.push(data[i].HUIJIAO);
                 }
             }
         }
     });
     //使用ajax得到数据
-    $.ajax({
+   /* $.ajax({
         url:"/af/financial/huijiaoPer",
         type:"post",
         dataType:"json",
@@ -329,7 +330,7 @@
                 }
             }
         }
-    });
+    });*/
     // 指定图表的配置项和数据
     option = {
         tooltip : {
