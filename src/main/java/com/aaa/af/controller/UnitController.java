@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -71,6 +72,31 @@ public class UnitController {
         System.out.println(file);
         String s = ftpUtil.upLoad(file);
         return s;
+    }
+
+    /**
+     * 明细查询（公司）
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("detail")
+    public Object detail(@RequestBody Map map){
+        //System.out.println(map.get("start")+""+map.get("end")+"------");
+        HashMap hashMap = new HashMap();
+        hashMap.put("pageData",unitService.detail(map));
+        hashMap.put("total",unitService.count(map));
+        //System.out.println(unitService.detail(map)+"------------------");
+        return hashMap;
+    }
+
+    /**
+     *  跳转到明细查询页面
+     * @return
+     */
+   @RequestMapping("toRecord")
+    public String toRecord(){
+        return "company/record";
     }
 
 }

@@ -1,7 +1,10 @@
 package com.aaa.af.dao;
 
+import org.apache.catalina.LifecycleState;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,4 +35,27 @@ public interface UnitDao {
             "#{udepositratio},#{upersonratio},#{uastate},#{uabankname},#{uabanknumber},#{styh},#{ywblr},to_date(substr(#{khrq},1,10),'yyyy-MM-dd')," +
             "extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(tb_unit_ida.currval,'fm00000'),tb_unit_id.currval,1)")
     int add1(Map map);
+
+    /**
+     * 明细列表查询
+     * @param map
+     * @return
+     */
+    @Select("<script>select * from " +
+            " (select rownum rn,ID,UNAME,UACCOUNT,UMONEY,UTYPE,to_char(UDATE,'yyyy-MM-dd') as UDATE,UCMONEY,PERNUM,MONTHNUM,CPERSON from urecord "+
+            "  where rownum &lt; #{end} " +
+            "  <if test=\"UNAME!=null and UNAME!=''\"> and UNAME like '%'||#{UNAME}||'%'</if>" +
+            "  ) c where c.rn &gt; #{start} </script>")
+    List<Map> detail(Map map);
+
+    /**
+     * 明细列表数量查询
+     * @param map
+     * @return
+     */
+    @Select("<script> select count(*) from urecord <where>" +
+            "<if test=\"UNAME!=null and UNAME!=''\"> and UNAME like '%'||#{UNAME}||'%'</if>" +
+            "  </where></script>")
+    int count(Map map);
+
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,5 +38,15 @@ public class UnitServiceImpl implements UnitService{
         paramMap.put("add",add);
         paramMap.put("i",i);
         return paramMap;
+    }
+
+    @Override
+    public List<Map> detail(Map map) {
+        return unitDao.detail(map);
+    }
+
+    @Override
+    public int count(Map map) {
+        return unitDao.count(map);
     }
 }

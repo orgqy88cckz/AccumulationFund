@@ -1,5 +1,6 @@
 package com.aaa.af.service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,4 +18,18 @@ public interface UnitService {
      * @return
      */
     Map add(Map map);
+
+    /**
+     * 明细列表查询
+     * @param map
+     * @return
+     */
+    List<Map> detail(Map map);
+
+    /**
+     * 明细列表数量查询
+     * @param map
+     * @return
+     */
+    int count(Map map);
 }
