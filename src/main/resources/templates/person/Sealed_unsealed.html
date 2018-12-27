@@ -488,7 +488,7 @@
                 var formData =this.XeditForm;
                 var goUrl="/af/merge/submit";
                 this.XeditForm.PERACCSTATE='销户申请';
-                this.XeditForm.AUDIT_STATE='正常';
+                this.XeditForm.AUDIT_STATE='销户';
                 axios.post(goUrl,formData).then(function(response){
                     if(response.data>0){
                         _self.XeditFormVisible = false;
