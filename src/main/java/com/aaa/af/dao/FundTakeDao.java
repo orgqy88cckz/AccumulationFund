@@ -118,6 +118,14 @@ public interface FundTakeDao {
     int takeSubmitMoney(Map map);
 
     /**
+     * 审核通过提取公积金修改准许提取金额
+     * @param map
+     * @return
+     */
+    @Update("update TB_BFTAKE_CHECK set allow_money=#{ALLOW_MONEY} where BFTAKE_ID=#{BFTAKE_ID}")
+    int changeAllow(Map map);
+
+    /**
      * 提取审核驳回
      * @param map
      * @return

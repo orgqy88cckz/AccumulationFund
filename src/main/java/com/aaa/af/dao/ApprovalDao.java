@@ -108,9 +108,9 @@ public interface ApprovalDao {
      * @return
      */
     @Select("<script>select appl_account,appl_name,comp_name,application_type,application_way,extract_reason," +
-            "extract_money,to_char(appl_time,'yyyy-mm-dd') as appl_time,appl_state from(" +
+            "allow_money,to_char(appl_time,'yyyy-mm-dd') as appl_time,appl_state from(" +
             "select rownum rn,appl_account,appl_name,comp_name,application_type,application_way,extract_reason," +
-            "extract_money,appl_time,appl_state" +
+            "allow_money,appl_time,appl_state" +
             " from tb_bftake_check where appl_state in(2,3) and rownum &lt; #{end} " +
             " )d where d.rn &gt; #{start} </script>")
     List<Map> getPageByParamGJ(Map map);
