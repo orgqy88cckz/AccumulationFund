@@ -434,7 +434,7 @@
             axios.post('/af/loan/loanCheckFinally',{'start':start,'end':end}).then(function(response){
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+                //alert(JSON.stringify(response.data.pageData));
             })
 
         },
@@ -494,10 +494,10 @@
                     });
                 }else{
                 var self=this;
-                alert(row.LOAN_ID);
+                //alert(row.LOAN_ID);
                 this.goUrl="/af/loan/selectForm/"+row.LOAN_ID;
                 axios.post(this.goUrl).then(function (response) {
-                    alert(JSON.stringify(response.data));
+                    //alert(JSON.stringify(response.data));
                     self.editForm= response.data;
                 })
                 this.editFormVisible = true;
@@ -528,7 +528,7 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                alert(JSON.stringify(formData));
+                //alert(JSON.stringify(formData));
                 var url="/af/loan/finallyPass";
                 axios.post(url,formData).then(function(response){
                     alert(11111111)

@@ -118,16 +118,16 @@
                             <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item prop="income" :rules="[{ required: true, message: '月收入不能为空',trigger: 'blur'},
-                                                            { type: 'number', message: '月收入必须为数字值',trigger:'blur'}]" label="月收入">
-                                        <el-input v-model.number="form1.income"  style="width: 200px;"></el-input>
+                                                            { pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '月收入银行存款格式不对',trigger:'blur'}]" label="月收入">
+                                        <el-input v-model="form1.income"  style="width: 200px;"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
                             <el-col :span="5">
                                 <div class="grid-content bg-purple">
                                     <el-form-item  prop="deposit" :rules="[{ required: true, message: '银行存款不能为空',trigger: 'blur'},
-                                                            { type: 'number', message: '银行存款必须为数字值',trigger:'blur'}]" label="银行存款">
-                                        <el-input v-model.number="form1.deposit" style="width: 200px;"></el-input>
+                                                            { pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '银行存款格式不对',trigger:'blur'}]" label="银行存款">
+                                        <el-input v-model="form1.deposit" style="width: 200px;"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
@@ -155,8 +155,8 @@
             <el-row :gutter="20">
                 <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item prop="loanAmount" :rules="[{ required: true, message: '银行存款不能为空',trigger: 'blur'},
-                                           { type: 'number', message: '银行存款必须为数字值',trigger:'blur'}]" label="贷款金额">
-                        <el-input v-model.number="form1.loanAmount" style="width: 200px;"></el-input>
+                                           { pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '银行存款必须为正数',trigger:'blur'}]" label="贷款金额">
+                        <el-input v-model="form1.loanAmount" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="5"><div class="grid-content bg-purple">
@@ -404,14 +404,12 @@
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="5">
-                    <center>
-                        <div class="grid-content bg-purple">
-                            <el-form-item key="6"  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
-                                                                { type:'number', message: '房屋面积为数字',trigger:'blur'}]" label="房屋面积">
-                                <el-input v-model.number="form3.houseArea" style="width: 200px;"></el-input>
-                            </el-form-item>
-                        </div>
-                    </center>
+                    <div class="grid-content bg-purple">
+                        <el-form-item key="6"  prop="houseArea" :rules="[{ required: true, message: '房屋面积不能为空',trigger: 'blur'},
+                                                            {pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '房屋面积格式不对',trigger:'blur'}]" label="房屋面积">
+                            <el-input v-model="form3.houseArea" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
@@ -438,14 +436,14 @@
             <el-row :gutter="20">
                 <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="10" label="房屋总价" prop="houseTotal" :rules="[{ required: true, message: '房屋总价不能为空',trigger: 'blur'},
-                                                          {type:'number', message: '房屋总价为数字',trigger: 'blur'}]">
-                        <el-input v-model.number="form3.houseTotal"  @blur="houseMoney()"  style="width: 200px;"></el-input>
+                                                          {pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '房屋总价格式不对',trigger: 'blur'}]">
+                        <el-input v-model="form3.houseTotal"  @blur="houseMoney()"  style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item key="11" label="购房首付款" prop="houseFirst" :rules="[{ required: true, message: '购房首付款不能为空',trigger: 'blur'},
-                                                          {type:'number', message: '购房首付款为数字',trigger: 'blur'}]">
-                        <el-input v-model.number="form3.houseFirst" style="width: 200px;"></el-input>
+                                                          {pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '购房首付款格式不对',trigger: 'blur'}]">
+                        <el-input v-model="form3.houseFirst" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="5">
@@ -514,8 +512,8 @@
                 <el-col :span="5">
                     <div class="grid-content bg-purple">
                         <el-form-item label="抵押物金额" key="15" prop="DYMoney" :rules="[{ required: true, message: '抵押物金额不能为空',trigger: 'blur'},
-                                                                                          {type:'number',message:'抵押物金额为数字'}]">
-                            <el-input v-model.number="form4.DYMoney" style="width: 200px;"></el-input>
+                                                                                          {pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/,message:'抵押物金额格式不对'}]">
+                            <el-input v-model="form4.DYMoney" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -835,7 +833,7 @@
                         this.formData.push(this.form2);
                         this.formData.push(this.form3);
                         this.formData.push(this.form4);
-                        alert(JSON.stringify(this.formData));
+                        //alert(JSON.stringify(this.formData));
                         var goUrl="/af/loan/add";
                         axios.post(goUrl,this.formData).then(function(response){
                             if(response.data>0){

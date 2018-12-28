@@ -138,8 +138,8 @@ public interface FundTakeDao {
      * @param map
      * @return
      */
-    @Select("<script>select rownum rn,TB_PNAME,pid,GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,LASTNAYDATE from (\n" +
-            "select  rownum rn,TB_PNAME,t.pid,t.GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,to_char(LASTNAYDATE,'yyyy-MM-dd') as LASTNAYDATE from TB_LOAN t \n" +
+    @Select("<script>select rownum rn,LOAN_ID,TB_PNAME,pid,GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,LASTNAYDATE from (\n" +
+            "select  rownum rn,LOAN_ID,TB_PNAME,t.pid,t.GRZH,TB_IDNUMBER,LOAN_MONEY,LOAN_PERIODS,DALANCE,PERACCSTATE,to_char(LASTNAYDATE,'yyyy-MM-dd') as LASTNAYDATE from TB_LOAN t \n" +
             "left join TB_PERSON_INFO p on t.pid=p.tb_pid left join TB_PACCOUNTUTIL l on l.pid=t.pid  where rownum &lt; #{end} " +
             "<if test=\"TB_PNAME!=null and TB_PNAME!=''\"> and TB_PNAME like '%'||#{TB_PNAME}||'%'</if>" +
             ") a where a.rn &gt; #{start}</script>")
@@ -158,12 +158,12 @@ public interface FundTakeDao {
 
     /**
      * 约定提取弹出框数据
-     * @param GRZH
+     * @param LOAN_ID
      * @return
      */
     @Select("select * from TB_LOAN t \n" +
-            "left join TB_PERSON_INFO p on t.pid=p.tb_pid left join TB_PACCOUNTUTIL l on l.pid=t.pid where t.GRZH=#{GRZH}")
-    Map appointAppl(String GRZH);
+            "left join TB_PERSON_INFO p on t.pid=p.tb_pid left join TB_PACCOUNTUTIL l on l.pid=t.pid where t.LOAN_ID=#{LOAN_ID}")
+    Map appointAppl(Integer LOAN_ID);
 
     /**
      * 约定提取申请提交
@@ -178,11 +178,11 @@ public interface FundTakeDao {
 
     /**
      * 判断约定提取是否已经申请
-     * @param GRZH
+     * @param LOAN_ID
      * @return
      */
-    @Select("select count(*) from TB_APPOINT_CHECK where GRZH=#{GRZH} and shzt=1")
-    int panduan(String GRZH);
+    @Select("select count(*) from TB_APPOINT_CHECK where LOAN_ID=#{LOAN_ID} and shzt=1")
+    int panduan(Integer LOAN_ID);
 
     /**
      *查询约定审核列表
@@ -203,7 +203,7 @@ public interface FundTakeDao {
     SHZT: '',*/
     @Select("<script>select rownum rn,AID,PNAME,PIPHONE,PCNUMBER,GRZH,HKJE,DKLX,YDQS,YDRQ,SHIJIAN,SHZT from " +
             "(select rownum rn,AID,PNAME,PIPHONE,PCNUMBER,GRZH,HKJE,DKLX,YDQS,YDRQ,to_char(SHIJIAN,'yyyy-MM-dd') as SHIJIAN,SHZT from TB_APPOINT_CHECK where " +
-            " rownum &lt; #{end} and SHZT=1"+
+            " rownum &lt; #{end} "+
             "<if test=\"SHZT!=null and SHZT!=''\"> and SHZT=#{SHZT}</if>" +
             ") a where a.rn &gt; #{start}</script>")
     List<Map> selectAppointCheck(Map map);

@@ -166,9 +166,9 @@ public class FundTakeController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("appointAppl/{GRZH}")
-    public Object appointAppl(@PathVariable("GRZH") String GRZH){
-        return fundTakeService.appointAppl(GRZH);
+    @RequestMapping("appointAppl/{LOAN_ID}")
+    public Object appointAppl(@PathVariable("LOAN_ID") Integer LOAN_ID){
+        return fundTakeService.appointAppl(LOAN_ID);
     }
 
     /**
@@ -188,9 +188,9 @@ public class FundTakeController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("panduan/{GRZH}")
-    public Object panduan(@PathVariable("GRZH") String GRZH){
-        return  fundTakeService.panduan(GRZH);
+    @RequestMapping("panduan/{LOAN_ID}")
+    public Object panduan(@PathVariable("LOAN_ID") Integer LOAN_ID){
+        return  fundTakeService.panduan(LOAN_ID);
     }
 
     /**

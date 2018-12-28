@@ -270,11 +270,13 @@
                                 message:  '操作成功',
                                 type: 'success'
                             });
+                            _self.loadingData();//重新加载数据
                         }else {
                             self.$message({
                                 message:  '审核失败',
                                 type: 'error'
                             });
+                            _self.loadingData();//重新加载数据
                         }
                     })
                 }else {
@@ -295,11 +297,13 @@
                                 message:  '操作成功',
                                 type: 'success'
                             });
+                            _self.loadingData();//重新加载数据
                         }else {
                             self.$message({
                                 message:  '审核失败',
                                 type: 'error'
                             });
+                            _self.loadingData();//重新加载数据
                         }
                     })
                 }else {

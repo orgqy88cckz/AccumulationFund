@@ -93,10 +93,10 @@ public interface FundTakeService {
 
     /**
      * 约定提取弹出框数据
-     * @param GRZH
+     * @param LOAN_ID
      * @return
      */
-    Map appointAppl(String GRZH);
+    Map appointAppl(Integer LOAN_ID);
     /**
      * 约定提取申请提交
      * @param map
@@ -105,10 +105,10 @@ public interface FundTakeService {
     int appointSubmit(Map map);
     /**
      * 判断约定提取是否已经申请
-     * @param GRZH
+     * @param LOAN_ID
      * @return
      */
-    int panduan(String GRZH);
+    int panduan(Integer LOAN_ID);
 
     /**
      *查询约定审核列表

@@ -86,8 +86,8 @@ public class FundTakeServiceImpl implements FundTakeService{
     }
 
     @Override
-    public Map appointAppl(String GRZH) {
-        return fundTakeDao.appointAppl(GRZH);
+    public Map appointAppl(Integer LOAN_ID) {
+        return fundTakeDao.appointAppl(LOAN_ID);
     }
     @Override
     public int appointSubmit(Map map) {
@@ -95,8 +95,8 @@ public class FundTakeServiceImpl implements FundTakeService{
     }
 
     @Override
-    public int panduan(String GRZH) {
-        return fundTakeDao.panduan(GRZH);
+    public int panduan(Integer LOAN_ID) {
+        return fundTakeDao.panduan(LOAN_ID);
     }
 
     @Override

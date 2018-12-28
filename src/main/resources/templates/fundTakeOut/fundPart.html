@@ -196,7 +196,8 @@
                     </el-row>
                     <el-row :gutter="20">
                         <el-col :span="10"><div class="grid-content bg-purple">
-                            <el-form-item key="9" label="申请提取金额" prop="DALANCE" :rules="[{ required: true, message: '申请提取金额不能为空',trigger: 'blur'}]">
+                            <el-form-item key="9" label="申请提取金额" prop="DALANCE" :rules="[{ required: true, message: '申请提取金额不能为空',trigger: 'blur'}
+                                                                            ,{pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '申请提取金额格式不对',trigger: 'blur'}]">
                                 <el-input v-model="editForm.DALANCE" @blur="money" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div></el-col>
@@ -265,8 +266,8 @@
                         </div></el-col>
                         <el-col :span="10"><div class="grid-content bg-purple">
                             <el-form-item key="1" label="租房支出" prop="RENT_OUT"  :rules="[{ required: true, message: '租房支出不能为空',trigger: 'blur'},
-                                                                     {type:'number', message: '租房支出为数字',trigger: 'blur'}]">
-                                <el-input v-model.number="editForm.RENT_OUT" style="width: 200px;"></el-input>
+                                                                     {pattern:/^([1-9]\d*|0)(\.\d{1,2})?$/, message: '租房支出格式不对',trigger: 'blur'}]">
+                                <el-input v-model="editForm.RENT_OUT" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div></el-col>
                     </el-row>
@@ -352,8 +353,8 @@
                  TB_IDNUMBER: '',
                  UNAME: '',
                  DWXZ: '',
-                 TAKE_TYPE: '部分提取',
-                 TAKE_METHOD: '现金',
+                 TAKE_TYPE: '',
+                 TAKE_METHOD: '',
                  DALANCE: '',
                  TB_PNAME: '',
                  GET_ACCOUNT: '',
@@ -375,7 +376,7 @@
             axios.post('/af/fundTake/selectFundPart',{'start':start,'end':end}).then(function(response){
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+                //alert(JSON.stringify(response.data.pageData));
             })
         },
         methods:{
@@ -473,7 +474,7 @@
                         var _self = this;
                         _self.loading = true;
                         var formData =this.editForm;
-                        alert(JSON.stringify(formData));
+                        //alert(JSON.stringify(formData));
                         var url="/af/fundTake/takeSubmit";
                         axios.post(url,formData).then(function(response){
                             if(response.data>0){
