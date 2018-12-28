@@ -69,7 +69,6 @@ public class YingYeTing {
      */
     @RequestMapping("/zhifu")
     public String zhifu(@RequestParam Map map,Model model){
-        System.out.println(map);
         yingYeTingService.zhifu(map,model);
         return "yingyeting/zhifu";
     }

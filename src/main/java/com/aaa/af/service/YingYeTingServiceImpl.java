@@ -38,6 +38,7 @@ public class YingYeTingServiceImpl implements YingYeTingService{
 
     @Override
     public Object getJiaona(Map map) {
+        System.out.println(map);
         Map resulMap=new HashMap();
         resulMap.put("pageData",yingYeTingDao.getJiaona(map));
         resulMap.put("total",yingYeTingDao.getPageCount(map));

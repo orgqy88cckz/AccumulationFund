@@ -22,11 +22,11 @@ public interface YingYeTingDao {
      * 获取贷款信息
      * @return
      */
-    @Select("select grzh,pname,loan_money,loan_periods,to_char(ctime,'yyyy-MM-dd') as ctime,over_money,over_periods,repay_month_allmoney from tb_repay where grzh=#{grzh}")
+    @Select("select grzh,pname,loan_money,loan_periods,to_char(ctime,'yyyy-MM-dd') as ctime,over_money,over_periods,month_return,loan_repay from tb_repay where grzh=#{grzh}")
     List<Map> getLoan(Map map);
 
     /**
-     * 查询角色列表
+     * 查询缴纳记录
      * @return
      */
     @Select("<script>select paccount,pdate,pcmoney,pmoney,ptype from" +
