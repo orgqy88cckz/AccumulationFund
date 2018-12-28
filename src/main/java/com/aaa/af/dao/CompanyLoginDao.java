@@ -18,7 +18,7 @@ public interface CompanyLoginDao {
      * @param map
      * @return
      */
-    @Select("select u.id,u.ulegalcard,u.dwxz,u.gslx,u.ulegalperson,u.uoperator,uopiphone,p.uaremain,p.khrq " +
-            "from tb_unit u left join tb_unitaccount p on u.id=p.id where ")
+    @Select("select u.id,u.ulegalcard,u.dwxz,u.gslx,u.ulegalperson,u.uoperator,uopiphone,p.uaremain,to_char(khrq,'yyyy-mm-dd')as p.khrq" +
+            "from tb_unit u left join tb_unitaccount p on u.id=p.id where dwxz = #{DWXZ}")
     List<Map>  getList(Map map);
 }

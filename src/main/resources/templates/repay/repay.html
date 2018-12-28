@@ -29,76 +29,77 @@
                     prop="ID"
                     v-if="false"
                     label="个人账号"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="GRZH"
                     label="个人账号"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="PNAME"
                     label="姓名"
-                    width="140">
+                    width="145">
             </el-table-column>
 
             <el-table-column
                     prop="LOAN_MONEY"
                     label="贷款金额(元)"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="LOAN_PERIODS"
                     label="贷款期数"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="REPAY_MONEY"
                     label="应还本金"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="REPAY_INTERESTS"
                     label="应还利息(元)"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="REPAYED_MONEY"
                     label="已还(元)"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="OVER_PERIODS"
                     label="剩余期数"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="REPAYED_DATE"
                     label="最近还款日期"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="MONTH_RETURN"
                     label="月还(元)"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="REPAYED_MONTH_MONEY"
                     label="月还本金(元)"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="REPAYED_MONTH_INTEREST"
                     label="月还利息(元)"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
                     prop="STATE"
                     label="还款状态"
-                    width="140">
+                    width="145">
             </el-table-column>
             <el-table-column
-                    label="操作">
+                    label="操作"
+                    width="145">
                 <template scope="scope">
                     <el-button :plain="true" type="success" size="small" icon="edit" @click="editClick(scope.row)">还款</el-button>
 <!--
@@ -376,10 +377,9 @@
             //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
             var self = this;
             axios.post('/af/repay/page',{'pageNo':this.currentPage,'pageSize':this.pageSize}).then(function(response){
-
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+                //alert(JSON.stringify(response.data.pageData));
             })
         },
         methods:{
@@ -388,14 +388,10 @@
                 var _self = this;
                 _self.loading = true;
                 var self = this;
-
                 var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'repayId':this.searchForm.id,'pName':this.searchForm.name,'pId':this.searchForm.deptNo};
-
                 axios.post('/af/repay/page',searchForm).then(function(response){
-
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
-
                 })
                 console.log(_self.currentPage);
                 setTimeout(function(){
@@ -406,7 +402,7 @@
 
             //还款事件
             editClick:function(row) {
-                alert(this.editForm.OVER_PERIODS);
+                //alert(this.editForm.OVER_PERIODS);
                 this.goUrl="/af/repay/update";
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
@@ -418,7 +414,7 @@
             },
             //个人还款记录
             person:function() {
-                alert(this.editForm.GRZH);
+                //alert(this.editForm.GRZH);
                 this.goUrl='/af/repay/record';
                 this.Visible = true;
                 var self = this;
@@ -474,7 +470,7 @@
                 var formData =this.editForm;
                 //alert(JSON.stringify(formData));
                 var goUrl=this.goUrl
-                alert(_self.editForm.OVER_PERIODS)
+               // alert(_self.editForm.OVER_PERIODS)
                 if(_self.editForm.OVER_PERIODS!=0) {
                     axios.post(goUrl, formData).then(function (response) {
 

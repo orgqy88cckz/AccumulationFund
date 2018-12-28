@@ -360,7 +360,7 @@
 
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+               // alert(JSON.stringify(response.data.pageData));
             })
         },
         methods:{
@@ -369,11 +369,8 @@
                 var _self = this;
                 _self.loading = true;
                 var self = this;
-
                 var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'repayId':this.searchForm.id,'pName':this.searchForm.name,'pId':this.searchForm.deptNo};
-
                 axios.post('/af/loan_record/page',searchForm).then(function(response){
-
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
 
@@ -395,13 +392,11 @@
                 this.periods=this.editForm.OVER_PERIODS;
                 axios.post(this.goUrl,{'over_periods':this.periods}).then(function (response) {
                  //  alert(over_periods);
-
                 })
-
             },
             //个人还款记录
             person:function() {
-                alert(this.editForm.GRZH);
+                //alert(this.editForm.GRZH);
                 this.goUrl='/af/repay/record';
                 this.Visible = true;
                 var self = this;
@@ -433,7 +428,6 @@
             //表格查询事件
             searchClick:function() {
                 var self = this;
-
                 self.loadingData();//重新加载数据
             },
             //分页大小修改事件
@@ -457,10 +451,9 @@
                 var formData =this.editForm;
                 //alert(JSON.stringify(formData));
                 var goUrl=this.goUrl
-                alert(_self.editForm.OVER_PERIODS=0)
+                //alert(_self.editForm.OVER_PERIODS=0)
                 if(_self.editForm.OVER_PERIODS!=0) {
                     axios.post(goUrl, formData).then(function (response) {
-
                         if (response.data > 0) {
                             _self.editFormVisible = false;
                             _self.$message({
@@ -484,7 +477,6 @@
                 console.info(this.editForm);
             }
         }
-
     })
 </script>
 

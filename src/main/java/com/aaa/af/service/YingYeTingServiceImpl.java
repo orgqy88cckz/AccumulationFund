@@ -45,4 +45,24 @@ public class YingYeTingServiceImpl implements YingYeTingService{
         return resulMap;
     }
 
+
+    @Override
+    public List<Map> getList(Map map) {
+        return yingYeTingDao.getList(map);
+    }
+
+    @Override
+    public List<Map> getUcRecord(Map map) {
+        return yingYeTingDao.getUcRecord(map);
+    }
+
+    @Override
+    public List<Map> getPersonJiaoNa(Map map) {
+        return yingYeTingDao.getPersonJiaoNa(map);
+    }
+
+    @Override
+    public List<Map> getPersonTiQu(Map map) {
+        return yingYeTingDao.getPersonTiQu(map);
+    }
 }

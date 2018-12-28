@@ -188,7 +188,7 @@
             axios.post('/af/record/page',{'pageNo':this.currentPage,'pageSize':this.pageSize}).then(function(response){
                 self.total=response.data.total;
                 self.tableData = response.data.PageData;
-                alert(JSON.stringify(response.data.PageData));
+                //alert(JSON.stringify(response.data.PageData));
             })
         },
         methods:{
@@ -253,7 +253,7 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                alert(JSON.stringify(formData));
+               // alert(JSON.stringify(formData));
                 var goUrl=this.goUrl
                 axios.post(goUrl,formData).then(function(response){
                     if(response.data>0){

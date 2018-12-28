@@ -3,12 +3,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>公司信息</title>
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
 </head>
 <body>
 <div style="width:800px">
     <ul th:each="list : ${list}">
+
         <li>公司编号:&nbsp;&nbsp;<span th:text="${list.DWXZ}"></span></li><hr>
 
         <li> 公司类型 :&nbsp;&nbsp;<span th:text="${list.GSLX}"></span></li><hr>

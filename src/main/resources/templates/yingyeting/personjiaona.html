@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>个人缴纳记录</title>
+    <!-- 引入样式 -->
+    <script type="text/javascript" src="/af/js/vue.js"></script>
+    <script type="text/javascript" src="/af/js/axios.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>{{ message }}</h2>
+</div>
+<div id="tableView">
+    <!--列表顶部搜索和工具条-->
+    <el-row>
+        <el-form :inline="true"  class="demo-form-inline">
+        </el-form>
+    </el-row>
+    <!--列表-->
+    <el-row>
+        <el-table
+                :data="tableData"
+                v-loading.body="loading"
+                border
+                style="width: 100%">
+            <el-table-column
+                    prop="PNAME"
+                    label="姓名"
+                    width="350">
+            </el-table-column>
+            <el-table-column
+                    prop="PMONEY"
+                    label="缴纳金额"
+                    width="350">
+            </el-table-column>
+            <el-table-column
+                    prop="PTYPE"
+                    label="业务明细类型"
+                    width="350">
+            </el-table-column>
+            <el-table-column
+                    prop="PACCOUNT"
+                    label="个人账号"
+                    width="350">
+            </el-table-column>
+            <el-table-column
+                    prop="PDATE"
+                    label="缴纳时间"
+                    width="350">
+            </el-table-column>
+        </el-table>
+    </el-row>
+    <!--列表底部工具条和分页符-->
+    <el-row style="margin-top: 20px" type="flex" justify="end">
+        <el-col :span="6" >
+        </el-col>
+        <el-col :span="18" >
+            <el-pagination
+                    style="float: right"
+                    @size-change="pageSizeChange"
+                    @current-change="currentPageChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-col>
+    </el-row>
+</div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '人员缴纳记录'
+        }
+    });
+    var tableView = new Vue({
+        el: '#tableView',
+        data: {
+            show:false,
+            //列表数据
+            tableData: [],
+            //显示加载中样式
+            loading:false,
+            //当前页
+            currentPage:1,
+            //分页大小
+            pageSize:10,
+            //总记录数
+            total:800,
+            editLoading: false,
+            goUrl:'',
+            //搜索表单
+
+        },
+        created:function(){
+            //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
+            var self = this;
+            //alert(111111);
+//            var account=document.getElementById("uaccount").value;
+            axios.post('/af/yingyeting/pjilu',{'pageNo':this.currentPage,'pageSize':this.pageSize}).then(function(response){
+                self.total=response.data.total;
+                self.tableData = response.data.pageData;
+               // alert(JSON.stringify(response.data.pageData));
+            })
+        },
+        methods:{
+            //表格重新加载数据
+            loadingData:function() {
+                var _self = this;
+                _self.loading = true;
+                var self = this;
+                var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'id':this.searchForm.id,'uName':this.searchForm.uname,'uaccount':this.searchForm.uaccount};
+                axios.post('/af/yingyeting/pjilu',searchForm).then(function(response){
+                    _self.total=response.data.total;
+                    _self.tableData = response.data.pageData;
+                })
+                console.log(_self.currentPage);
+                setTimeout(function(){
+                    console.info("加载数据成功");
+                    _self.loading = false;
+                },300);
+            },
+            //分页大小修改事件
+            pageSizeChange:function(val) {
+                console.log('每页 ' + val +' 条');
+                this.pageSize = val;
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            },
+            //当前页修改事件
+            currentPageChange:function(val) {
+                this.currentPage = val;
+                console.log('当前页: ' + val);
+                var _self = this;
+                _self.loadingData();//重新加载数据
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -336,7 +336,7 @@
 
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+                //alert(JSON.stringify(response.data.pageData));
             })
         },
         methods:{
@@ -345,14 +345,10 @@
                 var _self = this;
                 _self.loading = true;
                 var self = this;
-
                 var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'repayId':this.searchForm.id,'pName':this.searchForm.name,'pId':this.searchForm.deptNo};
-
                 axios.post('/af/after/page',searchForm).then(function(response){
-
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
-
                 })
                 console.log(_self.currentPage);
                 setTimeout(function(){
@@ -377,7 +373,7 @@
             },
             //个人还款记录
             person:function() {
-                alert(this.editForm.GRZH);
+                //alert(this.editForm.GRZH);
                 this.goUrl='/af/repay/record';
                 this.Visible = true;
                 var self = this;
