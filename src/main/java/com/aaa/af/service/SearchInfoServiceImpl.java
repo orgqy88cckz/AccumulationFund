@@ -148,17 +148,7 @@ public class SearchInfoServiceImpl implements SearchInfoService{
      */
     @Override
     public int unique(String value) {
-        List<Map> unique = searchInfoDao.unique();
-        if(unique!=null&&unique.size()>0){
-            for (Map map : unique) {
-               /* System.out.println(value+"*****************");
-                System.out.println(map.get("GRZH")+""+"&&&&&&&&&&&&&&&&&");*/
-                if((map.get("GRZH")+"").equals(value)){
-                    return 1;
-                }
-            }
-        }
-        return 0;
+        return searchInfoDao.unique(value);
     }
 
     @Override

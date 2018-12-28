@@ -119,11 +119,13 @@
                 }
             },
             addTab1: function (content) {
-                this.editableTabs2.push({
-                    title: "个人信息",
-                    name:"个人信息",
-                    content: content
-                });
+                if (JSON.stringify(this.editableTabs2).indexOf("个人信息") == -1) {
+                    this.editableTabs2.push({
+                        title: "个人信息",
+                        name: "个人信息",
+                        content: content
+                    });
+                }
                 this.editableTabsValue2="个人信息";
             },
             editClick2:function(){
@@ -135,11 +137,13 @@
                 }
             },
             addTab2: function (content) {
-                this.editableTabs2.push({
-                    title: "我的贷款",
-                    name:"我的贷款",
-                    content: content
-                });
+                if (JSON.stringify(this.editableTabs2).indexOf("我的贷款") == -1) {
+                    this.editableTabs2.push({
+                        title: "我的贷款",
+                        name: "我的贷款",
+                        content: content
+                    });
+                }
                 this.editableTabsValue2="我的贷款";
             },
             editClick3:function(){
@@ -151,11 +155,13 @@
                 }
             },
             addTab3: function (content) {
-                this.editableTabs2.push({
-                    title: "偿还贷款",
-                    name:"偿还贷款",
-                    content: content
-                });
+                if (JSON.stringify(this.editableTabs2).indexOf("偿还贷款") == -1) {
+                    this.editableTabs2.push({
+                        title: "偿还贷款",
+                        name: "偿还贷款",
+                        content: content
+                    });
+                }
                 this.editableTabsValue2="偿还贷款";
             },
             editClick4:function(){
@@ -167,26 +173,30 @@
                 }
             },
             addTab4: function (content) {
-                this.editableTabs2.push({
-                    title: "缴纳记录",
-                    name:"缴纳记录",
-                    content: content
-                });
+                if (JSON.stringify(this.editableTabs2).indexOf("缴纳记录") == -1) {
+                    this.editableTabs2.push({
+                        title: "缴纳记录",
+                        name: "缴纳记录",
+                        content: content
+                    });
+                }
                 this.editableTabsValue2="缴纳记录";
             },
+
             removeTab: function (targetName) {
                 let tabs = this.editableTabs2;
                 let activeName = this.editableTabsValue2;
                 if (activeName === targetName) {
                     tabs.forEach((tab, index) => {
                         if (tab.name === targetName) {
-                        let nextTab = tabs[index + 1] || tabs[index - 1];
-                        if (nextTab) {
-                            activeName = nextTab.name;
+                            let nextTab = tabs[index + 1] || tabs[index - 1];
+                            if (nextTab) {
+                                activeName = nextTab.name;
+                            }
                         }
-                    }
-                });
+                    });
                 }
+
                 this.editableTabsValue2 = activeName;
                 this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
             }

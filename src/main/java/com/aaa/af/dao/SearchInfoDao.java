@@ -175,8 +175,8 @@ public interface SearchInfoDao {
      * 贷款页面验证查询
      * @return
      */
-    @Select("select grzh from TB_PACCOUNTUTIL where PERACCSTATE='正常'")
-    List<Map> unique();
+    @Select("select count(*) from TB_LOAN l left join TB_PACCOUNTUTIL p on p.PID=l.pid where l.grzh=#{value} and PERACCSTATE='正常'")
+    int unique(String value);
 
     /**
      * 验证个人账号查询

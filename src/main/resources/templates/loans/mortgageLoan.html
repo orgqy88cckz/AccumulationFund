@@ -584,9 +584,20 @@
                 var url="/af/loan/unique/"+value;
                 axios.post(url).then(function (res) {
                     if ( res.data >0) {
-                        callback()
-                    } else {
                         callback('账号有误请重新输入')
+                    } else {
+                        callback()
+                    }
+                })
+            },
+            let:together = (rule, value, callback) => {
+                //后台方法
+                var url="/af/loan/unique/"+value;
+                axios.post(url).then(function (res) {
+                    if ( res.data >0) {
+                        callback('账号有误请重新输入')
+                    } else {
+                        callback()
                     }
                 })
             },
@@ -596,7 +607,7 @@
                     { validator:validate, trigger: 'blur' }
                 ],
                 GRZH1: [
-                    { required: true,validator:validate, trigger: 'blur' }
+                    { required: true,validator:together, trigger: 'blur' }
                 ]},
             form2:{
                 GRZH1:'',
@@ -730,10 +741,10 @@
             },
             blurs:function () {
                 var self=this;
-                var url="/af/loan/yanzheng/"+this.form1.GRZH;
+                var url="/af/loan/unique/"+this.form1.GRZH;
                 axios.post(url).then(function (response) {
                     //alert(JSON.stringify(response.data));
-                    if(response.data.PERACCSTATE=='正常'){
+                    if(response.data<=0){
                         var url="/af/loan/searchInfo/"+self.form1.GRZH;
                         if(self.form1.GRZH!='') {
                             axios.get(url).then(function (response) {
