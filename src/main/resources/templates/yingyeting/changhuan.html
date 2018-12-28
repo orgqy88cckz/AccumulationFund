@@ -16,7 +16,10 @@
             <td>个人账号</td>
             <td><input id="t1" th:value="${list.GRZH}"/></td>
             <td>本期应缴金额</td>
-            <td><input name="jine" th:value="${list.REPAY_MONTH_ALLMONEY}"/></td>
+            <td>
+                <input name="jine" th:value="${list.MONTH_RETURN}"/>
+                <input type="hidden" name="type" th:value="${list.LOAN_REPAY}"/>
+            </td>
         </tr>
         <tr><td></td><td><input type="submit" value="充值"></td></tr>
     </table>

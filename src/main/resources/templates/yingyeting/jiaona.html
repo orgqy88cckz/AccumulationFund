@@ -7,6 +7,7 @@
     <!-- 引入样式 -->
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/axios.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" tppabs="http://www.17sucai.com/preview/388478/2016-04-22/login1/js1/jquery-1.7.1.min.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
@@ -17,13 +18,10 @@
     <h2>{{ message }}</h2>
 </div>
 <div id="tableView">
-    <input type="hidden" th:value="${grzh}" v-model="searchForm.grzh">
+    <input id="grzh" type="hidden" th:value="${grzh}">
     <!--列表顶部搜索和工具条-->
     <el-row>
-        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-            <el-form-item label="标题">
-                <el-input v-model="searchForm.title" placeholder="标题"></el-input>
-            </el-form-item>
+        <el-form :inline="true"  class="demo-form-inline">
         </el-form>
     </el-row>
     <!--列表-->
@@ -35,29 +33,29 @@
                 @selection-change="selectionChange"
                 style="width: 100%">
             <el-table-column
-                    prop="TITLE"
+                    prop="PACCOUNT"
                     label="个人账号"
                     width="400">
             </el-table-column>
             <el-table-column
-                    prop="DETAILS"
+                    prop="PDATE"
                     label="业务发生日期"
                     width="450">
             </el-table-column>
 
             <el-table-column
-                    prop="TNAME"
+                    prop="PCMONEY"
                     label="个人缴额"
                     width="120">
             </el-table-column>
             <el-table-column
-                    prop="SNAME"
+                    prop="PMONEY"
                     label="缴存余额"
                     width="120">
             </el-table-column>
             <el-table-column
-                    prop="缴纳方式"
-                    label="日期"
+                    prop="PTYPE"
+                    label="缴纳方式"
                     width="120">
             </el-table-column>
         </el-table>
@@ -65,7 +63,6 @@
     <!--列表底部工具条和分页符-->
     <el-row style="margin-top: 20px" type="flex" justify="end">
         <el-col :span="6" >
-            <el-button :plain="true" type="danger" size="small" icon="delete" @click="removeSelection">删除所选</el-button>
         </el-col>
         <el-col :span="18" >
             <el-pagination
@@ -91,9 +88,6 @@
     var tableView = new Vue({
         el: '#tableView',
         data: {
-            searchForm: {
-                grzh: ''
-            },
             show:false,
             //列表数据
             tableData: [],
@@ -113,7 +107,8 @@
             var self = this;
             var start =(this.currentPage-1)*this.pageSize;
             var end =this.currentPage*this.pageSize+1;
-            axios.post('/af/yingyeting/jiaonajilu',{'start':start,'end':end,'grzh':this.searchForm.grzh}).then(function(response){
+            var grzh=$("#grzh").val();
+            axios.post('/af/yingyeting/jiaonajilu',{'start':start,'end':end,'grzh':grzh}).then(function(response){
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
             });
