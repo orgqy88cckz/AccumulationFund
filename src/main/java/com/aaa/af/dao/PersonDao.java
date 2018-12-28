@@ -60,4 +60,44 @@ public interface PersonDao {
      */
     @Update("update tb_unitaccount set UAOWEMONERY = (select sum(YDRAWAMT) from TB_PACCOUNTUTIL where uaid = #{AID}) WHERE ID = #{AID}")
     int update1(Map map);
+
+    /**
+     * 查询公司账号
+     * @param acc
+     * @return
+     */
+    @Select("select count(*) from tb_unit where  DWXZ = #{acc}")
+    int look(String acc);
+
+    /**
+     * 银行账号唯一性验证
+     * @param accou
+     * @return
+     */
+    @Select("select count(*) from tb_person_info where TB_ACCOUNT = #{accou}")
+    int bankAccount(String accou);
+
+    /**
+     * 邮箱验证
+     * @param ema
+     * @return
+     */
+    @Select("select count(*) from tb_person_info where TB_PEMAIL = #{ema}")
+    int emailAccount(String ema);
+
+    /**
+     * 验证手机号
+     * @param pnum
+     * @return
+     */
+    @Select("select count(*) from tb_person_info where TB_PIPHONE = #{pnum}")
+    int phoneNumber(String pnum);
+
+    /**
+     * 身份证验证
+     * @param card
+     * @return
+     */
+    @Select("select count(*) from tb_person_info where TB_IDNUMBER = #{card}")
+    int idCard2(String card);
 }

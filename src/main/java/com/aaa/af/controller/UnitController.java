@@ -2,16 +2,10 @@ package com.aaa.af.controller;
 
 
 import com.aaa.af.service.UnitService;
-import com.aaa.af.util.FtpConfig;
 import com.aaa.af.util.FtpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
@@ -33,12 +27,11 @@ public class UnitController {
     @Autowired
     private UnitService unitService;
 
+    /**
+     * 依赖注入
+     */
     @Autowired
     private FtpUtil ftpUtil;
-    @Autowired
-    private FtpConfig ftpConfig;
-    @Autowired
-    private ResourceLoader resourceLoader;
 
     /**
      * 跳转页面
@@ -72,5 +65,45 @@ public class UnitController {
         String s = ftpUtil.upLoad(file);
         return s;
     }
+
+    /**
+     * 公司名称唯一性验证
+     * @param name
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/uname/{uname}")
+    public Object name(@PathVariable("uname") String name){
+        return unitService.uname(name);
+    }
+
+    /**
+     * 法人身份证验证
+     * @param card
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/idCard/{card}")
+    public Object idCard(@PathVariable("card") String card){
+        return unitService.idCard(card);
+    }
+
+    /**
+     * 经办人身份证验证
+     * @param card
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/idCard1/{card}")
+    public Object idCard1(@PathVariable("card") String card){
+        return unitService.idCard1(card);
+    }
+
+    @ResponseBody
+    @RequestMapping("/phone/{num}")
+    public Object phoneNum(@PathVariable("num") String num){
+        return unitService.phone(num);
+    }
+
 
 }

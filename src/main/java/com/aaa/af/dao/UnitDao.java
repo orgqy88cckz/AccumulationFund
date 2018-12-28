@@ -1,6 +1,7 @@
 package com.aaa.af.dao;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.Map;
 
@@ -32,4 +33,36 @@ public interface UnitDao {
             "#{udepositratio},#{upersonratio},#{uastate},#{uabankname},#{uabanknumber},#{styh},#{ywblr},to_date(substr(#{khrq},1,10),'yyyy-MM-dd')," +
             "extract (year from sysdate)||extract(month from sysdate)||extract (day from sysdate)||to_char(tb_unit_ida.currval,'fm00000'),tb_unit_id.currval,1)")
     int add1(Map map);
+
+    /**
+     * 公司名称唯一性验证
+     * @param name
+     * @return
+     */
+    @Select("select count(*) from tb_unit where uname = #{name}")
+    int uname(String name);
+
+    /**
+     * 法人身份证唯一性验证
+     * @param card
+     * @return
+     */
+    @Select("select count(*) from tb_unit where ulegalcard = #{card}")
+    int idCard(String card);
+
+    /**
+     * 经办人身份证唯一性验证
+     * @param card
+     * @return
+     */
+    @Select("select count(*) from tb_unit where jbrzjhm = #{card}")
+    int idCard1(String card);
+
+    /**
+     * 经办人电话唯一性验证
+     * @param num
+     * @return
+     */
+    @Select("select count(*) from tb_unit where UOPIPHONE = #{num}")
+    int phone(String num);
 }
