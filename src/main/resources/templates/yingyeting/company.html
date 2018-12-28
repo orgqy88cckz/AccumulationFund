@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>主页面</title>
+    <title>公司</title>
     <!-- 引入样式 -->
     <script type="text/javascript" src="/af/js/vue.js"></script>
     <script type="text/javascript" src="/af/js/axios.min.js"></script>
@@ -29,7 +29,7 @@
 <div id="app">
     <el-header style="height: 100px;">
         <span style="text-align: center;float:left;font-size:30px">AAA住房公积金网上营业厅</span>
-        <span style="text-align: center;float:right;font-size:18px"><a href="/af/home/toPerson">注销</a></span>
+        <span style="text-align: center;float:right;font-size:18px"><a href="/af/home/toCompany">注销</a></span>
     </el-header>
     <input type="hidden" th:value="${username}" id="user">
     <marquee  direction="right"  behavior="alternate"  scrollamount="15"  scrolldelay="10"  loop="2"    height="22"  bgcolor="ABCDEF" >
@@ -60,10 +60,13 @@
                             <span slot="title">资金管理</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1">基金缴纳</el-menu-item>
-                            <el-menu-item index="2-1">公司缴纳记录</el-menu-item>
-                            <el-menu-item index="2-1">公司人员缴纳记录</el-menu-item>
-                            <el-menu-item index="2-1">公司人员提取记录</el-menu-item>
+                            <el-menu-item index="2-1" @click="editClick2">公司缴纳记录</el-menu-item>
+                        </el-menu-item-group>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1" @click="editClick3" >公司人员缴纳记录</el-menu-item>
+                        </el-menu-item-group>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1" @click="editClick4">公司人员提取记录</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
 
@@ -112,21 +115,78 @@
             })
         },*/
         methods: {
+
             editClick:function(){
+               // var title=data.label;
                 var user=$("#user").val();
-                var url ="http://localhost:8888/af/yingyeting/companyinfo?dwxz="+user;
-                var content = "<iframe src='"+url+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                //alert (user);
+                var url ="http://localhost:8888/af/yingyeting/info?dwxz="+user;
+                var content = "<iframe src='/af/yingyeting/info?dwxz="+user+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
                 if(url!=null&&url!='null'&&url!='') {
                     this.addTab(content);
                 }
             },
             addTab: function (content) {
                 this.editableTabs2.push({
-                    title: "个人信息",
-                    name:"个人信息",
+                    title: "公司信息",
+                    name:"公司信息",
                     content: content
                 });
-                this.editableTabsValue2="个人信息";
+                this.editableTabsValue2="公司信息";
+            },
+            editClick2:function(){
+              //  var title=data.label;
+                var user=$("#user").val();
+              //  alert (user);
+                var url ="http://localhost:8888/af/yingyeting/info?dwxz="+user;
+                var content = "<iframe src='/af/yingyeting/jiaona?uaccount="+user+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab2(content);
+                }
+            },
+           addTab2: function (content) {
+                this.editableTabs2.push({
+                    title: "缴纳记录",
+                    name:"缴纳记录",
+                    content: content
+                });
+                this.editableTabsValue2="缴纳记录";
+            },
+            editClick3:function(){
+                //var title=data.label;
+                var user=$("#user").val();
+                //alert (user);
+                var url ="http://localhost:8888/af/yingyeting/info?dwxz="+user;
+                var content = "<iframe src='/af/yingyeting/pjiaona' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab3(content);
+                }
+            },
+           addTab3: function (content) {
+                this.editableTabs2.push({
+                    title: "人员缴纳记录",
+                    name:"人员缴纳记录",
+                    content: content
+                });
+                this.editableTabsValue2="人员缴纳记录";
+            },
+            editClick4:function(){
+               // var title=data.label;
+                var user=$("#user").val();
+               // alert (user);
+                var url ="http://localhost:8888/af/yingyeting/info?comp_account="+user;
+                var content = "<iframe src='/af/yingyeting/ptiqu?comp_account="+user+"' frameborder=\"no\" scrolling=\"no\"  style=\"width:100%;height:900px;\"> </iframe>";
+                if(url!=null&&url!='null'&&url!='') {
+                    this.addTab4(content);
+                }
+            },
+           addTab4: function (content) {
+                this.editableTabs2.push({
+                    title: "提取记录",
+                    name:"提取记录",
+                    content: content
+                });
+                this.editableTabsValue2="提取记录";
             },
             removeTab: function (targetName) {
                 let tabs = this.editableTabs2;
@@ -134,16 +194,18 @@
                 if (activeName === targetName) {
                     tabs.forEach((tab, index) => {
                         if (tab.name === targetName) {
-                        let nextTab = tabs[index + 1] || tabs[index - 1];
-                        if (nextTab) {
-                            activeName = nextTab.name;
+                            let nextTab = tabs[index + 1] || tabs[index - 1];
+                            if (nextTab) {
+                                activeName = nextTab.name;
+                            }
                         }
-                    }
-                });
+                    });
                 }
+
                 this.editableTabsValue2 = activeName;
                 this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
             }
+
         }
     })
 </script>

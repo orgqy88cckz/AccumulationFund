@@ -356,7 +356,7 @@
 
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
-                alert(JSON.stringify(response.data.pageData));
+                //alert(JSON.stringify(response.data.pageData));
             })
         },
         methods:{
@@ -365,14 +365,10 @@
                 var _self = this;
                 _self.loading = true;
                 var self = this;
-
                 var searchForm={'pageNo':this.currentPage,'pageSize':this.pageSize,'repayId':this.searchForm.id,'pName':this.searchForm.name,'pId':this.searchForm.deptNo};
-
                 axios.post('/af/ahead/page',searchForm).then(function(response){
-
                     _self.total=response.data.total;
                     _self.tableData = response.data.pageData;
-
                 })
                 console.log(_self.currentPage);
                 setTimeout(function(){
@@ -380,10 +376,9 @@
                     _self.loading = false;
                 },300);
             },
-
             //还款事件
             editClick:function(row) {
-                alert(row.REPAYED_PERIODS);
+              //  alert(row.REPAYED_PERIODS);
                 this.goUrl="/af/ahead/update";
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
@@ -398,7 +393,7 @@
             },
             //个人还款记录
             person:function() {
-                alert(this.editForm.GRZH);
+                //alert(this.editForm.GRZH);
                 this.goUrl='/af/ahead/record';
                 this.Visible = true;
                 var self = this;
@@ -430,7 +425,6 @@
             //表格查询事件
             searchClick:function() {
                 var self = this;
-
                 self.loadingData();//重新加载数据
             },
             //分页大小修改事件
@@ -452,7 +446,7 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                alert(JSON.stringify(formData));
+                //alert(JSON.stringify(formData));
                 var goUrl=this.goUrl
                 confirm("确认提前还款吗");
                 axios.post(goUrl,formData).then(function(response){
@@ -479,6 +473,5 @@
 
     })
 </script>
-
 </body>
 </html>

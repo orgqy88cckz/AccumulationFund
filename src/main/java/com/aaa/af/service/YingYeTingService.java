@@ -15,4 +15,30 @@ public interface YingYeTingService {
      * @return
      */
     List<Map> getPerson(Map map);
+    /**
+     * 获取单位信息
+     * @param map
+     * @return
+     */
+    List<Map>  getList(Map map);
+
+    /**
+     * 公司缴纳记录
+     * @param map
+     * @return
+     */
+    List<Map> getUcRecord(Map map);
+    /**
+     * 人员缴纳记录
+     * @param map
+     * @return
+     */
+    List<Map> getPersonJiaoNa(Map map);
+
+    /**
+     * 人员提取记录
+     * @param map
+     * @return
+     */
+    List<Map> getPersonTiQu(Map map);
 }
