@@ -51,4 +51,53 @@ public class PersonServiceImpl implements PersonService{
         return map1;
     }
 
+    /**
+     * 查询单位账户是否存在
+     * @param acc
+     * @return
+     */
+    @Override
+    public int look(String acc) {
+        return personDao.look(acc);
+    }
+
+    /**
+     * 开户银行账号唯一性验证
+     * @param accou
+     * @return
+     */
+    @Override
+    public int bankAccount(String accou) {
+        return personDao.bankAccount(accou);
+    }
+
+    /**
+     * 邮箱验证
+     * @param ema
+     * @return
+     */
+    @Override
+    public int emailAccount(String ema) {
+        return personDao.emailAccount(ema);
+    }
+
+    /**
+     * 验证手机号
+     * @param pnum
+     * @return
+     */
+    @Override
+    public int phoneNumber(String pnum) {
+        return personDao.phoneNumber(pnum);
+    }
+
+    /**
+     * 身份证验证
+     * @param card
+     * @return
+     */
+    @Override
+    public int idCard2(String card) {
+        return personDao.idCard2(card);
+    }
 }

@@ -66,6 +66,7 @@ public class HuiJiaoServiceImpl implements HuiJiaoService {
         hashMap.put("b",huiJiaoDao.update1(map));
         //汇缴成功时更改个人汇缴日期
         hashMap.put("c",huiJiaoDao.update2(map));
+
         List<Map> mapList= huiJiaoDao.select2(map);
         for (Map map1 : mapList) {
             huiJiaoDao.insert(map1);

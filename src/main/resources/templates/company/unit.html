@@ -26,21 +26,21 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*公司名称" prop="uname">
-                        <el-input v-model="form.uname" style="width: 200px;" ></el-input>
+                    <el-form-item label="公司名称" prop="uname">
+                        <el-input v-model="form.uname" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*公司地址" prop="UADRESS">
+                    <el-form-item label="公司地址" prop="uaddress">
                         <el-input v-model="form.uaddress" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*公司法人" prop="UTYPE">
+                    <el-form-item label="公司法人" prop="ulegalperson">
                         <el-input v-model="form.ulegalperson" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
@@ -49,8 +49,7 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*法人证件类型" prop="UOC">
-                        <!--<el-input v-model="form.ulegaltype" style="width: 200px;"></el-input>-->
+                    <el-form-item label="法人证件类型" prop="ulegaltype">
                         <el-select v-model="form.ulegaltype" style="width: 200px;" placeholder="部门">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="身份证" value="身份证"></el-option>
@@ -61,14 +60,14 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*法人证件号" prop="LPERSONNAME">
-                        <el-input v-model="form.ulegalcard" style="width: 200px;"></el-input>
+                    <el-form-item label="法人证件号" prop="ulegalcard">
+                        <el-input v-model.number="form.ulegalcard" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*发薪日" prop="CARDTYPE">
+                    <el-form-item label="发薪日" prop="upaydate">
                         <el-input v-model="form.upaydate" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
@@ -77,22 +76,21 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*经办人姓名" prop="CARDNUM">
+                    <el-form-item label="经办人姓名" prop="uoperator">
                         <el-input v-model="form.uoperator" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*经办人电话" prop="WNAME">
+                    <el-form-item label="经办人电话" prop="uopiphone">
                         <el-input v-model="form.uopiphone" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*经办人证件类型" prop="WORKPHO">
-                        <!--<el-input v-model="form.jbrzjlx" style="width: 200px;"></el-input>-->
+                    <el-form-item label="经办人证件类型" prop="jbrzjlx">
                         <el-select v-model="form.jbrzjlx" style="width: 200px;" placeholder="部门">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="身份证" value="身份证"></el-option>
@@ -105,22 +103,14 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*经办人证件号" prop="WCARDTYPE">
+                    <el-form-item label="经办人证件号" prop="jbrzjhm">
                         <el-input v-model="form.jbrzjhm" style="width: 200px;"></el-input>
-                        <!--<el-select v-model="form.wcardtype" placeholder="请选择">
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>-->
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*公司成立时间" prop="WCARDNUM">
+                    <el-form-item label="公司成立时间" prop="unitbegindate">
                         <!--<el-input v-model="form.unitbegindate" style="width: 200px;"></el-input>-->
                         <div class="block" style="width: 200px;">
                             <el-date-picker
@@ -135,7 +125,7 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*公司机构代码" prop="KBANK">
+                    <el-form-item label="公司机构代码" prop="unetworkcode">
                         <el-input v-model="form.unetworkcode" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
@@ -144,7 +134,7 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*公司类型" prop="URATIO">
+                    <el-form-item label="公司类型" prop="gslx">
                         <!--<el-input v-model="form.gslx" style="width: 200px;"></el-input>-->
                         <el-select v-model="form.gslx" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
@@ -160,8 +150,7 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*所属行业" prop="PRATIO">
-                        <!--<el-input v-model="form.sshy" style="width: 200px;"></el-input>-->
+                    <el-form-item label="所属行业" prop="sshy">
                         <el-select v-model="form.sshy" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="制造业" value="制造业"></el-option>
@@ -176,8 +165,7 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*隶属关系" prop="SBANK">
-                       <!-- <el-input v-model="form.lsgx" style="width: 200px;"></el-input>-->
+                    <el-form-item label="隶属关系" prop="lsgx">
                         <el-select v-model="form.lsgx" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="省" value="省"></el-option>
@@ -192,8 +180,7 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*经济类型" prop="ASTATE">
-                        <!--<el-input v-model="form.jjlx" style="width: 200px;"></el-input>-->
+                    <el-form-item label="经济类型" prop="jjlx">
                         <el-select v-model="form.jjlx" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="国有经济" value="国有经济"></el-option>
@@ -209,18 +196,14 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*业务办理人" prop="kdate">
+                    <el-form-item label="业务办理人" prop="ywblr">
                         <el-input v-model="form.ywblr" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
-
-
-
-
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*开户银行名称" prop="OPERATOR">
+                    <el-form-item label="开户银行名称" prop="uabankname">
                         <el-select v-model="form.uabankname" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="中国银行" value="中国银行"></el-option>
@@ -237,21 +220,21 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*开户银行账号" prop="URATIO">
+                    <el-form-item label="开户银行账号" prop="uabanknumber">
                         <el-input v-model="form.uabanknumber" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*单位缴存比例" prop="PRATIO">
+                    <el-form-item label="单位缴存比例" prop="udepositratio">
                         <el-input v-model="form.udepositratio" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*个人汇缴比例" prop="SBANK">
+                    <el-form-item label="个人汇缴比例" prop="upersonratio">
                         <el-input v-model="form.upersonratio" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
@@ -260,7 +243,7 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*受托银行名称" prop="URATIO">
+                    <el-form-item label="受托银行名称" prop="styh">
                         <el-select v-model="form.styh" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="中国银行" value="中国银行"></el-option>
@@ -275,7 +258,7 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*账号开户状态" prop="PRATIO">
+                    <el-form-item label="账号开户状态" prop="uastate">
                         <el-select v-model="form.uastate" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="正常" value="正常"></el-option>
@@ -286,13 +269,13 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="*单位开户日期" prop="SBANK">
+                    <el-form-item label="单位开户日期" prop="khrq">
                         <div class="block" style="width: 200px;">
                             <el-date-picker
                                     v-model="form.khrq"
                                     type="date"
                                     placeholder="选择日期">
-                                    <!--:picker-options="pickerOptions0"-->
+                                <!--:picker-options="pickerOptions0"-->
                             </el-date-picker>
                         </div>
                     </el-form-item>
@@ -318,7 +301,7 @@
             </el-col>
         </el-row>
         <el-form-item>
-            <el-button type="primary" @click.native="addClick">保存</el-button>
+            <el-button type="primary" @click.native="addClick('form')">保存</el-button>
             <el-button type="primary" @click="resetForm('form')">重置</el-button>
         </el-form-item>
     </el-form>
@@ -332,40 +315,214 @@
 
     });
     var vm = new Vue({
-        el : "#app1",
-        data : {
-            form:{
-                uname:"",
-                uaddress:"",
-                ulegalperson:"",
-                ulegaltype:"",
-                ulegalcard:"",
-                upaydate:"",
-                uoperator:"",
-                uopiphone:"",
-                jbrzjlx:"",
-                jbrzjhm:"",
-                unitbegindate:"",
-                unetworkcode:"",
-                gslx:"",
-                sshy:"",
-                lsgx:"",
-                jjlx:"",
-                ywblr:"",
-                uabankname:"",
-                uabanknumber:"",
-                udepositratio:"",
-                upersonratio:"",
-                styh:"",
-                uastate:"",
-                yyzz:"",
-                khrq:''
+        el: "#app1",
+        data: {
+            form: {
+                uname: "",
+                uaddress: "",
+                ulegalperson: "",
+                ulegaltype: "",
+                ulegalcard: "",
+                upaydate: "",
+                uoperator: "",
+                uopiphone: "",
+                jbrzjlx: "",
+                jbrzjhm: "",
+                unitbegindate: "",
+                unetworkcode: "",
+                gslx: "",
+                sshy: "",
+                lsgx: "",
+                jjlx: "",
+                ywblr: "",
+                uabankname: "",
+                uabanknumber: "",
+                udepositratio: "",
+                upersonratio: "",
+                styh: "",
+                uastate: "",
+                yyzz: "",
+                khrq: ''
             },
-            rules:{
-                named :[{required: true, message: '请输入', trigger: 'blur'}],
-                sex :[{required: true, message: '请输入', trigger: 'blur'}]
+            //公司名称唯一性验证
+            let: uname = (rule, value, callback) => {
+                if (value == '') {
+                    callback()
+                } else {
+                    //后台方法
+                    var url = "/af/unit/uname/" + value;
+                    axios.post(url).then(function (res) {
+                        if (res.data == 0) {
+                            callback()
+                        } else {
+                            callback('公司名称已存在')
+                        }
+                    })
+                }
             },
-            pickerOptions0:{
+            //法人名称
+            let: ulegalperson = (rule, value, callback) => {
+                if (value && (!(/^[\u4E00-\u9FA5]{1,6}$/).test(value))) {
+                    callback(new Error('名字不符合规范'))
+                } else {
+                    callback()
+                }
+            },
+            //法人证件号码
+            let: ulegalcard = (rule, value, callback) => {
+                if (value && (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(value))) {
+                    callback(new Error('身份证号不符合规范'))
+                } else {
+                    //后台方法
+                    var url = "/af/unit/idCard/" + value;
+                    axios.post(url).then(function (res) {
+                        if (res.data == 0) {
+                            callback()
+                        } else {
+                            callback('证件号码已存在')
+                        }
+                    })
+                }
+            },
+            //经办人名称
+            let: uoperator = (rule, value, callback) => {
+                if (value && (!(/^[\u4E00-\u9FA5]{1,6}$/).test(value))) {
+                    callback(new Error('名字不符合规范'))
+                } else {
+                    callback()
+                }
+            },
+            //经办人电话
+            let: uopiphone = (rule, value, callback) => {
+                if (value && (!(/^1[34578]\d{9}$/).test(value))) {
+                    callback(new Error('电话号码不符合规范'))
+                } else {
+                    //后台方法
+                    var url = "/af/unit/phone/" + value;
+                    axios.post(url).then(function (res) {
+                        if (res.data == 0) {
+                            callback()
+                        } else {
+                            callback('电话号码已存在')
+                        }
+                    })
+                }
+            },
+            //经办人证件号码
+            let: jbrzjhm = (rule, value, callback) => {
+                if (value == '') {
+                    callback()
+                } else {
+                    if (value && (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(value))) {
+                        callback(new Error('身份证号不符合规范'))
+                    } else {
+                        //后台方法
+                        var url = "/af/unit/idCard1/" + value;
+                        axios.post(url).then(function (res) {
+                            if (res.data == 0) {
+                                callback()
+                            } else {
+                                callback('证件号码已存在')
+                            }
+                        })
+                    }
+                }
+            },
+            //单位缴存比例
+            let: udepositratio = (rule, value, callback) => {
+                if (value < 7 || value > 15) {
+                    callback('请输入7-15内的数字')
+                } else {
+                    callback()
+                }
+            },
+            //单位缴存比例
+            let: upersonratio = (rule, value, callback) => {
+                if (value && (!(/^[0-9]+$/).test(value))) {
+                    callback(new Error('只能为正数'))
+                } else {
+
+
+                    if (value < 7 || value > 15) {
+                        callback('请输入7-15内的数字')
+                    } else {
+                        callback()
+                    }
+                }
+            },
+            //发薪日
+            let: upaydate = (rule, value, callback) => {
+                if (value < 1 || value > 30) {
+                    callback('请输入1-30内的数字')
+                } else {
+                    callback()
+                }
+            },
+            rules: {
+                //公司名称
+                uname: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: uname, trigger: 'change'}],
+                //地址
+                uaddress: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //公司法人
+                ulegalperson: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {min: 2, max: 4, message: '名称为2-4个汉字', trigger: 'blur'},
+                    {validator: ulegalperson, trigger: 'blur'}],
+                //法人证件类型
+                ulegaltype: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //法人证件号
+                ulegalcard: [{required: true, message: '不能为空', type: 'number', trigger: 'blur'},
+                    {validator: ulegalcard, trigger: 'blur'},
+                    {type: 'number'}],
+                //发薪日
+                upaydate: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: upaydate, trigger: 'blur'}],
+                //经办人姓名
+                uoperator: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: uoperator, trigger: 'blur'}],
+                //经办人电话
+                uopiphone: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: uopiphone, trigger: 'blur'}],
+                //经办人证件类型
+                jbrzjlx: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //经办人证件号码
+                jbrzjhm: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: jbrzjhm, trigger: 'blur'}],
+                //公司成立时间
+                unitbegindate: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //机构代码
+                unetworkcode: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //公司类型
+                gslx: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //所属行业
+                sshy: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //隶属关系
+                lsgx: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //经济类型
+                jjlx: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //业务办理人
+                ywblr: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //开户银行名称
+                uabankname: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //开户银行账号
+                uabanknumber: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {min: 16, max: 19, message: '16-19个数字', trigger: 'blur'}],
+                //单位缴存比例
+                udepositratio: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: udepositratio, trigger: 'blur'}],
+                //个人缴存比例
+                upersonratio: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: upersonratio, trigger: 'blur'}],
+                //受托银行
+                styh: [{required: true, message: '不能为空', trigger: 'change'}],
+                //账户状态
+                uastate: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //开户日期
+                khrq: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //营业执照
+                yyzz: [{required: true, message: '不能为空', trigger: 'change'}]
+            },
+            pickerOptions0: {
                 disabledDate(time) {
                     return time.getTime() > Date.now() - 8.64e7;
                 }
@@ -375,52 +532,61 @@
 
         methods: {
             //表格重新加载数据
-            loadingData:function() {
+            loadingData: function () {
                 var self = this
-                var adds = this.form={
-                    uname:"",
-                    uaddress:"",
-                    ulegalperson:"",
-                    ulegaltype:"",
-                    ulegalcard:"",
-                    upaydate:"",
-                    uoperator:"",
-                    uopiphone:"",
-                    jbrzjlx:"",
-                    jbrzjhm:"",
-                    unitbegindate:"",
-                    unetworkcode:"",
-                    gslx:"",
-                    sshy:"",
-                    lsgx:"",
-                    jjlx:"",
-                    ywblr:"",
-                    uabankname:"",
-                    uabanknumber:"",
-                    udepositratio:"",
-                    upersonratio:"",
-                    styh:"",
-                    uastate:"",
-                    yyzz:"",
-                    khrq:''
+                var adds = this.form = {
+                    uname: "",
+                    uaddress: "",
+                    ulegalperson: "",
+                    ulegaltype: "",
+                    ulegalcard: "",
+                    upaydate: "",
+                    uoperator: "",
+                    uopiphone: "",
+                    jbrzjlx: "",
+                    jbrzjhm: "",
+                    unitbegindate: "",
+                    unetworkcode: "",
+                    gslx: "",
+                    sshy: "",
+                    lsgx: "",
+                    jjlx: "",
+                    ywblr: "",
+                    uabankname: "",
+                    uabanknumber: "",
+                    udepositratio: "",
+                    upersonratio: "",
+                    styh: "",
+                    uastate: "",
+                    yyzz: "",
+                    khrq: ''
                 }
             },
             //上传成功后的方法
-            uploadSuc:function(response){
-                this.form.yyzz=response;
+            uploadSuc: function (response) {
+                this.form.yyzz = response;
             },
-            addClick: function () {
-                var self = this;
-                var formData =this.form;
-                axios.post('/af/unit/add',formData).then(function(response){
-                    if(response.data!=""){
-                        self.$message({
-                            message: '操作成功',
-                            type: 'success'
+            addClick: function (formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var self = this;
+                        var formData = this.form;
+                        axios.post('/af/unit/add', formData).then(function (response) {
+                            if (response.data != "") {
+                                self.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
+                                self.loadingData();
+                            }
+                        })
+                    } else {
+                        this.$message({
+                            message: '信息填写不完整',
+                            type: 'error'
                         });
-                        self.loadingData();
                     }
-                })
+                });
             }
         }
     })

@@ -24,8 +24,8 @@
                 <el-input v-model="searchForm.UNAME" placeholder="单位名称"></el-input>
             </el-form-item>
             <el-form-item>
-            <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
-        </el-form-item>
+                <el-button type="primary" icon="search" @click="searchClick">查询</el-button>
+            </el-form-item>
         </el-form>
     </el-row>
     <!--1-->
@@ -40,60 +40,69 @@
             <el-table-column
                     prop="DWZH"
                     label="单位账号"
-                    width="150">
+                    align="center"
+                    width="180">
             </el-table-column>
             <el-table-column
                     prop="UNAME"
                     label="单位名称"
-                    width="150">
+                    align="center"
+                    width="240">
             </el-table-column>
 
             <el-table-column
                     prop="UDEPOSITRATIO"
                     label="单位缴存比例"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UPERSONRATIO"
                     label="个人缴存比例"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UDEPOSITEDPNUM"
                     label="单位缴存人数"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UAREMAIN"
                     label="单位账户余额"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UAOWEMONERY"
                     label="应缴纳金额"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UASTATE"
                     label="单位账户状态"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UAPAYENDDATE"
                     label="单位缴至年月"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     label="操作">
                 <template scope="scope">
-                    <el-button :plain="true"  size="small" icon="edit" @click="editClick(scope.row)">基数调整</el-button>
+                    <el-button :plain="true" size="small" icon="edit" @click="editClick(scope.row)">基数调整</el-button>
                 </template>
             </el-table-column>
         </el-table>
     </el-row>
     <!--列表底部工具条和分页符-->
     <el-row style="margin-top: 20px" type="flex" justify="end">
-        <el-col :span="18" >
+        <el-col :span="18">
             <el-pagination
                     style="float: right"
                     @size-change="pageSizeChange"
@@ -134,55 +143,63 @@
                 <el-table-column
                         prop="GRZH"
                         label="个人账号"
+                        align="center"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         prop="TB_PNAME"
                         label="员工姓名"
+                        align="center"
                         width="150">
                 </el-table-column>
 
                 <el-table-column
                         prop="BASENUMMBER"
                         label="缴存基数"
+                        align="center"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="INDINROP"
                         label="个人缴存比例(%)"
+                        align="center"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="UBITNROP"
                         label="单位缴存人数(%)"
+                        align="center"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="UNITMONPAYSUM"
                         label="单位每月缴存"
+                        align="center"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="PERMONPAYSUM"
                         label="个人每月缴存"
+                        align="center"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="PERACCSTATE"
                         label="账户状态"
+                        align="center"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         label="操作">
                     <template scope="scope">
-                        <el-button :plain="true"  size="small" icon="edit" @click="formClick(scope.row)">修改基数</el-button>
+                        <el-button :plain="true" size="small" icon="edit" @click="formClick(scope.row)">修改基数</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </el-row>
         <!--列表底部工具条和分页符-->
         <el-row style="margin-top: 20px" type="flex" justify="end">
-            <el-col :span="18" >
+            <el-col :span="18">
                 <el-pagination
                         style="float: right"
                         @size-change="pageSizeChange"
@@ -202,38 +219,22 @@
     </el-dialog>
 
 
-<!--3-->
+    <!--3-->
 
     <el-dialog title="基数修改" :visible.sync="editFormVisible1" :close-on-click-modal="false" style="width:2200px">
-        <el-form :inline="true" :model="searchForm2" class="demo-form-inline">
-        <el-row :gutter="20">
-            <el-col :span="6">
-                <div class="grid-content bg-purple">
-                    <el-form-item label="所属单位" prop="URATIO">
-                        <el-input v-model="searchForm2.UNAME" style="width: 200px;"></el-input>
-                    </el-form-item>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="grid-content bg-purple">
-                    <el-form-item label="单位账号" prop="PRATIO">
-                        <el-input v-model="searchForm2.DWXZ" style="width: 200px;"></el-input>
-                    </el-form-item>
-                </div>
-            </el-col>
-        </el-row>
+        <el-form :inline="true" :model="searchForm2" class="demo-form-inline" ref="form" :rules="rules">
             <el-row :gutter="20">
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="个人账号" prop="URATIO">
-                            <el-input v-model="searchForm2.GRZH" style="width: 200px;"></el-input>
+                        <el-form-item label="所属单位" prop="URATIO">
+                            <el-input v-model="searchForm2.UNAME" :disabled="true" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="员工姓名" prop="PRATIO">
-                            <el-input v-model="searchForm2.TB_PNAME" style="width: 200px;"></el-input>
+                        <el-form-item label="单位账号" prop="PRATIO">
+                            <el-input v-model="searchForm2.DWXZ" :disabled="true" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -241,7 +242,23 @@
             <el-row :gutter="20">
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
-                        <el-form-item label="缴存基数" prop="URATIO">
+                        <el-form-item label="个人账号" prop="URATIO">
+                            <el-input v-model="searchForm2.GRZH" :disabled="true" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="员工姓名" prop="PRATIO">
+                            <el-input v-model="searchForm2.TB_PNAME" :disabled="true" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form-item label="缴存基数" prop="BASENUMMBER">
                             <el-input v-model="searchForm2.BASENUMMBER" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
@@ -249,7 +266,8 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="账户状态" prop="PRATIO">
-                            <el-input v-model="searchForm2.PERACCSTATE" style="width: 200px;"></el-input>
+                            <el-input v-model="searchForm2.PERACCSTATE" :disabled="true"
+                                      style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -258,14 +276,14 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="单位缴存比例" prop="URATIO">
-                            <el-input v-model="searchForm2.UBITNROP" style="width: 200px;"></el-input>
+                            <el-input v-model="searchForm2.UBITNROP" :disabled="true" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="个人缴存比例" prop="PRATIO">
-                            <el-input v-model="searchForm2.INDINROP" style="width: 200px;"></el-input>
+                            <el-input v-model="searchForm2.INDINROP" :disabled="true" style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -274,14 +292,16 @@
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="单位月缴存额" prop="URATIO">
-                            <el-input v-model="searchForm2.UNITMONPAYSUM" style="width: 200px;"></el-input>
+                            <el-input v-model="searchForm2.UNITMONPAYSUM" :disabled="true"
+                                      style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
                         <el-form-item label="个人月缴存额" prop="PRATIO">
-                            <el-input v-model="searchForm2.PERMONPAYSUM" style="width: 200px;"></el-input>
+                            <el-input v-model="searchForm2.PERMONPAYSUM" :disabled="true"
+                                      style="width: 200px;"></el-input>
                         </el-form-item>
                     </div>
                 </el-col>
@@ -309,19 +329,19 @@
         data: {
             //列表数据
             tableData: [],
-            tableData1:[],
+            tableData1: [],
             //显示加载中样式
-            loading:false,
+            loading: false,
             //搜索表单
             searchForm: {
                 UNAME: ''
             },
             searchForm1: {
                 TB_PNAME: '',
-                uid:''
+                uid: ''
             },
             searchForm2: {
-                UAID:'',
+                UAID: '',
                 UNAME: '',
                 DWXZ: '',
                 GRZH: '',
@@ -333,23 +353,23 @@
                 UNITMONPAYSUM: '',
                 PERMONPAYSUM: ''
             },
-            form:"",
+            form: "",
             //多选值
             multipleSelection: [],
             //当前页
-            currentPage:1,
+            currentPage: 1,
             //分页大小
-            pageSize:10,
+            pageSize: 10,
             //总记录数
-            total:800,
-            total1:800,
+            total: 800,
+            total1: 800,
             //删除的弹出框
-            deleteVisible:false,
+            deleteVisible: false,
             //编辑界面是否显示
             editFormVisible: false,
             editFormVisible1: false,
             editLoading: false,
-            goUrl:'',
+            goUrl: '',
             /*editFormRules: {
                 name: [
                     { required: true, message: '请输入姓名', trigger: 'blur' }
@@ -363,133 +383,160 @@
                 SAL: 0,
                 HIREDATE: ''
             },
+            //缴存基数/^(([1-9]\d+)|[0-9])(\.\d{1,3})?$/
+            let: BASENUMMBER = (rule, value, callback) => {
+                if (value!=0){
+                    if (value && (!(/^(([1-9]\d+)|[0-9])(\.\d{1,3})?$/).test(value))) {
+                        callback(new Error('只能为正数'))
+                    } else {
+                        callback()
+                    }
+                } else {
+                    callback('缴存基数不能为0');
+                }
+
+            },
+            rules: {
+                //缴存基数
+                BASENUMMBER: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: BASENUMMBER, trigger: 'blur'}],
+            }
         },
-        created:function(){
+        created: function () {
             //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
             var self = this;
-            var start =(this.currentPage-1)*this.pageSize;
-            var end =this.currentPage*this.pageSize+1;
-            axios.post('/af/jishu/page',{'start':start,'end':end}).then(function(response){
-                self.total=response.data.total;
+            var start = (this.currentPage - 1) * this.pageSize;
+            var end = this.currentPage * this.pageSize + 1;
+            axios.post('/af/jishu/page', {'start': start, 'end': end}).then(function (response) {
+                self.total = response.data.total;
                 self.tableData = response.data.pageData;
             })
         },
-        methods:{
+        methods: {
             //表格重新加载数据
-            loadingData:function() {
+            loadingData: function () {
                 var _self = this;
                 _self.loading = true;
                 var self = this;
-                var start =(this.currentPage-1)*this.pageSize;
-                var end =this.currentPage*this.pageSize+1;
-                var searchForm={'start':start,'end':end,'UNAME':this.searchForm.UNAME};
-                axios.post('/af/jishu/page',searchForm).then(function(response){
-                    _self.total=response.data.total;
+                var start = (this.currentPage - 1) * this.pageSize;
+                var end = this.currentPage * this.pageSize + 1;
+                var searchForm = {'start': start, 'end': end, 'UNAME': this.searchForm.UNAME};
+                axios.post('/af/jishu/page', searchForm).then(function (response) {
+                    _self.total = response.data.total;
                     _self.tableData = response.data.pageData;
                 })
                 console.log(_self.currentPage);
-                setTimeout(function(){
+                setTimeout(function () {
                     console.info("加载数据成功");
                     _self.loading = false;
-                },300);
+                }, 300);
             },
-            loadingData1:function() {
+            loadingData1: function () {
                 var _self = this;
                 _self.loading = true;
                 var self = this;
-                var start1 =(this.currentPage-1)*this.pageSize;
-                var end1 =this.currentPage*this.pageSize+1;
-                var searchForm={'start1':start1,'end1':end1,'TB_PNAME':this.searchForm1.TB_PNAME,'uid':this.searchForm1.uid};
-                axios.post('/af/jishu/page1',searchForm).then(function(response1){
-                    _self.total1=response1.data.total1;
+                var start1 = (this.currentPage - 1) * this.pageSize;
+                var end1 = this.currentPage * this.pageSize + 1;
+                var searchForm = {
+                    'start1': start1,
+                    'end1': end1,
+                    'TB_PNAME': this.searchForm1.TB_PNAME,
+                    'uid': this.searchForm1.uid
+                };
+                axios.post('/af/jishu/page1', searchForm).then(function (response1) {
+                    _self.total1 = response1.data.total1;
                     _self.tableData1 = response1.data.pageData1;
                 })
                 console.log(_self.currentPage);
-                setTimeout(function(){
+                setTimeout(function () {
                     console.info("加载数据成功");
                     _self.loading = false;
-                },300);
+                }, 300);
             },
             //表格编辑事件
-            editClick:function(row) {
-                this.searchForm1.uid=row.DWZH;
+            editClick: function (row) {
+                this.searchForm1.uid = row.DWZH;
                 //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
                 var self = this;
-                var start1 =(this.currentPage-1)*this.pageSize;
-                var end1 =this.currentPage*this.pageSize+1;
-                axios.post('/af/jishu/page1',{'start1':start1,'end1':end1,'uid':row.DWZH}).then(function(response1){
-                    self.total1=response1.data.total1;
+                var start1 = (this.currentPage - 1) * this.pageSize;
+                var end1 = this.currentPage * this.pageSize + 1;
+                axios.post('/af/jishu/page1', {
+                    'start1': start1,
+                    'end1': end1,
+                    'uid': row.DWZH
+                }).then(function (response1) {
+                    self.total1 = response1.data.total1;
                     self.tableData1 = response1.data.pageData1;
                 })
                 this.editFormVisible = true;
             },
-            formClick:function(row) {
+            formClick: function (row) {
                 //在 then的内部不能使用Vue的实例化的this, 因为在内部 this 没有被绑定。
                 var self = this;
-                if(row.PERACCSTATE=="正常"){
-                    var url = '/af/jishu/select/'+row.GRZH;
-                    axios.post(url).then(function(response){
+                if (row.PERACCSTATE == "正常") {
+                    var url = '/af/jishu/select/' + row.GRZH;
+                    axios.post(url).then(function (response) {
                         self.searchForm2.UAID = response.data.UAID,
-                        self.searchForm2.UNAME = response.data.UNAME,
-                        self.searchForm2.DWXZ = response.data.DWXZ,
-                        self.searchForm2.GRZH = response.data.GRZH,
-                        self.searchForm2.TB_PNAME = response.data.TB_PNAME,
-                        self.searchForm2.BASENUMMBER = response.data.BASENUMMBER,
-                        self.searchForm2.PERACCSTATE = response.data.PERACCSTATE,
-                        self.searchForm2.UBITNROP = response.data.UBITNROP,
-                        self.searchForm2.INDINROP = response.data.INDINROP,
-                        self.searchForm2.UNITMONPAYSUM = response.data.UNITMONPAYSUM,
-                        self.searchForm2.PERMONPAYSUM = response.data.PERMONPAYSUM
+                            self.searchForm2.UNAME = response.data.UNAME,
+                            self.searchForm2.DWXZ = response.data.DWXZ,
+                            self.searchForm2.GRZH = response.data.GRZH,
+                            self.searchForm2.TB_PNAME = response.data.TB_PNAME,
+                            self.searchForm2.BASENUMMBER = response.data.BASENUMMBER,
+                            self.searchForm2.PERACCSTATE = response.data.PERACCSTATE,
+                            self.searchForm2.UBITNROP = response.data.UBITNROP,
+                            self.searchForm2.INDINROP = response.data.INDINROP,
+                            self.searchForm2.UNITMONPAYSUM = response.data.UNITMONPAYSUM,
+                            self.searchForm2.PERMONPAYSUM = response.data.PERMONPAYSUM
                     })
                     this.editFormVisible1 = true;
-                }else {
+                } else {
                     this.$message.error("非正常用户不能操做！")
                 }
             },
             //表格查询事件
-            searchClick:function() {
+            searchClick: function () {
                 var self = this;
                 self.loadingData();//重新加载数据
             },
-            chaClick:function() {
+            chaClick: function () {
                 var self = this;
                 self.loadingData1();//重新加载数据
             },
             //表格勾选事件
-            selectionChange:function(val) {
-                for(var i=0;i<val.length;i++) {
+            selectionChange: function (val) {
+                for (var i = 0; i < val.length; i++) {
                     var row = val[i];
                 }
                 this.multipleSelection = val;
                 console.info(val);
             },
             //分页大小修改事件
-            pageSizeChange:function(val) {
-                console.log('每页 ' + val +' 条');
+            pageSizeChange: function (val) {
+                console.log('每页 ' + val + ' 条');
                 this.pageSize = val;
                 var _self = this;
                 _self.loadingData();//重新加载数据
             },
             //当前页修改事件
-            currentPageChange:function(val) {
+            currentPageChange: function (val) {
                 this.currentPage = val;
                 console.log('当前页: ' + val);
                 var _self = this;
                 _self.loadingData();//重新加载数据
             },
             //保存点击事件
-            editSubmit:function(){
+            editSubmit: function () {
                 var _self = this;
                 _self.loading = true;
-                var formData =this.searchForm2;
-                var goUrl="/af/jishu/update1";
-                axios.post(goUrl,formData).then(function(response){
-                     if(response.data!=""){
-                         _self.editFormVisible1 = false;
-                         _self.editFormVisible = true;
-                         _self.loadingData1();
-                         _self.loadingData();
-                     }
+                var formData = this.searchForm2;
+                var goUrl = "/af/jishu/update1";
+                axios.post(goUrl, formData).then(function (response) {
+                    if (response.data != "") {
+                        _self.editFormVisible1 = false;
+                        _self.editFormVisible = true;
+                        _self.loadingData1();
+                        _self.loadingData();
+                    }
                 })
                 //console.info(this.editForm); 控制台输出
             }

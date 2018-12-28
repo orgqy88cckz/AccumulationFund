@@ -53,4 +53,62 @@ public class PersonController {
     public Object add(@RequestBody Map map){
         return personService.add(map);
     }
+
+    /**
+     * 个人开户时验证单位账号
+     * @param acc
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/account/{acc}")
+    public Object look(@PathVariable("acc") String acc){
+        System.out.println(acc+"666666666666666666666666" +
+                "TB_ACCOUNT");
+        return personService.look(acc);
+    }
+
+    /**
+     * 银行账户验证
+     * @param accou
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/bank/{accou}")
+    public Object bankAccount(@PathVariable("accou") String accou){
+        return personService.bankAccount(accou);
+    }
+
+    /**
+     * 邮箱验证
+     * @param ema
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/email/{ema}")
+    public Object emailAccount(@PathVariable("ema") String ema){
+        return personService.emailAccount(ema);
+    }
+
+    /**
+     * 验证手机号
+     * @param pnum
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/pnumber/{pnum}")
+    public Object phoneNumber(@PathVariable("pnum") String pnum){
+        return personService.phoneNumber(pnum);
+    }
+
+    /**
+     * 身份证验证
+     * @param card
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/idCard/{card}")
+    public Object idCard2(@PathVariable("card") String card){
+        System.out.println(card);
+        return personService.idCard2(card);
+    }
 }
