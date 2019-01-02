@@ -37,53 +37,61 @@
                     prop="AID"
                     label="单位账号"
                     v-if="show"
-                    width="150">
+                    width="200">
             </el-table-column>
             <el-table-column
                     prop="DWZH"
                     label="单位账号"
-                    width="150">
+                    align="center"
+                    width="200">
             </el-table-column>
             <el-table-column
                     prop="UNAME"
                     label="单位名称"
-                    width="150">
+                    align="center"
+                    width="240">
             </el-table-column>
-
             <el-table-column
                     prop="UDEPOSITRATIO"
                     label="单位缴存比例"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UPERSONRATIO"
                     label="个人缴存比例"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UDEPOSITEDPNUM"
                     label="单位缴存人数"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UAREMAIN"
                     label="单位账户余额"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UAOWEMONERY"
                     label="应缴纳金额"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UASTATE"
                     label="单位账户状态"
-                    width="120">
+                    align="center"
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="UAPAYENDDATE"
                     label="单位缴至年月"
-                    width="120">
+                    align="center"
+                    width="180">
             </el-table-column>
             <el-table-column
                     label="操作">
@@ -117,31 +125,15 @@
                 <el-row :gutter="20">
                     <el-col :span="6">
                         <div class="grid-content bg-purple">
-                            <el-form-item label="单位账号" prop="URATIO">
-                                <el-input v-model="searchForm2.DWZH" style="width: 200px;"></el-input>
+                            <el-form-item label="单位账号" prop="DWZH">
+                                <el-input v-model="searchForm2.DWZH" :disabled="true" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="6">
                         <div class="grid-content bg-purple">
-                            <el-form-item label="记账日期" prop="PRATIO">
-                                <el-input v-model="searchForm2.UAPAYENDDATE" style="width: 200px;"></el-input>
-                            </el-form-item>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="单位名称" prop="URATIO">
-                                <el-input v-model="searchForm2.UNAME" style="width: 200px;"></el-input>
-                            </el-form-item>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="汇缴月数" prop="PRATIO">
-                                <el-input v-model="searchForm2.UAOWEMONTHS" style="width: 200px;"></el-input>
+                            <el-form-item label="记账日期" prop="UAPAYENDDATE">
+                                <el-input v-model="searchForm2.UAPAYENDDATE" :disabled="true" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -149,31 +141,15 @@
                 <el-row :gutter="20">
                     <el-col :span="6">
                         <div class="grid-content bg-purple">
-                            <el-form-item label="单位缴存比例(%)" prop="URATIO">
-                                <el-input v-model="searchForm2.UDEPOSITRATIO" style="width: 200px;"></el-input>
+                            <el-form-item label="单位名称" prop="UNAME">
+                                <el-input v-model="searchForm2.UNAME" :disabled="true" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="6">
                         <div class="grid-content bg-purple">
-                            <el-form-item label="账户状态" prop="PRATIO">
-                                <el-input v-model="searchForm2.UASTATE" style="width: 200px;"></el-input>
-                            </el-form-item>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="个人缴存比例(%)" prop="URATIO">
-                                <el-input v-model="searchForm2.UPERSONRATIO" style="width: 200px;"></el-input>
-                            </el-form-item>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="账户余额" prop="PRATIO">
-                                <el-input v-model="searchForm2.UAREMAIN" style="width: 200px;"></el-input>
+                            <el-form-item label="汇缴月数" prop="UAOWEMONTHS">
+                                <el-input v-model="searchForm2.UAOWEMONTHS" :disabled="true" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -181,15 +157,47 @@
                 <el-row :gutter="20">
                     <el-col :span="6">
                         <div class="grid-content bg-purple">
-                            <el-form-item label="缴存人数" prop="URATIO">
-                                <el-input v-model="searchForm2.UDEPOSITEDPNUM" style="width: 200px;"></el-input>
+                            <el-form-item label="单位缴存比例(%)" prop="UDEPOSITRATIO">
+                                <el-input v-model="searchForm2.UDEPOSITRATIO" :disabled="true" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
                     <el-col :span="6">
                         <div class="grid-content bg-purple">
-                            <el-form-item label="应缴金额" prop="PRATIO">
-                                <el-input v-model="searchForm2.UAOWEMONERY" style="width: 200px;"></el-input>
+                            <el-form-item label="账户状态" prop="UASTATE">
+                                <el-input v-model="searchForm2.UASTATE" :disabled="true" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="个人缴存比例(%)" prop="UPERSONRATIO">
+                                <el-input v-model="searchForm2.UPERSONRATIO" :disabled="true" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="账户余额" prop="UAREMAIN">
+                                <el-input v-model="searchForm2.UAREMAIN" :disabled="true" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="缴存人数" prop="UDEPOSITEDPNUM">
+                                <el-input v-model="searchForm2.UDEPOSITEDPNUM" :disabled="true" style="width: 200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div class="grid-content bg-purple">
+                            <el-form-item label="应缴金额" prop="UAOWEMONERY">
+                                <el-input v-model="searchForm2.UAOWEMONERY" :disabled="true" style="width: 200px;"></el-input>
                             </el-form-item>
                         </div>
                     </el-col>
@@ -294,38 +302,40 @@
                     var date=new Date();
                     var month=date.getMonth()+1;
                     var month1=row.UAPAYENDDATE.substring(5,7);
-                }else {
-                    var date=new Date();
-                    var month=date.getMonth()+1;
-                    var month1=row.UAPAYENDDATE;
+                    alert(month1+"          "+month)
                 }
-                if(month!=month1){
-                 if(row.UAREMAIN>row.UAOWEMONERY){
-                        var goUrl="/af/huijiao/select/"+row.DWZH;
-                        axios.post(goUrl).then(function(response){
-                            if(response.data!=""){
+                if (month-month1>1){
+                    this.$message.warning('你需要去补缴');
+                } else {
+                    if(month!=month1){
+                        if(row.UAREMAIN>row.UAOWEMONERY){
+                            var goUrl="/af/huijiao/select/"+row.DWZH;
+                            axios.post(goUrl).then(function(response){
+                                if(response.data!=""){
                                     _self.searchForm2.AID = response.data.AID,
-                                    _self.searchForm2.DWZH = response.data.DWZH,
-                                    _self.searchForm2.UNAME = response.data.UNAME,
-                                    _self.searchForm2.UAOWEMONTHS = response.data.UAOWEMONTHS,
-                                    _self.searchForm2.UDEPOSITRATIO = response.data.UDEPOSITRATIO,
-                                    _self.searchForm2.UASTATE = response.data.UASTATE,
-                                    _self.searchForm2.UPERSONRATIO = response.data.UPERSONRATIO,
-                                    _self.searchForm2.UAREMAIN = response.data.UAREMAIN,
-                                    _self.searchForm2.UDEPOSITEDPNUM = response.data.UDEPOSITEDPNUM,
-                                    _self.searchForm2.UAOWEMONERY = response.data.UAOWEMONERY,
-                                    _self.searchForm2.UAPAYENDDATE = response.data.UAPAYENDDATE;
-                                _self.editFormVisible = true;
-                            }
-                        })
-                        this.editFormVisible = true;
-                    }else{
-                     this.$message.error('余额不足请充值。。。');
-                    }
+                                        _self.searchForm2.DWZH = response.data.DWZH,
+                                        _self.searchForm2.UNAME = response.data.UNAME,
+                                        _self.searchForm2.UAOWEMONTHS = response.data.UAOWEMONTHS,
+                                        _self.searchForm2.UDEPOSITRATIO = response.data.UDEPOSITRATIO,
+                                        _self.searchForm2.UASTATE = response.data.UASTATE,
+                                        _self.searchForm2.UPERSONRATIO = response.data.UPERSONRATIO,
+                                        _self.searchForm2.UAREMAIN = response.data.UAREMAIN,
+                                        _self.searchForm2.UDEPOSITEDPNUM = response.data.UDEPOSITEDPNUM,
+                                        _self.searchForm2.UAOWEMONERY = response.data.UAOWEMONERY,
+                                        _self.searchForm2.UAPAYENDDATE = response.data.UAPAYENDDATE;
+                                    _self.editFormVisible = true;
+                                }
+                            })
+                            this.editFormVisible = true;
+                        }else{
+                            this.$message.error('余额不足请充值。。。');
+                        }
 
-                }else {
-                     this.$message.warning('本月已缴纳');
+                    }else {
+                        this.$message.warning('本月已缴纳');
+                    }
                 }
+
             },
             //新建事件
             addClick:function() {

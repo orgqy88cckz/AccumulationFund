@@ -27,7 +27,7 @@
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="公司账号" prop="gszh">
-                        <el-input v-model="form.gszh" style="width: 200px;" @blur="blur" ></el-input>
+                        <el-input v-model="form.gszh" style="width: 200px;" @blur="blur"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
@@ -51,7 +51,6 @@
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="开户银行名称" prop="TB_BNAME">
-                        <!--<el-input v-model="form.TB_BNAME" style="width: 200px;"></el-input>-->
                         <el-select v-model="form.TB_BNAME" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="中国银行" value="中国银行"></el-option>
@@ -163,7 +162,6 @@
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="证件类型" prop="TB_IDCARD">
-                        <!--<el-input v-model="form.jjlx" style="width: 200px;"></el-input>-->
                         <el-select v-model="form.TB_IDCARD" style="width: 200px;">
                             <el-option label="请选择" value=""></el-option>
                             <el-option label="身份证" value="身份证"></el-option>
@@ -174,7 +172,7 @@
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
-                    <el-form-item label="缴存基数" prop="JCJS">
+                    <el-form-item label="*缴存基数" prop="JCJS">
                         <el-input v-model="form.JCJS" style="width: 200px;"></el-input>
                     </el-form-item>
                 </div>
@@ -211,85 +209,188 @@
 
     });
     var vm = new Vue({
-        el : "#app1",
-        data : {
-            form:{
-                AID:'',
-                TB_PEDUCATION:"",
-                TB_BNAME:"",
-                TB_PROFESSION:"",
-                TB_ACCOUNT:"",
-                TB_PNAME:"",
-                TB_PEMAIL:"",
-                TB_PIPHONE:"",
-                TB_PADDRESS:"",
-                TB_PSEX:"",
-                TB_PMARRIAGE:"",
-                TB_IDCARD:"",
-                TB_IDNUMBER:"",
-                gszh:"",
-                gsmc:"",
-                dwbl:"",
-                grbl:"",
-                blry:"",
-                JCJS:""
+        el: "#app1",
+        data: {
+            form: {
+                AID: '',
+                TB_PEDUCATION: "",
+                TB_BNAME: "",
+                TB_PROFESSION: "",
+                TB_ACCOUNT: "",
+                TB_PNAME: "",
+                TB_PEMAIL: "",
+                TB_PIPHONE: "",
+                TB_PADDRESS: "",
+                TB_PSEX: "",
+                TB_PMARRIAGE: "",
+                TB_IDCARD: "",
+                TB_IDNUMBER: "",
+                gszh: "",
+                gsmc: "",
+                dwbl: "",
+                grbl: "",
+                blry: "",
+                JCJS: ""
             },
-            //gerenzhanghao
-            let:validate = (rule, value, callback) => {
+            //公司账号
+            let: gszh = (rule, value, callback) => {
+                //后台方法
+                var url = "/af/person/account/" + value;
+                axios.post(url).then(function (res) {
+                    alert(res.data);
+                    if (res.data == 0) {
+                        callback('账号不存在')
+                    } else {
+                        callback()
+                    }
+                })
+            },
+            //银行账号
+            let: TB_ACCOUNT = (rule, value, callback) => {
                 if (value==''){
-                    callback();
-                }else {
+                    callback()
+                } else {
                     //后台方法
-                    var url="/af/person/grzh/"+value;
+                    var url = "/af/person/bank/" + value;
                     axios.post(url).then(function (res) {
-                        if ( res.data >0) {
+                        if (res.data == 0) {
                             callback()
                         } else {
-                            callback('账号有误请重新输入')
+                            callback('账号已存在')
                         }
                     })
                 }
             },
-            rules:{
-                gszh :[{required: true, message: '请输入', trigger: 'blur'},
-                    {validator:grzh,trigger:'change'}],
-                sex :[{required: true, message: '请输入', trigger: 'blur'}]
+            //邮箱
+            let: TB_PEMAIL = (rule, value, callback) => {
+
+                if (value && (!(/^[1-9a-zA-Z_]\w*@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})+$/).test(value))) {
+                    callback(new Error('邮箱不符合规范'))
+                } else {
+                    //后台方法
+                    var url = "/af/person/email/" + value;
+                    axios.post(url).then(function (res) {
+                        alert(res.data);
+                        if (res.data == 0) {
+                            callback()
+                        } else {
+                            callback('账号已存在')
+                        }
+                    })
+                }
             },
-            keyup:function(){
-                this.searchForm2.UAOWEMONERY = this.searchForm2.UAOWEMONERY*this.searchForm2.UAOWEMONTHS;
+            //职工电话TB_PIPHONE
+            let: TB_PIPHONE = (rule, value, callback) => {
+
+                if (value && (!(/^1[34578]\d{9}$/).test(value))) {
+                    callback(new Error('手机号码不符合规范'))
+                } else {
+                    //后台方法
+                    var url = "/af/person/pnumber/" + value;
+                    axios.post(url).then(function (res) {
+                        alert(res.data)
+                        if (res.data == 0) {
+                            callback()
+                        } else {
+                            callback('手机号已存在')
+                        }
+                    })
+                }
+            },
+            //证件号码TB_IDNUMBER
+            let: TB_IDNUMBER = (rule, value, callback) => {
+                if (value == '') {
+                    callback()
+                } else {
+                    if (value && (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(value))) {
+                        callback(new Error('身份证号不符合规范'))
+                    } else {
+                        //后台方法
+                        var url = "/af/person/idCard/" + value;
+                        axios.post(url).then(function (res) {
+                            alert(res.data)
+                            if (res.data == 0) {
+                                callback()
+                            } else {
+                                callback('证件号码已存在')
+                            }
+                        })
+                    }
+                }
+            },
+            rules: {
+                //公司账号
+                gszh: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: gszh, trigger: 'blur'}],
+                //学历
+                TB_PEDUCATION: [{required: true, message: '不能为空', trigger: 'change'}],
+                //开户银行名称
+                TB_BNAME: [{required: true, message: '不能为空', trigger: 'change'}],
+                //职工职位
+                TB_PROFESSION: [{required: true, message: '不能为空', trigger: 'change'}],
+                //开户银行账号
+                TB_ACCOUNT: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: TB_ACCOUNT, trigger: 'blur'},
+                    {min: 18, max: 20, message: '数字在18-20位之间', trigger: 'change',trigger:'blur'}],
+                //职工姓名
+                TB_PNAME: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //电子邮箱
+                TB_PEMAIL: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: TB_PEMAIL, trigger: 'blur'},],
+                //职工电话
+                TB_PIPHONE: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: TB_PIPHONE, trigger: 'blur'},],
+                //家庭住址
+                TB_PADDRESS: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //性别
+                TB_PSEX: [{required: true, message: '不能为空', trigger: 'change'}],
+                //婚姻状态
+                TB_PMARRIAGE: [{required: true, message: '不能为空', trigger: 'change'}],
+                //证件类型
+                TB_IDCARD: [{required: true, message: '不能为空', trigger: 'change'}],
+                //缴存基数
+                JCJS: [{required: true, message: '不能为空', trigger: 'blur'}],
+                //证件号码
+                TB_IDNUMBER: [{required: true, message: '不能为空', trigger: 'blur'},
+                    {validator: TB_IDNUMBER, trigger: 'blur'}]
+
+
+            },
+            keyup: function () {
+                this.searchForm2.UAOWEMONERY = this.searchForm2.UAOWEMONERY * this.searchForm2.UAOWEMONTHS;
 
             },
         },
         methods: {
             //表格重新加载数据
-            loadingData:function() {
+            loadingData: function () {
                 var self = this
-                var adds = this.form={
-                    AID:"",
-                    TB_PEDUCATION:"",
-                    TB_BNAME:"",
-                    TB_PROFESSION:"",
-                    TB_ACCOUNT:"",
-                    TB_PNAME:"",
-                    TB_PEMAIL:"",
-                    TB_PIPHONE:"",
-                    TB_PADDRESS:"",
-                    TB_PSEX:"",
-                    TB_PMARRIAGE:"",
-                    TB_IDCARD:"",
-                    TB_IDNUMBER:"",
-                    gszh:"",
-                    gsmc:"",
-                    dwbl:"",
-                    grbl:"",
-                    blry:"",
-                    JCJS:""
+                var adds = this.form = {
+                    AID: "",
+                    TB_PEDUCATION: "",
+                    TB_BNAME: "",
+                    TB_PROFESSION: "",
+                    TB_ACCOUNT: "",
+                    TB_PNAME: "",
+                    TB_PEMAIL: "",
+                    TB_PIPHONE: "",
+                    TB_PADDRESS: "",
+                    TB_PSEX: "",
+                    TB_PMARRIAGE: "",
+                    TB_IDCARD: "",
+                    TB_IDNUMBER: "",
+                    gszh: "",
+                    gsmc: "",
+                    dwbl: "",
+                    grbl: "",
+                    blry: "",
+                    JCJS: ""
                 }
             },
-            blur: function(){
+            blur: function () {
                 var self = this;
-                if (this.form.gszh!=""){
-                    var url = '/af/person/getById/'+this.form.gszh;
+                if (this.form.gszh != "") {
+                    var url = '/af/person/getById/' + this.form.gszh;
                     axios.get(url).then(function (response) {
                         self.form.AID = response.data.AID;
                         self.form.gsmc = response.data.UNAME;
@@ -297,14 +398,14 @@
                         self.form.grbl = response.data.UPERSONRATIO;
                         self.form.blry = response.data.YWBLR;
                     })
-                }else {
-                    self.form={
-                        AID:"",
-                        gszh:"",
-                        gsmc:"",
-                        dwbl:"",
-                        grbl:"",
-                        blry:""
+                } else {
+                    self.form = {
+                        AID: "",
+                        gszh: "",
+                        gsmc: "",
+                        dwbl: "",
+                        grbl: "",
+                        blry: ""
                     }
                 }
             },
@@ -312,9 +413,9 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var self = this;
-                        var formData =this.form;
-                        axios.post('/af/person/add',formData).then(function(response){
-                            if(response.data!=""){
+                        var formData = this.form;
+                        axios.post('/af/person/add', formData).then(function (response) {
+                            if (response.data != "") {
                                 self.$message({
                                     message: '操作成功',
                                     type: 'success'
@@ -324,7 +425,7 @@
                         })
                     } else {
                         this.$message({
-                            message:  '信息填写不完整',
+                            message: '信息填写不完整',
                             type: 'error'
                         });
                     }

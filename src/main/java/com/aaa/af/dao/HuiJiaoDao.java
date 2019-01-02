@@ -88,7 +88,7 @@ public interface HuiJiaoDao {
      * @param map
      * @return
      */
-    @Select("select UNAME,DWZH,UAREMAIN,UAPAYENDDATE,UAOWEMONERY from tb_unitaccount a left join tb_unit b on a.AID = b.ID where DWZH = #{DWZH}")
+    @Select("select UNAME,DWZH,UAREMAIN,UAPAYENDDATE,UAOWEMONERY,UDEPOSITEDPNUM,UAOWEMONTHS,YWBLR from tb_unitaccount a left join tb_unit b on a.AID = b.ID where DWZH = #{DWZH}")
     List<Map> select2(Map map);
 
     /**
@@ -104,7 +104,7 @@ public interface HuiJiaoDao {
      * @param map
      * @return
      */
-    @Insert("insert into urecord (ID,UNAME,UACCOUNT,UMONEY,UTYPE,UDATE,UCMONEY) values(urecord_id.nextval，#{UNAME},#{DWZH},#{UAREMAIN},'汇缴',#{UAPAYENDDATE},#{UAOWEMONERY})")
+    @Insert("insert into urecord (ID,UNAME,UACCOUNT,UMONEY,UTYPE,UDATE,UCMONEY,PERNUM,MONTHNUM,CPERSON) values(urecord_id.nextval，#{UNAME},#{DWZH},#{UAREMAIN},'汇缴',#{UAPAYENDDATE},#{UAOWEMONERY},#{UDEPOSITEDPNUM},#{UAOWEMONTHS},#{YWBLR})")
     int insert(Map map);
 
     /**

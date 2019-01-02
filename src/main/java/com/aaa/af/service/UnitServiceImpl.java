@@ -49,4 +49,44 @@ public class UnitServiceImpl implements UnitService{
     public int count(Map map) {
         return unitDao.count(map);
     }
+
+    /**
+     * 公司名称唯一性验证
+     * @param name
+     * @return
+     */
+    @Override
+    public int uname(String name) {
+        return unitDao.uname(name);
+    }
+
+    /**
+     * 法人身份证号码唯一性验证
+     * @param card
+     * @return
+     */
+    @Override
+    public int idCard(String card) {
+        return unitDao.idCard(card);
+    }
+
+    /**
+     * 经办人身份证唯一验证
+     * @param card
+     * @return
+     */
+    @Override
+    public int idCard1(String card) {
+        return unitDao.idCard1(card);
+    }
+
+    /**
+     * 手机号唯一验证
+     * @param num
+     * @return
+     */
+    @Override
+    public int phone(String num) {
+        return unitDao.phone(num);
+    }
 }

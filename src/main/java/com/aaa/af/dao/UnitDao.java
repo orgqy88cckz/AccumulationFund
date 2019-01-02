@@ -58,4 +58,36 @@ public interface UnitDao {
             "  </where></script>")
     int count(Map map);
 
+
+    /**
+     * 公司名称唯一性验证
+     * @param name
+     * @return
+     */
+    @Select("select count(*) from tb_unit where uname = #{name}")
+    int uname(String name);
+
+    /**
+     * 法人身份证唯一性验证
+     * @param card
+     * @return
+     */
+    @Select("select count(*) from tb_unit where ulegalcard = #{card}")
+    int idCard(String card);
+
+    /**
+     * 经办人身份证唯一性验证
+     * @param card
+     * @return
+     */
+    @Select("select count(*) from tb_unit where jbrzjhm = #{card}")
+    int idCard1(String card);
+
+    /**
+     * 经办人电话唯一性验证
+     * @param num
+     * @return
+     */
+    @Select("select count(*) from tb_unit where UOPIPHONE = #{num}")
+    int phone(String num);
 }

@@ -48,7 +48,8 @@ public interface BuJiaoDao {
      * @param map
      * @return
      */
-    @Select("select AID,DWZH,UNAME,to_char(sysdate,'yyyy-mm-dd') as UAPAYENDDATE,((extract (year from sysdate)-substr(#{UAOWEMONTHS},0,4))*12+extract(month from sysdate))- substr(#{UAOWEMONTHS},6,2) as UAOWEMONTHS,UDEPOSITRATIO,UASTATE,\n" +
+    @Select("select AID,DWZH,UNAME,to_char(sysdate,'yyyy-mm-dd') as UAPAYENDDATE," +
+            "((extract (year from sysdate)-substr(#{UAOWEMONTHS},0,4))*12+extract(month from sysdate))- substr(#{UAOWEMONTHS},6,2) as UAOWEMONTHS,UDEPOSITRATIO,UASTATE,\n" +
             "UPERSONRATIO,UAREMAIN,UDEPOSITEDPNUM,UAOWEMONERY from tb_unitaccount a\n" +
             "left join tb_unit b on a.ID = b.ID where DWZH = #{DWZH}")
     Map getSelect(Map map);
@@ -95,7 +96,7 @@ public interface BuJiaoDao {
      * @param map
      * @return
      */
-    @Select("select UNAME,DWZH,UAREMAIN,UAPAYENDDATE,UAOWEMONERY from tb_unitaccount a left join tb_unit b on a.AID = b.ID where DWZH = #{DWZH}")
+    @Select("select UNAME,DWZH,UAREMAIN,UAPAYENDDATE,UAOWEMONERY,UDEPOSITEDPNUM,UAOWEMONTHS,YWBLR from tb_unitaccount a left join tb_unit b on a.AID = b.ID where DWZH = #{DWZH}")
     List<Map> select2(Map map);
 
     /**
@@ -121,7 +122,7 @@ public interface BuJiaoDao {
      * @param map
      * @return
      */
-    @Insert("insert into urecord (ID,UNAME,UACCOUNT,UMONEY,UTYPE,UDATE,UCMONEY) values(urecord_id.nextval，#{UNAME},#{DWZH},#{UAREMAIN},'补缴',#{UAPAYENDDATE},#{UAOWEMONERY})")
+    @Insert("insert into urecord (ID,UNAME,UACCOUNT,UMONEY,UTYPE,UDATE,UCMONEY,,PERNUM,MONTHNUM,CPERSON) values(urecord_id.nextval，#{UNAME},#{DWZH},#{UAREMAIN},'补缴',#{UAPAYENDDATE},#{UAOWEMONERY},#{UDEPOSITEDPNUM},#{UAOWEMONTHS},#{YWBLR})")
     int insert(Map map);
 
     /**
