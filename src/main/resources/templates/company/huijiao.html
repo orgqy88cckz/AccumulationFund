@@ -297,42 +297,84 @@
             },
             //表格编辑事件
             editClick:function(row) {
+                alert(row.UAPAYENDDATE);
                 var _self = this;
+                var date=new Date();
+                var month=date.getMonth()+1;
                 if ((row.UAPAYENDDATE==undefined?"":row.UAPAYENDDATE) !=''){
-                    var date=new Date();
-                    var month=date.getMonth()+1;
                     var month1=row.UAPAYENDDATE.substring(5,7);
+                    var year = date.getFullYear();
+                    var year1 = row.UAPAYENDDATE.substring(0,4);
+                    alert(year+"                  "+year1);
                     alert(month1+"          "+month)
                 }
-                if (month-month1>1){
-                    this.$message.warning('你需要去补缴');
-                } else {
-                    if(month!=month1){
-                        if(row.UAREMAIN>row.UAOWEMONERY){
-                            var goUrl="/af/huijiao/select/"+row.DWZH;
-                            axios.post(goUrl).then(function(response){
-                                if(response.data!=""){
-                                    _self.searchForm2.AID = response.data.AID,
-                                        _self.searchForm2.DWZH = response.data.DWZH,
-                                        _self.searchForm2.UNAME = response.data.UNAME,
-                                        _self.searchForm2.UAOWEMONTHS = response.data.UAOWEMONTHS,
-                                        _self.searchForm2.UDEPOSITRATIO = response.data.UDEPOSITRATIO,
-                                        _self.searchForm2.UASTATE = response.data.UASTATE,
-                                        _self.searchForm2.UPERSONRATIO = response.data.UPERSONRATIO,
-                                        _self.searchForm2.UAREMAIN = response.data.UAREMAIN,
-                                        _self.searchForm2.UDEPOSITEDPNUM = response.data.UDEPOSITEDPNUM,
-                                        _self.searchForm2.UAOWEMONERY = response.data.UAOWEMONERY,
-                                        _self.searchForm2.UAPAYENDDATE = response.data.UAPAYENDDATE;
-                                    _self.editFormVisible = true;
-                                }
-                            })
-                            this.editFormVisible = true;
-                        }else{
-                            this.$message.error('余额不足请充值。。。');
-                        }
+                if (year>year1){
+                    if ((month+(year-year1)*12)-month1>1){
+                        this.$message.warning('你需要去补缴');
+                    } else {
+                        if(month!=month1){
+                            if(row.UAREMAIN>row.UAOWEMONERY){
+                                var goUrl="/af/huijiao/select/"+row.DWZH;
+                                axios.post(goUrl).then(function(response){
+                                    if(response.data!=""){
+                                        _self.searchForm2.AID = response.data.AID,
+                                            _self.searchForm2.DWZH = response.data.DWZH,
+                                            _self.searchForm2.UNAME = response.data.UNAME,
+                                            _self.searchForm2.UAOWEMONTHS = response.data.UAOWEMONTHS,
+                                            _self.searchForm2.UDEPOSITRATIO = response.data.UDEPOSITRATIO,
+                                            _self.searchForm2.UASTATE = response.data.UASTATE,
+                                            _self.searchForm2.UPERSONRATIO = response.data.UPERSONRATIO,
+                                            _self.searchForm2.UAREMAIN = response.data.UAREMAIN,
+                                            _self.searchForm2.UDEPOSITEDPNUM = response.data.UDEPOSITEDPNUM,
+                                            _self.searchForm2.UAOWEMONERY = response.data.UAOWEMONERY,
+                                            _self.searchForm2.UAPAYENDDATE = response.data.UAPAYENDDATE;
+                                        _self.editFormVisible = true;
+                                    }
+                                })
+                                this.editFormVisible = true;
+                            }else{
+                                this.$message.error('余额不足请充值。。。');
+                            }
 
-                    }else {
-                        this.$message.warning('本月已缴纳');
+                        }else {
+                            alert("1111")
+                            this.$message.warning('本月已缴纳');
+                        }
+                    }
+                }else {
+                    if (month-month1>1){
+                        this.$message.warning('你需要去补缴');
+                    } else {
+                        if(month!=month1){
+                            if(row.UAREMAIN>row.UAOWEMONERY){
+                                var goUrl="/af/huijiao/select/"+row.DWZH;
+                                axios.post(goUrl).then(function(response){
+                                    if(response.data!=""){
+                                        _self.searchForm2.AID = response.data.AID,
+                                            _self.searchForm2.DWZH = response.data.DWZH,
+                                            _self.searchForm2.UNAME = response.data.UNAME,
+                                            _self.searchForm2.UAOWEMONTHS = response.data.UAOWEMONTHS,
+                                            _self.searchForm2.UDEPOSITRATIO = response.data.UDEPOSITRATIO,
+                                            _self.searchForm2.UASTATE = response.data.UASTATE,
+                                            _self.searchForm2.UPERSONRATIO = response.data.UPERSONRATIO,
+                                            _self.searchForm2.UAREMAIN = response.data.UAREMAIN,
+                                            _self.searchForm2.UDEPOSITEDPNUM = response.data.UDEPOSITEDPNUM,
+                                            _self.searchForm2.UAOWEMONERY = response.data.UAOWEMONERY,
+                                            _self.searchForm2.UAPAYENDDATE = response.data.UAPAYENDDATE;
+                                        _self.editFormVisible = true;
+                                    }
+                                })
+                                this.editFormVisible = true;
+                            }else{
+                                this.$message.error('余额不足请充值。。。');
+                            }
+
+                        }else {
+
+                            alert("2222")
+                            alert()
+                            this.$message.warning('本月已缴纳');
+                        }
                     }
                 }
 
