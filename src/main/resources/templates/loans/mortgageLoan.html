@@ -161,8 +161,8 @@
                 </div></el-col>
                 <el-col :span="5"><div class="grid-content bg-purple">
                     <el-form-item prop="loanPeriods" label="贷款期数">
-                        <!--<el-input v-model="form1.loanPeriods" @blur="periods()"  style="width: 200px;"></el-input>-->
-                        <el-select  v-model="form1.loanPeriods" @change="periods()"  style="width: 200px;">
+                        <el-input v-model="form1.loanPeriods" @blur="periods()"  style="width: 200px;"></el-input>
+                        <!--<el-select  v-model="form1.loanPeriods" @change="periods()"  style="width: 200px;">
                             <el-option value="12">12</el-option>
                             <el-option value="24">24</el-option>
                             <el-option value="36">36</el-option>
@@ -170,7 +170,7 @@
                             <el-option value="60">60</el-option>
                             <el-option value="72">72</el-option>
                             <el-option value="84">84</el-option>
-                        </el-select>
+                        </el-select>-->
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="5">
@@ -565,8 +565,8 @@
                 PERACCSTATE:'',
                 DALANCE:'',
                 loanAmount:'',
-                loanPeriods:'12',
-                loanRate:'2.75',
+                loanPeriods:'',
+                loanRate:'',
                 trustBank:'中国工商银行',
                 paymentMethod:'等额本金',
                 payee:'',
