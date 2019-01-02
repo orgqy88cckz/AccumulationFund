@@ -261,56 +261,62 @@
             },
             //提取申请通过事件
             clickPass:function(row) {
-                var self=this;
-                if(row.SHZT==1){
-                    this.goUrl="/af/fundTake/appointPass/"+row.AID;
-                    axios.post(this.goUrl).then(function (response) {
-                        if(response.data>0){
-                            self.$message({
-                                message:  '操作成功',
-                                type: 'success'
-                            });
-                            _self.loadingData();//重新加载数据
-                        }else {
-                            self.$message({
-                                message:  '审核失败',
-                                type: 'error'
-                            });
-                            _self.loadingData();//重新加载数据
-                        }
-                    })
-                }else {
-                    self.$message({
-                        message:  '已审核不能重复操作',
-                        type: 'error'
-                    });
+                if(confirm('确定通过吗')){
+                    var self=this;
+                    if(row.SHZT==1){
+                        this.goUrl="/af/fundTake/appointPass/"+row.AID;
+                        axios.post(this.goUrl).then(function (response) {
+                            if(response.data>0){
+                                self.$message({
+                                    message:  '操作成功',
+                                    type: 'success'
+                                });
+                                self.loadingData();//重新加载数据
+                            }else {
+                                self.$message({
+                                    message:  '审核失败',
+                                    type: 'error'
+                                });
+                                self.loadingData();//重新加载数据
+                            }
+                        })
+                    }else {
+                        self.$message({
+                            message:  '已审核不能重复操作',
+                            type: 'error'
+                        });
+                    }
+
                 }
+
             },
             //提取申请驳回事件
             clickReject:function(row) {
-                var self=this;
-                if(row.SHZT==1){
-                    this.goUrl="/af/fundTake/appointReject/"+row.AID;
-                    axios.post(this.goUrl).then(function (response) {
-                        if(response.data>0){
-                            self.$message({
-                                message:  '操作成功',
-                                type: 'success'
-                            });
-                            _self.loadingData();//重新加载数据
-                        }else {
-                            self.$message({
-                                message:  '审核失败',
-                                type: 'error'
-                            });
-                            _self.loadingData();//重新加载数据
-                        }
-                    })
-                }else {
-                    self.$message({
-                        message:  '已审核不能重复操作',
-                        type: 'error'
-                    });
+                if(confirm('确定驳回吗')) {
+                    var self = this;
+                    if (row.SHZT == 1) {
+                        this.goUrl = "/af/fundTake/appointReject/" + row.AID;
+                        axios.post(this.goUrl).then(function (response) {
+                            if (response.data > 0) {
+                                self.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
+                                self.loadingData();//重新加载数据
+                            } else {
+                                self.$message({
+                                    message: '审核失败',
+                                    type: 'error'
+                                });
+                                self.loadingData();//重新加载数据
+                            }
+                        })
+                    } else {
+                        self.$message({
+                            message: '已审核不能重复操作',
+                            type: 'error'
+                        });
+                    }
                 }
             },
             //表格查询事件
