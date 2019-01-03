@@ -42,9 +42,9 @@ public interface RepayDao {
      * @return
      */
     @Update("<script>update tb_repay set repayed_date = sysdate,repayed_periods=(repayed_periods+1),over_periods=(over_periods - 1)," +
-            "repayed_month_money=month_return-(loan_money - (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))))*(loan_rate / loan_periods /100),repayed_month_interest=(loan_money - (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100)))) * (loan_rate / loan_periods /100),"+
-            "over_money = (loan_money - (repayed_money + month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))),over_interests =(repay_interests - (repayed_interests + (loan_money - repayed_money) *(loan_rate / loan_periods / 100)))," +
-            "repayed_money = (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))),repayed_interests = (repayed_interests + (loan_money - repayed_money) * (loan_rate / loan_periods /100)) where loan_repay = '等额本息' and id = #{ID}</script>")
+            "repayed_month_money=month_return-(loan_money - (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / loan_periods /100))))*(loan_rate / 12 /100),repayed_month_interest=(loan_money - (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / 12 /100)))) * (loan_rate / loan_periods /100),"+
+            "over_money = (loan_money - (repayed_money + month_return-(loan_money - repayed_money)*(loan_rate / 12 /100))),over_interests =(repay_interests - (repayed_interests + (loan_money - repayed_money) *(loan_rate / 12 / 100)))," +
+            "repayed_money = (repayed_money + (month_return-(loan_money - repayed_money)*(loan_rate / 12 /100))),repayed_interests = (repayed_interests + (loan_money - repayed_money) * (loan_rate / 12 /100)) where loan_repay = '等额本息' and id = #{ID}</script>")
     int update (Map map);
 
     /**
@@ -53,9 +53,9 @@ public interface RepayDao {
      * @return
      */
     @Update("update tb_repay set repayed_date = sysdate,repayed_periods=(repayed_periods+1),over_periods=(over_periods - 1)," +
-            "repayed_month_interest = (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / loan_periods / 100),"+
-            "repayed_money = (repayed_money+repayed_month_money),repayed_interests = (repayed_interests + (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / loan_periods / 100)),"+
-            "over_money = (loan_money - ((repayed_money+repayed_month_money))),over_interests = (repay_interests - (repayed_interests + (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / loan_periods / 100)))"+
+            "repayed_month_interest = (loan_money - (repayed_money+repayed_month_money)) *(loan_rate / 12 / 100),"+
+            "repayed_money = (repayed_money+repayed_month_money),repayed_interests = (repayed_interests + repayed_month_interest),"+
+            "over_money = (loan_money - ((repayed_money+repayed_month_money))),over_interests = (repay_interests - (repayed_interests + repayed_month_interest))"+
             " where loan_repay = '等额本金' and id = #{ID}")
     int updateMoney(Map map);
 

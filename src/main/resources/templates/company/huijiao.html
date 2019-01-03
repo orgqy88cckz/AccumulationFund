@@ -297,7 +297,7 @@
             },
             //表格编辑事件
             editClick:function(row) {
-                alert(row.UAPAYENDDATE);
+                //alert(row.UAPAYENDDATE);
                 var _self = this;
                 var date=new Date();
                 var month=date.getMonth()+1;
@@ -305,8 +305,8 @@
                     var month1=row.UAPAYENDDATE.substring(5,7);
                     var year = date.getFullYear();
                     var year1 = row.UAPAYENDDATE.substring(0,4);
-                    alert(year+"                  "+year1);
-                    alert(month1+"          "+month)
+                    //alert(year+"                  "+year1);
+                    //alert(month1+"          "+month)
                 }
                 if (year>year1){
                     if ((month+(year-year1)*12)-month1>1){
@@ -337,7 +337,7 @@
                             }
 
                         }else {
-                            alert("1111")
+                            //alert("1111")
                             this.$message.warning('本月已缴纳');
                         }
                     }
@@ -371,8 +371,8 @@
 
                         }else {
 
-                            alert("2222")
-                            alert()
+                            //alert("2222")
+                            //alert()
                             this.$message.warning('本月已缴纳');
                         }
                     }

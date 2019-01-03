@@ -163,10 +163,10 @@
             var self = this;
             var start =(this.currentPage-1)*this.pageSize;
             var end =this.currentPage*this.pageSize+1;
-            alert(start+"****"+end);
+            //alert(start+"****"+end);
             axios.post('/af/unit/detail',{'start':start,'end':end}).then(function(response){
                 // console.log(response.data);
-                alert(JSON.stringify(response.data.pageData));
+                //alert(JSON.stringify(response.data.pageData));
                 self.total=response.data.total;
                 self.tableData = response.data.pageData;
                // self.multipleSelection=response.data.data;

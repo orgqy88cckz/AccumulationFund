@@ -237,7 +237,7 @@
                 //后台方法
                 var url = "/af/person/account/" + value;
                 axios.post(url).then(function (res) {
-                    alert(res.data);
+                    //alert(res.data);
                     if (res.data == 0) {
                         callback('账号不存在')
                     } else {
@@ -270,7 +270,7 @@
                     //后台方法
                     var url = "/af/person/email/" + value;
                     axios.post(url).then(function (res) {
-                        alert(res.data);
+                        //alert(res.data);
                         if (res.data == 0) {
                             callback()
                         } else {
@@ -288,7 +288,7 @@
                     //后台方法
                     var url = "/af/person/pnumber/" + value;
                     axios.post(url).then(function (res) {
-                        alert(res.data)
+                        //alert(res.data)
                         if (res.data == 0) {
                             callback()
                         } else {
@@ -308,7 +308,7 @@
                         //后台方法
                         var url = "/af/person/idCard/" + value;
                         axios.post(url).then(function (res) {
-                            alert(res.data)
+                            //alert(res.data)
                             if (res.data == 0) {
                                 callback()
                             } else {
