@@ -45,15 +45,18 @@ public class ShiroConfig {
 
         //filterMap.put("/testThymeleaf","anon");
         //方形login.html页面
-        filterMap.put("/login","anon");
+        filterMap.put("/toLogin","anon");
+        //filterMap.put("/toIndex","anon");
+        filterMap.put("/home/*","anon");
+        filterMap.put("/yingyeting/*","anon");
         //授权过滤器
         //注意，当前授权拦截后，shiro会自动跳转到未授权页面
-        filterMap.put("/add","perms[1]");
-        filterMap.put("/update","perms[2]");
+        /*filterMap.put("/add","perms[1]");
+        filterMap.put("/update","perms[2]");*/
 
 
-        filterMap.put("/*","authc");
-
+        filterMap.put("/*/*","authc");
+        //filterMap.put("/*","authc");
 
 
         //修改跳转的登陆页面
