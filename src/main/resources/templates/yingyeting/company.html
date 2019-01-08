@@ -127,12 +127,15 @@
                 }
             },
             addTab: function (content) {
-                this.editableTabs2.push({
-                    title: "公司信息",
-                    name:"公司信息",
-                    content: content
-                });
-                this.editableTabsValue2="公司信息";
+                if (JSON.stringify(this.editableTabs2).indexOf("公司信息") == -1) {
+                    this.editableTabs2.push({
+                        title: "公司信息",
+                        name: "公司信息",
+                        content: content
+                    });
+                }
+                    this.editableTabsValue2 = "公司信息";
+
             },
             editClick2:function(){
               //  var title=data.label;
@@ -145,11 +148,13 @@
                 }
             },
            addTab2: function (content) {
-                this.editableTabs2.push({
-                    title: "缴纳记录",
-                    name:"缴纳记录",
-                    content: content
-                });
+               if (JSON.stringify(this.editableTabs2).indexOf("缴纳记录") == -1) {
+                   this.editableTabs2.push({
+                       title: "缴纳记录",
+                       name: "缴纳记录",
+                       content: content
+                   });
+               }
                 this.editableTabsValue2="缴纳记录";
             },
             editClick3:function(){
@@ -163,14 +168,17 @@
                 }
             },
            addTab3: function (content) {
-                this.editableTabs2.push({
-                    title: "人员缴纳记录",
-                    name:"人员缴纳记录",
-                    content: content
-                });
+               if (JSON.stringify(this.editableTabs2).indexOf("人员缴纳记录") == -1) {
+                   this.editableTabs2.push({
+                       title: "人员缴纳记录",
+                       name: "人员缴纳记录",
+                       content: content
+                   });
+               }
                 this.editableTabsValue2="人员缴纳记录";
             },
             editClick4:function(){
+
                // var title=data.label;
                 var user=$("#user").val();
                // alert (user);
@@ -181,11 +189,13 @@
                 }
             },
            addTab4: function (content) {
-                this.editableTabs2.push({
-                    title: "提取记录",
-                    name:"提取记录",
-                    content: content
-                });
+               if (JSON.stringify(this.editableTabs2).indexOf("人员缴纳记录") == -1) {
+                   this.editableTabs2.push({
+                       title: "提取记录",
+                       name: "提取记录",
+                       content: content
+                   });
+               }
                 this.editableTabsValue2="提取记录";
             },
             removeTab: function (targetName) {

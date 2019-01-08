@@ -427,7 +427,7 @@
                 var _self = this;
                 _self.loading = true;
                 var formData =this.editForm;
-                alert(JSON.stringify(formData));
+               // alert(JSON.stringify(formData));
                 var goUrl=this.goUrl
                 axios.post(goUrl,formData).then(function(response){
                     if(response.data>0){

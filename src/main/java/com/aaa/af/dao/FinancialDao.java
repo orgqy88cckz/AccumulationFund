@@ -46,7 +46,7 @@ public interface FinancialDao {
      * 查询提取人数
      * @return
      */
-    @Select("select c.yuefen,nvl(sum(case when c.a=1 then tiqu end),0) as tiqu, nvl(sum(case when c.a=2 then tiqu end),0) as huijiao from (" +
+    @Select("select nvl(c.yuefen,11) as yuefen,nvl(sum(case when c.a=1 then tiqu end),0) as tiqu, nvl(sum(case when c.a=2 then tiqu end),0) as huijiao from (" +
             "select count(*) as tiqu,(select 1 from dual) as a,to_char(appl_time,'mm') as yuefen from tb_bftake_check where appl_state=2 group by to_char(appl_time,'mm')" +
             " union all select count(*) as huijiao,(select 2 from dual) as a,to_char(LASTNAYDATE,'mm')  as yuefen from tb_paccountutil group by to_char(LASTNAYDATE,'mm')) c group by c.yuefen")
     List<Map> tiqu();

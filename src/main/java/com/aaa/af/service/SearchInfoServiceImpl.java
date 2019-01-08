@@ -96,10 +96,10 @@ public class SearchInfoServiceImpl implements SearchInfoService{
                 Double loan_rate = Double.valueOf(map.get("LOAN_RATE") + "");//贷款利率
                 Double loan_periods = Double.valueOf(map.get("LOAN_PERIODS") + "");//贷款期数
                 Double repayed_month_money1=loan_money/loan_periods;//每月还款本金
-                Double repayed_month_interest1=(loan_money-0)*(loan_rate/loan_periods/100);//每月还款利息
+                Double repayed_month_interest1=(loan_money-0)*(loan_rate/12/100);//每月还款利息
                 Double month_return1=repayed_month_money1+repayed_month_interest1;//月还金额
 //                等额本金总利息=（还款月数+1）×贷款总额×月利率÷2
-                Double repay_interests1=(loan_periods+1)*loan_money*(loan_rate/loan_periods/100)/2;//总共还的利息
+                Double repay_interests1=(loan_periods+1)*loan_money*(loan_rate/12/100)/2;//总共还的利息
                 DecimalFormat df = new DecimalFormat("#.00");
                 Double month_return2 = Double.valueOf(df.format(month_return1));
                 Double repayed_month_money2 = Double.valueOf(df.format(repayed_month_money1));
