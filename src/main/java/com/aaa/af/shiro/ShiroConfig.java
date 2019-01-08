@@ -49,6 +49,11 @@ public class ShiroConfig {
         //filterMap.put("/toIndex","anon");
         filterMap.put("/home/*","anon");
         filterMap.put("/yingyeting/*","anon");
+        filterMap.put("/js/*","anon");
+        filterMap.put("/af/js/*","anon");
+        filterMap.put("/css/*","anon");
+        filterMap.put("/images/*","anon");
+        filterMap.put("/img/*","anon");
         //授权过滤器
         //注意，当前授权拦截后，shiro会自动跳转到未授权页面
         /*filterMap.put("/add","perms[1]");
